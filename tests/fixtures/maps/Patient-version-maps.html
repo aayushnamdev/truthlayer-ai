@@ -1,0 +1,7 @@
+<html><body><pre>
+SYNTHETIC test fixture: a tiny stand-in for an HL7 version-map page.
+group Patient(source src : PatientR3, target tgt : Patient) extends DomainResource &lt;&lt;type+&gt;&gt; {
+  src.dob -&gt; tgt.dateOfBirth;
+  src.name -&gt; tgt.name;
+}
+</pre></body></html>

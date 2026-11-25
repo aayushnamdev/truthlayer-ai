@@ -1,0 +1,145 @@
+{
+ "resourceType": "StructureDefinition",
+ "id": "Patient",
+ "name": "Patient",
+ "description": "SYNTHETIC test fixture - not CMS data",
+ "snapshot": {
+  "element": [
+   {
+    "path": "Patient",
+    "id": "Patient",
+    "min": 0,
+    "max": "*"
+   },
+   {
+    "path": "Patient.name",
+    "id": "Patient.name",
+    "min": 0,
+    "max": "*",
+    "type": [
+     {
+      "code": "HumanName"
+     }
+    ]
+   },
+   {
+    "path": "Patient.birthDate",
+    "id": "Patient.birthDate",
+    "min": 0,
+    "max": "1",
+    "type": [
+     {
+      "code": "date"
+     }
+    ]
+   },
+   {
+    "path": "Patient.phone",
+    "id": "Patient.phone",
+    "min": 0,
+    "max": "1",
+    "type": [
+     {
+      "code": "string"
+     }
+    ]
+   },
+   {
+    "path": "Patient.active",
+    "id": "Patient.active",
+    "min": 1,
+    "max": "1",
+    "type": [
+     {
+      "code": "boolean"
+     }
+    ]
+   },
+   {
+    "path": "Patient.maritalStatus",
+    "id": "Patient.maritalStatus",
+    "min": 0,
+    "max": "1",
+    "type": [
+     {
+      "code": "string"
+     }
+    ]
+   },
+   {
+    "path": "Patient.gender",
+    "id": "Patient.gender",
+    "min": 0,
+    "max": "1",
+    "type": [
+     {
+      "code": "code"
+     }
+    ],
+    "binding": {
+     "strength": "extensible",
+     "valueSet": "http://example.org/vs/gender-b"
+    }
+   },
+   {
+    "path": "Patient.mrn",
+    "id": "Patient.mrn",
+    "min": 1,
+    "max": "1",
+    "type": [
+     {
+      "code": "string"
+     }
+    ]
+   },
+   {
+    "path": "Patient.preferredLanguage",
+    "id": "Patient.preferredLanguage",
+    "min": 0,
+    "max": "1",
+    "type": [
+     {
+      "code": "code"
+     }
+    ]
+   },
+   {
+    "path": "Patient.identifier",
+    "id": "Patient.identifier",
+    "min": 0,
+    "max": "*",
+    "type": [
+     {
+      "code": "Identifier"
+     }
+    ]
+   },
+   {
+    "path": "Patient.dateOfBirth",
+    "id": "Patient.dateOfBirth",
+    "min": 0,
+    "max": "1",
+    "type": [
+     {
+      "code": "date"
+     }
+    ]
+   },
+   {
+    "path": "Patient.managingOrganization",
+    "id": "Patient.managingOrganization",
+    "min": 0,
+    "max": "1",
+    "type": [
+     {
+      "code": "Reference",
+      "targetProfile": [
+       "http://hl7.org/fhir/StructureDefinition/Organization",
+       "http://hl7.org/fhir/StructureDefinition/PractitionerRole"
+      ]
+     }
+    ]
+   }
+  ]
+ }
+}

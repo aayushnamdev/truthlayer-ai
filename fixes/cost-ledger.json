@@ -1,0 +1,306 @@
+{
+ "limit_usd": 1.0,
+ "max_calls": 25,
+ "spent_usd": 0.142806,
+ "calls": 37,
+ "input_tokens": 15063,
+ "output_tokens": 11268,
+ "entries": [
+  {
+   "label": "test:F-002",
+   "input_tokens": 283,
+   "output_tokens": 212,
+   "charged_usd": 0.002686,
+   "ok": true,
+   "real_usage": true
+  },
+  {
+   "label": "F-002",
+   "input_tokens": 283,
+   "output_tokens": 237,
+   "charged_usd": 0.002936,
+   "ok": true,
+   "real_usage": true
+  },
+  {
+   "label": "F-003",
+   "input_tokens": 289,
+   "output_tokens": 297,
+   "charged_usd": 0.003548,
+   "ok": true,
+   "real_usage": true
+  },
+  {
+   "label": "F-071",
+   "input_tokens": 268,
+   "output_tokens": 244,
+   "charged_usd": 0.002976,
+   "ok": true,
+   "real_usage": true
+  },
+  {
+   "label": "F-078",
+   "input_tokens": 247,
+   "output_tokens": 193,
+   "charged_usd": 0.002424,
+   "ok": true,
+   "real_usage": true
+  },
+  {
+   "label": "F-107",
+   "input_tokens": 354,
+   "output_tokens": 400,
+   "charged_usd": 0.004708,
+   "ok": true,
+   "real_usage": true
+  },
+  {
+   "label": "F-126",
+   "input_tokens": 419,
+   "output_tokens": 177,
+   "charged_usd": 0.002608,
+   "ok": true,
+   "real_usage": true
+  },
+  {
+   "label": "F-128",
+   "input_tokens": 469,
+   "output_tokens": 169,
+   "charged_usd": 0.002628,
+   "ok": true,
+   "real_usage": true
+  },
+  {
+   "label": "F-145",
+   "input_tokens": 500,
+   "output_tokens": 400,
+   "charged_usd": 0.005,
+   "ok": true,
+   "real_usage": true
+  },
+  {
+   "label": "F-006",
+   "input_tokens": 384,
+   "output_tokens": 400,
+   "charged_usd": 0.004768,
+   "ok": true,
+   "real_usage": true
+  },
+  {
+   "label": "F-016",
+   "input_tokens": 262,
+   "output_tokens": 400,
+   "charged_usd": 0.004524,
+   "ok": true,
+   "real_usage": true
+  },
+  {
+   "label": "F-047",
+   "input_tokens": 294,
+   "output_tokens": 400,
+   "charged_usd": 0.004588,
+   "ok": true,
+   "real_usage": true
+  },
+  {
+   "label": "F-052",
+   "input_tokens": 415,
+   "output_tokens": 374,
+   "charged_usd": 0.00457,
+   "ok": true,
+   "real_usage": true
+  },
+  {
+   "label": "F-054",
+   "input_tokens": 354,
+   "output_tokens": 385,
+   "charged_usd": 0.004558,
+   "ok": true,
+   "real_usage": true
+  },
+  {
+   "label": "F-065",
+   "input_tokens": 253,
+   "output_tokens": 175,
+   "charged_usd": 0.002256,
+   "ok": true,
+   "real_usage": true
+  },
+  {
+   "label": "F-075",
+   "input_tokens": 252,
+   "output_tokens": 212,
+   "charged_usd": 0.002624,
+   "ok": true,
+   "real_usage": true
+  },
+  {
+   "label": "F-082",
+   "input_tokens": 338,
+   "output_tokens": 182,
+   "charged_usd": 0.002496,
+   "ok": true,
+   "real_usage": true
+  },
+  {
+   "label": "F-084",
+   "input_tokens": 714,
+   "output_tokens": 400,
+   "charged_usd": 0.005428,
+   "ok": true,
+   "real_usage": true
+  },
+  {
+   "label": "F-085",
+   "input_tokens": 662,
+   "output_tokens": 400,
+   "charged_usd": 0.005324,
+   "ok": true,
+   "real_usage": true
+  },
+  {
+   "label": "F-087",
+   "input_tokens": 316,
+   "output_tokens": 152,
+   "charged_usd": 0.002152,
+   "ok": true,
+   "real_usage": true
+  },
+  {
+   "label": "F-098",
+   "input_tokens": 362,
+   "output_tokens": 259,
+   "charged_usd": 0.003314,
+   "ok": true,
+   "real_usage": true
+  },
+  {
+   "label": "F-099",
+   "input_tokens": 393,
+   "output_tokens": 208,
+   "charged_usd": 0.002866,
+   "ok": true,
+   "real_usage": true
+  },
+  {
+   "label": "F-102",
+   "input_tokens": 254,
+   "output_tokens": 214,
+   "charged_usd": 0.002648,
+   "ok": true,
+   "real_usage": true
+  },
+  {
+   "label": "F-104",
+   "input_tokens": 305,
+   "output_tokens": 303,
+   "charged_usd": 0.00364,
+   "ok": true,
+   "real_usage": true
+  },
+  {
+   "label": "F-111",
+   "input_tokens": 257,
+   "output_tokens": 232,
+   "charged_usd": 0.002834,
+   "ok": true,
+   "real_usage": true
+  },
+  {
+   "label": "retry:P-005",
+   "input_tokens": 381,
+   "output_tokens": 400,
+   "charged_usd": 0.004762,
+   "ok": true,
+   "real_usage": true
+  },
+  {
+   "label": "retry:P-008",
+   "input_tokens": 527,
+   "output_tokens": 400,
+   "charged_usd": 0.005054,
+   "ok": true,
+   "real_usage": true
+  },
+  {
+   "label": "retry:P-009",
+   "input_tokens": 411,
+   "output_tokens": 264,
+   "charged_usd": 0.003462,
+   "ok": true,
+   "real_usage": true
+  },
+  {
+   "label": "retry:P-010",
+   "input_tokens": 289,
+   "output_tokens": 400,
+   "charged_usd": 0.004578,
+   "ok": true,
+   "real_usage": true
+  },
+  {
+   "label": "retry:P-011",
+   "input_tokens": 321,
+   "output_tokens": 213,
+   "charged_usd": 0.002772,
+   "ok": true,
+   "real_usage": true
+  },
+  {
+   "label": "retry:P-017",
+   "input_tokens": 741,
+   "output_tokens": 400,
+   "charged_usd": 0.005482,
+   "ok": true,
+   "real_usage": true
+  },
+  {
+   "label": "retry:P-018",
+   "input_tokens": 689,
+   "output_tokens": 400,
+   "charged_usd": 0.005378,
+   "ok": true,
+   "real_usage": true
+  },
+  {
+   "label": "retry:P-005",
+   "input_tokens": 411,
+   "output_tokens": 355,
+   "charged_usd": 0.004372,
+   "ok": true,
+   "real_usage": true
+  },
+  {
+   "label": "retry:P-008",
+   "input_tokens": 557,
+   "output_tokens": 400,
+   "charged_usd": 0.005114,
+   "ok": true,
+   "real_usage": true
+  },
+  {
+   "label": "retry:P-010",
+   "input_tokens": 319,
+   "output_tokens": 400,
+   "charged_usd": 0.004638,
+   "ok": true,
+   "real_usage": true
+  },
+  {
+   "label": "retry:P-017",
+   "input_tokens": 771,
+   "output_tokens": 400,
+   "charged_usd": 0.005542,
+   "ok": true,
+   "real_usage": true
+  },
+  {
+   "label": "retry:P-018",
+   "input_tokens": 719,
+   "output_tokens": 211,
+   "charged_usd": 0.003548,
+   "ok": true,
+   "real_usage": true
+  }
+ ]
+}

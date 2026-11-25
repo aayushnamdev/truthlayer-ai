@@ -1,0 +1,38 @@
+{
+ "resourceType": "StructureDefinition",
+ "id": "Coverage",
+ "name": "Coverage",
+ "description": "SYNTHETIC test fixture - not CMS data",
+ "snapshot": {
+  "element": [
+   {
+    "path": "Coverage",
+    "id": "Coverage",
+    "min": 0,
+    "max": "*"
+   },
+   {
+    "path": "Coverage.status",
+    "id": "Coverage.status",
+    "min": 0,
+    "max": "1",
+    "type": [
+     {
+      "code": "code"
+     }
+    ]
+   },
+   {
+    "path": "Coverage.subscriberId",
+    "id": "Coverage.subscriberId",
+    "min": 0,
+    "max": "1",
+    "type": [
+     {
+      "code": "string"
+     }
+    ]
+   }
+  ]
+ }
+}

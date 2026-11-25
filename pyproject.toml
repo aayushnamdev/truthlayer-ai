@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "truthlayer"
+version = "1.0.0"
+description = "TruthLayer AI: verify API docs after an API changes, fix only what broke, republish verified docs."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "click==8.5.0",
+  "PyYAML==6.0.3",
+  "python-docx==1.2.0",
+  "anthropic==2.14.0",
+  "mcp==2.3.0",
+  "streamlit==1.67.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest==9.1.1",
+  "ruff==0.17.6",
+  "mypy==2.3.1",
+  "types-PyYAML==6.0.12.20261122",
+]
+
+[project.scripts]
+truthlayer = "truthlayer.cli:main"
+
+[tool.setuptools]
+packages = ["truthlayer"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+filterwarnings = ["ignore::DeprecationWarning"]
+
+[tool.ruff]
+line-length = 130
+target-version = "py311"
+extend-exclude = ["data", "docs", "publish", "demo-output"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B"]
+ignore = ["E501", "E701", "E702", "E741", "B008", "B905"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["E402", "B018"]
+
+[tool.mypy]
+python_version = "3.12"
+ignore_missing_imports = true
+check_untyped_defs = true
+warn_unused_ignores = true
+files = ["truthlayer"]

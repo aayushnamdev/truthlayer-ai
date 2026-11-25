@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+  <meta
+    http-equiv="Content-Type"
+    content="text/html; charset=UTF-8"
+  >
+  <meta
+    http-equiv="X-UA-Compatible"
+    content="IE=edge"
+  >
+
+  
+  
+
+  <title>What's the difference between BCDA v1 and v2? | BCDA</title>
+
+  <meta
+  name="description"
+  content="Compare BCDA v1 (STU3) and v2 (R4) to understand key differences in FHIR specifications, resource types, and API changes for migration planning."
+>
+
+
+<meta
+  itemprop="name"
+  content="What's the difference between BCDA v1 and v2? | BCDA"
+>
+<meta
+  itemprop="description"
+  content="Compare BCDA v1 (STU3) and v2 (R4) to understand key differences in FHIR specifications, resource types, and API changes for migration planning."
+>
+<meta
+  property="og:locale"
+  content="en_US"
+>
+<meta
+  property="og:site_name"
+  content="Beneficiary Claims Data API"
+>
+<meta
+  property="og:url"
+  content="https://bcda.cms.gov/v2/bcda-data/difference-between-v1-v2.html"
+>
+<meta
+  property="og:type"
+  content="website"
+>
+<meta
+  property="og:title"
+  content="What's the difference between BCDA v1 and v2? | BCDA"
+>
+<meta
+  property="og:description"
+  content="Compare BCDA v1 (STU3) and v2 (R4) to understand key differences in FHIR specifications, resource types, and API changes for migration planning."
+>
+<meta
+  name="twitter:card"
+  content="summary_large_image"
+>
+<meta
+  name="twitter:title"
+  content="What's the difference between BCDA v1 and v2? | BCDA"
+>
+<meta
+  name="twitter:description"
+  content="Compare BCDA v1 (STU3) and v2 (R4) to understand key differences in FHIR specifications, resource types, and API changes for migration planning."
+>
+
+  <link
+    rel="canonical"
+    href="https://bcda.cms.gov/v2/bcda-data/difference-between-v1-v2.html"
+  />
+  <link
+    rel="icon"
+    type="image/png"
+    href="/assets/meta/favicon-96x96.png"
+    sizes="96x96"
+  />
+  <link
+    rel="icon"
+    type="image/svg+xml"
+    href="/assets/meta/favicon.svg"
+  />
+  <link
+    rel="shortcut icon"
+    href="/favicon.ico"
+  />
+  <link
+    rel="apple-touch-icon"
+    sizes="180x180"
+    href="/assets/meta/apple-touch-icon.png"
+  />
+  <meta
+    name="apple-mobile-web-app-title"
+    content="BCDA"
+  />
+  <link
+    rel="manifest"
+    href="/assets/meta/site.webmanifest"
+  />
+  <link
+    rel="sitemap"
+    href="/sitemap.xml"
+  >
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+  <link
+    href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+    rel="stylesheet"
+  >
+  <script src="/assets/uswds/js/uswds-init.min.js"></script>
+  <link
+    href="/assets/uswds/css/styles.css?2026-11-13 16:32:24 +0000"
+    rel="stylesheet"
+  >
+
+  <!-- CMS Tealium/Google Analytics BEGIN -->
+  <!-- 
+    * PII ALERT: Please be careful not to pass any dynamic values that could
+    * contain any personal information such as first name, last name, email
+    * or address. In these cases, you may use a link descriptor instead.
+    -->
+
+  <!--DataLayer (utag_data) Snippet
+    Within <head> of document at the highest possible point.-->
+  <script type="text/javascript">
+    var utag_data = {
+      "content_language": "en",
+      "logged_in": false,
+      "page_type": false,
+      "page_name": "What's the difference between BCDA v1 and v2? | BCDA",
+      "site_environment": "prod",
+    }
+  </script>
+
+  <!-- Within <head> of document below DataLayer snippet .
+    The utag.sync.js script should run as early as possible -->
+
+  <script src="https://tealium-tags.cms.gov/cms-bcda/prod/utag.sync.js"></script>
+
+  <!-- Loading utag.js script asynchronously -->
+  <script type="text/javascript">
+      (function (a, b, c, d) {
+        a = 'https://tealium-tags.cms.gov/cms-bcda/prod/utag.js'; b = document; c = 'script'; d = b.createElement(c); d.src = a; d.type = 'text/java' + c; d.async = true; a = b.getElementsByTagName(c)[0]; a.parentNode.insertBefore(d, a);
+      })();
+  </script>
+
+  <script>
+    window.ENV = {
+      siteUrl: "https://bcda.cms.gov"
+    }
+  </script>
+</head>
+
+<body id="page-top">
+
+  <a
+    class="usa-skipnav z-top"
+    href="#main-content"
+  >Skip to main content</a>
+  <section
+  class="usa-banner"
+  aria-label="Official website of the United States government"
+>
+  <div class="usa-accordion">
+    <header class="usa-banner__header">
+      <div class="usa-banner__inner">
+        <div class="grid-col-auto">
+          <img
+            aria-hidden="true"
+            class="usa-banner__header-flag"
+            src="/assets/uswds/img/us_flag_small.png"
+            alt=""
+          />
+        </div>
+        <div
+          class="grid-col-fill tablet:grid-col-auto"
+          aria-hidden="true"
+        >
+          <p class="usa-banner__header-text">
+            An official website of the United States government
+          </p>
+          <p class="usa-banner__header-action">Here's how you know</p>
+        </div>
+        <button
+          type="button"
+          class="usa-accordion__button usa-banner__button"
+          aria-expanded="false"
+          aria-controls="gov-banner-default"
+        >
+          <span class="usa-banner__button-text">Here's how you know</span>
+        </button>
+      </div>
+    </header>
+    <div
+      class="usa-banner__content usa-accordion__content"
+      id="gov-banner-default"
+    >
+      <div class="grid-row grid-gap-lg">
+        <div class="usa-banner__guidance tablet:grid-col-6">
+          <img
+            class="usa-banner__icon usa-media-block__img"
+            src="/assets/uswds/img/icon-dot-gov.svg"
+            alt=""
+            aria-hidden="true"
+          />
+          <div class="usa-media-block__body">
+            <p>
+              <strong>Official websites use .gov</strong><br />A
+              <strong>.gov</strong> website belongs to an official government
+              organization in the United States.
+            </p>
+          </div>
+        </div>
+        <div class="usa-banner__guidance tablet:grid-col-6">
+          <img
+            class="usa-banner__icon usa-media-block__img"
+            src="/assets/uswds/img/icon-https.svg"
+            alt=""
+            aria-hidden="true"
+          />
+          <div class="usa-media-block__body">
+            <p>
+              <strong>Secure .gov websites use HTTPS</strong><br />A
+              <strong>lock</strong> (
+              <span class="icon-lock">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="52"
+                  height="64"
+                  viewBox="0 0 52 64"
+                  class="usa-banner__lock-image"
+                  aria-labelledby="banner-lock-description-default"
+                >
+                  <title id="banner-lock-title-default">Lock</title>
+                  <desc id="banner-lock-description-default">Locked padlock icon</desc>
+                  <path
+                    fill="#000000"
+                    fill-rule="evenodd"
+                    d="M26 0c10.493 0 19 8.507 19 19v9h3a4 4 0 0 1 4 4v28a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4V32a4 4 0 0 1 4-4h3v-9C7 8.507 15.507 0 26 0zm0 8c-5.979 0-10.843 4.77-10.996 10.712L15 19v9h22v-9c0-6.075-4.925-11-11-11z"
+                  />
+                </svg>
+              </span>) or <strong>https://</strong> means you've safely connected to
+              the .gov website. Share sensitive information only on official,
+              secure websites.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <div class="position-relative">
+    <div class="position-sticky top-0 bg-white shadow-1 z-500">
+  <div class="usa-overlay"></div>
+  <header class="usa-header usa-header--basic">
+    <div class="usa-nav-container">
+      <div class="usa-navbar">
+        <div class="usa-logo">
+          <a
+            href="/index.html"
+            title="BCDA"
+            data-tealium="main_nav"
+            class="display-flex flex-align-center height-6 maxw-card-lg"
+            style="gap: 0.5rem;"
+          >
+            <img
+              src="/assets/img/logo-bcda.svg"
+              alt=""
+              class="width-6 height-6"
+              style="object-fit:contain;"
+            />
+            <span class="font-sans-md text-bold text-black text-balance line-height-sans-2">Beneficiary Claims Data
+              API</span>
+          </a>
+        </div>
+        <button
+          type="button"
+          class="usa-menu-btn"
+        >Menu</button>
+      </div>
+      <nav
+        aria-label="Primary navigation"
+        class="usa-nav"
+      >
+        <button
+          type="button"
+          class="usa-nav__close"
+        >
+          <img
+            src="/assets/uswds/img/usa-icons/close.svg"
+            alt="Close"
+          />
+        </button>
+        <ul class="usa-nav__primary usa-accordion">
+          
+          
+
+          
+          
+
+
+          <li class="usa-nav__primary-item">
+            <button
+              type="button"
+              class="usa-accordion__button usa-nav__link "
+              aria-expanded="false"
+              aria-controls="basic-nav-section-1"
+            >
+              <span>About</span>
+            </button>
+            <ul
+              id="basic-nav-section-1"
+              class="usa-nav__submenu"
+              hidden
+            >
+              
+              <li class="usa-nav__submenu-item">
+                <a
+                  class=""
+                  href="/about.html"
+                  data-tealium="main_nav"
+                >
+                  <span>About BCDA</span>
+                </a>
+              </li>
+              
+              <li class="usa-nav__submenu-item">
+                <a
+                  class=""
+                  href="/announcements.html"
+                  data-tealium="main_nav"
+                >
+                  <span>Announcements</span>
+                </a>
+              </li>
+              
+              <li class="usa-nav__submenu-item">
+                <a
+                  class=""
+                  href="/about/introducing-v3.html"
+                  data-tealium="main_nav"
+                >
+                  <span>Introducing BCDA v3</span>
+                </a>
+              </li>
+              
+            </ul>
+          </li>
+          
+          
+          
+
+          
+          
+
+
+          <li class="usa-nav__primary-item">
+            <button
+              type="button"
+              class="usa-accordion__button usa-nav__link "
+              aria-expanded="false"
+              aria-controls="basic-nav-section-2"
+            >
+              <span>API Documentation</span>
+            </button>
+            <ul
+              id="basic-nav-section-2"
+              class="usa-nav__submenu"
+              hidden
+            >
+              
+              <li class="usa-nav__submenu-item">
+                <a
+                  class=""
+                  href="/api-documentation.html"
+                  data-tealium="main_nav"
+                >
+                  <span>Get Started</span>
+                </a>
+              </li>
+              
+              <li class="usa-nav__submenu-item">
+                <a
+                  class=""
+                  href="/api-documentation/get-a-bearer-token.html"
+                  data-tealium="main_nav"
+                >
+                  <span>How to Get a Bearer Token</span>
+                </a>
+              </li>
+              
+              <li class="usa-nav__submenu-item">
+                <a
+                  class=""
+                  href="/api-documentation/access-claims-data.html"
+                  data-tealium="main_nav"
+                >
+                  <span>How to Access Claims Data</span>
+                </a>
+              </li>
+              
+              <li class="usa-nav__submenu-item">
+                <a
+                  class=""
+                  href="/api-documentation/filter-claims-data.html"
+                  data-tealium="main_nav"
+                >
+                  <span>How to Filter Claims Data</span>
+                </a>
+              </li>
+              
+              <li class="usa-nav__submenu-item">
+                <a
+                  class=""
+                  href="/api-documentation/how-to-migrate-v3.html"
+                  data-tealium="main_nav"
+                >
+                  <span>How to Migrate to v3</span>
+                </a>
+              </li>
+              
+            </ul>
+          </li>
+          
+          
+          
+
+          
+          
+
+
+          <li class="usa-nav__primary-item">
+            <button
+              type="button"
+              class="usa-accordion__button usa-nav__link "
+              aria-expanded="false"
+              aria-controls="basic-nav-section-3"
+            >
+              <span>BCDA Data</span>
+            </button>
+            <ul
+              id="basic-nav-section-3"
+              class="usa-nav__submenu"
+              hidden
+            >
+              
+              <li class="usa-nav__submenu-item">
+                <a
+                  class=""
+                  href="/bcda-data.html"
+                  data-tealium="main_nav"
+                >
+                  <span>BCDA Data</span>
+                </a>
+              </li>
+              
+              <li class="usa-nav__submenu-item">
+                <a
+                  class=""
+                  href="/bcda-data/partially-adjudicated-claims-data.html"
+                  data-tealium="main_nav"
+                >
+                  <span>Partially Adjudicated Claims Data</span>
+                </a>
+              </li>
+              
+              <li class="usa-nav__submenu-item">
+                <a
+                  class=""
+                  href="/bcda-data/comparison-bcda-cclf-files.html"
+                  data-tealium="main_nav"
+                >
+                  <span>Comparison of BCDA and CCLF</span>
+                </a>
+              </li>
+              
+            </ul>
+          </li>
+          
+          
+          
+          <li class="usa-nav__primary-item">
+            <a
+              href="/production-access.html"
+              class="usa-nav-link "
+              data-tealium="main_nav"
+            ><span>Production Access</span>
+            </a>
+          </li>
+          
+          
+          
+
+          
+          
+
+
+          <li class="usa-nav__primary-item">
+            <button
+              type="button"
+              class="usa-accordion__button usa-nav__link "
+              aria-expanded="false"
+              aria-controls="basic-nav-section-5"
+            >
+              <span>Support</span>
+            </button>
+            <ul
+              id="basic-nav-section-5"
+              class="usa-nav__submenu"
+              hidden
+            >
+              
+              <li class="usa-nav__submenu-item">
+                <a
+                  class=""
+                  href="/support/office-hours.html"
+                  data-tealium="main_nav"
+                >
+                  <span>Office Hours</span>
+                </a>
+              </li>
+              
+              <li class="usa-nav__submenu-item">
+                <a
+                  class=""
+                  href="/support/faqs.html"
+                  data-tealium="main_nav"
+                >
+                  <span>FAQs</span>
+                </a>
+              </li>
+              
+              <li class="usa-nav__submenu-item">
+                <a
+                  class=""
+                  href="/support.html"
+                  data-tealium="main_nav"
+                >
+                  <span>Contact Us</span>
+                </a>
+              </li>
+              
+            </ul>
+          </li>
+          
+          
+        </ul>
+
+        <div class="desktop:padding-left-1 margin-top-4 desktop:margin-top-0">
+          <a
+            href="/api-documentation.html"
+            class="usa-button margin-x-0 width-full desktop:width-auto"
+            data-tealium="main_nav"
+          >Get Started</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+</div>
+
+
+    <div class="grid-container">
+  <div class="grid-row flex-align-start">
+    
+    <div
+      class="display-none position-sticky tablet:display-block tablet:grid-col-auto overflow-y-auto overflow-x-hidden padding-top-5 desktop:padding-top-7 padding-bottom-6 tablet:padding-right-3 padding-left-05 margin-left-neg-05"
+      style="top: 4rem; max-height: calc(100vh - 4.5rem);"
+    >
+      <div class="width-card-lg">
+        
+        
+<nav aria-label="Side navigation">
+  <ul class="usa-sidenav">
+    
+
+    <li class="usa-sidenav__item">
+      
+      <a
+        href="/api-documentation.html"
+        class=""
+        data-tealium="left_rail"
+      >API Documentation</a>
+      
+      <ul class="usa-sidenav__sublist">
+        
+        <li class="usa-sidenav__item">
+          <a
+            href="/api-documentation/get-a-bearer-token.html"
+            class=""
+            data-tealium="left_rail"
+          >How to Get a Bearer Token</a>
+          <ul class="usa-sidenav__sublist">
+            
+          </ul>
+        </li>
+        
+        <li class="usa-sidenav__item">
+          <a
+            href="/api-documentation/access-claims-data.html"
+            class=""
+            data-tealium="left_rail"
+          >How to Access Claims Data</a>
+          <ul class="usa-sidenav__sublist">
+            
+          </ul>
+        </li>
+        
+        <li class="usa-sidenav__item">
+          <a
+            href="/api-documentation/filter-claims-data.html"
+            class=""
+            data-tealium="left_rail"
+          >How to Filter Claims Data</a>
+          <ul class="usa-sidenav__sublist">
+            
+          </ul>
+        </li>
+        
+        <li class="usa-sidenav__item">
+          <a
+            href="/api-documentation/how-to-migrate-v3.html"
+            class=""
+            data-tealium="left_rail"
+          >How to Migrate to v3</a>
+          <ul class="usa-sidenav__sublist">
+            
+          </ul>
+        </li>
+        
+      </ul>
+    </li>
+    
+
+    <li class="usa-sidenav__item">
+      
+      <a
+        href="/bcda-data.html"
+        class=""
+        data-tealium="left_rail"
+      >BCDA Data</a>
+      
+      <ul class="usa-sidenav__sublist">
+        
+        <li class="usa-sidenav__item">
+          <a
+            href="/bcda-data/partially-adjudicated-claims-data.html"
+            class=""
+            data-tealium="left_rail"
+          >Partially Adjudicated Claims Data</a>
+          <ul class="usa-sidenav__sublist">
+            
+          </ul>
+        </li>
+        
+        <li class="usa-sidenav__item">
+          <a
+            href="/bcda-data/comparison-bcda-cclf-files.html"
+            class=""
+            data-tealium="left_rail"
+          >Comparison of BCDA and CCLF</a>
+          <ul class="usa-sidenav__sublist">
+            
+          </ul>
+        </li>
+        
+      </ul>
+    </li>
+    
+
+    <li class="usa-sidenav__item">
+      
+      <a
+        href="https://github.com/CMSgov/bcda-app"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="usa-nav-link"
+        style="display: block !important;" 
+      >
+        <span>
+          <svg aria-hidden="true" class="usa-icon usa-icon--size-3 margin-right-05 text-middle"><use xlink:href="/assets/uswds/img/sprite.svg#github"></use></svg>
+          GitHub repo
+        </span>
+      </a>
+      
+      <ul class="usa-sidenav__sublist">
+        
+      </ul>
+    </li>
+    
+  </ul>
+</nav>
+      </div>
+    </div>
+    
+
+    <main
+      id="main-content"
+      class="grid-col-fill"
+    >
+      <div class="grid-row">
+  
+  <div class="grid-col-auto order-last margin-left-auto">
+    <aside
+      id="toc"
+      class="usa-in-page-nav margin-top-0 overflow-y-auto padding-y-6"
+      style="top: 5.75rem; max-height: calc(100vh - 6rem);"
+      data-main-content-selector="#page-content"
+      data-title-text=""
+      data-heading-elements=""
+      data-scroll-offset="100"
+      data-tealium="toc"
+    ></aside>
+  </div>
+  
+  <div
+    id="page-content"
+    class="grid-col-fill"
+  >
+    <div class="padding-y-6"><h1>What's the difference between BCDA v1 and v2?</h1>
+
+<p>
+  Beneficiary Claims Data API (BCDA) v1 (<a
+    href="https://hl7.org/fhir/STU3/"
+    target="_blank"
+    rel="noopener noreferrer"
+  >STU3</a>) and v2 (<a
+    href="https://hl7.org/fhir/R4/"
+    target="_blank"
+    rel="noopener noreferrer"
+  >R4</a>) differ primarily in their FHIR specification. Version 1 is based on the Blue Button Implementation Guide,
+  while Version 2 is based on the <a
+    href="https://www.hl7.org/fhir/us/carin-bb/"
+    target="_blank"
+    rel="noopener noreferrer"
+  >CARIN Blue Button Implementation Guide</a>. Additionally, <a
+    href="/bcda-data/partially-adjudicated-claims-data.html"
+  >partially adjudicated claims</a> are only available with v2.
+</p>
+<p>There are minor differences in the mapping and values of certain data elements. Slicing/discriminator rules can be
+  different, and some value sets will be bound to CARIN or HL7 value sets instead of BlueButton:
+<ul>
+  <li>Example 1: Patient.identifier.type in v2 is bound to the <a
+      href="https://www.hl7.org/fhir/us/carin-bb/ValueSet-C4BBPatientIdentifierType.html"
+      target="_blank"
+      rel="noopener noreferrer"
+    >C4BB Patient Identifier type value set</a>.</li>
+  <li>Example 2: EOB.Type is bound to the <a
+      href="https://www.hl7.org/fhir/us/carin-bb/ValueSet-C4BBPayeeType.html"
+      target="_blank"
+      rel="noopener noreferrer"
+    >C4BB Payee Type value set</a> and the associated value will be one of the codes in that value set.</li>
+</ul>
+</p>
+<h2>Summary of changes</h2>
+<p>
+  Reference the R3 Diff in the <a
+    href="https://www.hl7.org/fhir/explanationofbenefit.html#resource"
+    target="_blank"
+    rel="noopener noreferrer"
+  >FHIR ExplanationofBenefit</a> for more details.
+</p>
+
+
+<ul>
+  <li>
+    <h3 class="font-sans-md">ExplanationOfBenefit (EOB)</h3>
+
+    <ul>
+      <li class="margin-top-2">
+        <h4>Consolidated/removed elements</h4>
+        <p>Some elements were consolidated and/or removed. For instance, in STU3 there were 2 elements (Eob.Organization
+          and Eob.Provider) that could represent the party responsible for the claim. In R4, this has been consolidated
+          into 1 element (Eob.provider).</p>
+
+        <h5>Examples</h5>
+        <ul>
+          <li>Eob.provider</li>
+          <li>Eob.hospitalization</li>
+        </ul>
+      </li>
+
+      <li class="margin-top-2">
+        <h4>Added constraints</h4>
+        <p>Fifteen fields were changed from optional to mandatory. Changing the optionality in this context generally
+          has no impact on users consuming this data. A few minor constraints were added or modified (e.g., value set
+          bindings and reference targets).</p>
+
+        <h5>Examples</h5>
+        <ul>
+          <li>Eob.use</li>
+          <li>Eob.patient</li>
+          <li>Eob.referral</li>
+          <li>Eob.outcome</li>
+        </ul>
+      </li>
+
+      <li class="margin-top-2">
+        <h4>New elements</h4>
+        <p>Approximately 35 elements were added to the EOB resource type. About 65% of these are child elements of the
+          .addItem property, which isn't supplied by BCDA. Of the remaining 35%, few are populated by BCDA.</p>
+
+        <h5>Examples</h5>
+        <ul>
+          <li>Eob.priority</li>
+          <li>Eob.preAuthRef</li>
+          <li>Eob.diagnosis.onAdmission</li>
+          <li>Eob.formCode</li>
+        </ul>
+      </li>
+
+      <li class="margin-top-2">
+        <h4>Renamed elements </h4>
+        <p>Four elements were renamed. For users converting to v2, it's likely that existing parsing or handling logic
+          needs to be adjusted.</p>
+
+        <h5>Examples</h5>
+        <ul>
+          <li>Eob.information → Eob.SupportingInfo</li>
+          <li>Eob.careTeamLinkId → Eob.careTeamSequence</li>
+          <li>Eob.diagnosisLinkId → Eob.diagnosisSequence</li>
+          <li>Eob.service → Eob.productOrService</li>
+        </ul>
+      </li>
+    </ul>
+
+  </li>
+  <li class="margin-top-5">
+    <h3 class="font-sans-md">Patient</h3>
+    <p>The Patient resource type is normative with a maturity level of 5, so there are minimal changes.</p>
+
+    <ul>
+      <li class="margin-top-2">
+        <h4>Consolidated/removed elements</h4>
+        <p>Only 1 element was removed (Patient.animal), which has no effect on BCDA.</p>
+
+        <h5>Example</h5>
+        <ul>
+          <li>Patient.animal</li>
+        </ul>
+      </li>
+
+      <li class="margin-top-2">
+        <h4>Constraints </h4>
+        <p>A handful of fields are bound to different value sets. Other minor changes were made to the default value and
+          reference target.</p>
+
+        <h5>Example</h5>
+        <ul>
+          <li>Patient.active</li>
+          <li>Patient.gender</li>
+          <li>Patient.generalPractitioner</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+
+  <li class="margin-top-5">
+    <h3 class="font-sans-md">Coverage</h3>
+
+    <ul>
+      <li class="margin-top-3">
+        <h4>Consolidated/removed elements</h4>
+        <p>The Coverage.grouping element was removed. The equivalent element in R4 is Coverage.class. This element is
+          provided in the API, so any user converting from v1 to v2 needs to make minor changes to their parsing or
+          handling logic.</p>
+
+        <h5>Example</h5>
+        <ul>
+          <li>Coverage.grouping</li>
+        </ul>
+      </li>
+
+      <li class="margin-top-3">
+        <h4>Added constraints</h4>
+        <p>A few changes were made to certain mandatory elements. Generally this has little to no impact on users.</p>
+
+        <h5>Example</h5>
+        <ul>
+          <li>Coverage.beneficiary</li>
+          <li>Coverage.payor</li>
+        </ul>
+      </li>
+
+      <li class="margin-top-2">
+        <h4>New elements</h4>
+        <p>Six elements were added to the Coverage resource type. Most of these relate to costToBeneficiary and won't be
+          supplied in BCDA.</p>
+
+        <h5>Example</h5>
+        <ul>
+          <li>Coverage.class.name</li>
+          <li>Coverage.costToBeneficiary</li>
+          <li>Coverage.costToBeneficiary.type</li>
+        </ul>
+      </li>
+
+    </ul>
+
+  </li>
+</ul></div>
+
+    
+    <!-- Touchpoints feedback form "Was this page useful?" -->
+<script
+    src="https://touchpoints.app.cloud.gov/touchpoints/45e50860.js"
+    async
+></script>
+
+<div class="margin-top-2 padding-top-4 border-top-2px border-base-lighter grid-row">
+    <div
+        id="touchpoints-feedback-form"
+        style="max-width: none;"
+        class="grid-col flex-fill"
+    ></div>
+</div>
+    
+  </div>
+</div>
+    </main>
+  </div>
+</div>
+  </div>
+
+  <footer class="usa-footer usa-footer--big">
+
+  <div class="grid-container usa-footer__return-to-top padding-top-6">
+    <a href="#">Return to top</a>
+  </div>
+
+  <div class="usa-footer__primary-section">
+    <h2 class="usa-sr-only">Site footer</h2>
+    <div> 
+      <div class="grid-container tablet:padding-x-3">
+        <div class="grid-row grid-gap tablet:grid-gap-6">
+          <div class="usa-footer__logo desktop:grid-col-auto">
+            <div class="mobile-lg:grid-col-auto">
+              <div class="padding-y-2">
+                <a
+                  href="https://groups.google.com/g/bc-api"
+                  target="_blank"
+                  rel="noreferrer"
+                  class="usa-button margin-right-0"
+                  data-tealium="footer"
+                  style="word-wrap:none;"
+                >
+                  Join the Google Group
+                  <svg aria-hidden="true" class="usa-icon usa-icon--size-2 "><use xlink:href="/assets/uswds/img/sprite.svg#launch"></use></svg>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="desktop:grid-col-auto tablet:padding-x-3">
+            <div class="grid-row grid-gap tablet:grid-gap-6">
+              <div class="grid-col-12 mobile-lg:grid-col-auto">
+                <a
+                  href="https://dpc.cms.gov/"
+                  class="grid-row grid-gap-1 flex-align-center text-no-underline padding-y-2"
+                  data-tealium="footer"
+                >
+                  <span class="grid-col-auto"><img
+                      class="usa-icon usa-icon--size-5 display-block"
+                      src="/assets/img/logo-dpc.svg"
+                      alt=""
+                    /></span>
+                  <p class="grid-col-fill font-sans-2xs text-bold text-black line-height-sans-2 margin-0">Data at the
+                    Point of Care</p>
+                </a>
+              </div>
+              <div class="grid-col-12 mobile-lg:grid-col-auto">
+                <a
+                  href="https://bluebutton.cms.gov/"
+                  class="grid-row grid-gap-1 flex-align-center text-no-underline padding-y-2"
+                  data-tealium="footer"
+                >
+                  <span class="grid-col-auto"><img
+                      class="usa-icon usa-icon--size-5 display-block"
+                      src="/assets/img/logo-bluebutton.svg"
+                      alt=""
+                    /></span>
+                  <p class="grid-col-fill font-sans-2xs text-bold text-black line-height-sans-2 margin-0">Blue Button
+                  </p>
+                </a>
+              </div>
+              <div class="grid-col-12 mobile-lg:grid-col-auto">
+                <a
+                  href="https://ab2d.cms.gov/"
+                  class="grid-row grid-gap-1 flex-align-center text-no-underline padding-y-2"
+                  data-tealium="footer"
+                >
+                  <span class="grid-col-auto"><img
+                      class="usa-icon usa-icon--size-5 display-block"
+                      src="/assets/img/logo-ab2d-sm.svg"
+                      alt=""
+                    /></span>
+                  <p class="grid-col-fill font-sans-2xs text-bold text-black line-height-sans-2 margin-0">Claims Data to
+                    Part D Sponsors API</p>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</footer>
+  <div class="usa-identifier">
+  <section
+    class="usa-identifier__section usa-identifier__section--masthead"
+    aria-label="Agency identifier"
+  >
+    <div class="usa-identifier__container">
+      <div class="usa-identifier__logos">
+        <a
+          href="https://www.hhs.gov/"
+          class="usa-identifier__logo"
+          data-tealium="identifier"
+        ><img
+            class="usa-identifier__logo-img"
+            src="/assets/img/HHS-logo.svg"
+            alt="HHS logo"
+          /></a>
+        <a
+          href="https://www.cms.gov/"
+          class="usa-identifier__logo"
+          data-tealium="identifier"
+        ><img
+            class="usa-identifier__logo-img padding-x-2"
+            src="/assets/img/CMS-logo.svg"
+            alt="CMS logo"
+          /></a>
+      </div>
+      <section
+        class="usa-identifier__identity"
+        aria-label="Agency description,"
+      >
+        <p class="usa-identifier__identity-domain">cms.gov</p>
+        <p class="usa-identifier__identity-disclaimer">
+          <span aria-hidden="true">An </span>official website of the
+          <a
+            href="https://www.hhs.gov/"
+            class="usa-link--external"
+            data-tealium="identifier"
+          >U.S. Department of Health
+            and Human Services</a> and the
+          <a
+            href="https://www.cms.gov/"
+            class="usa-link--external"
+            data-tealium="identifier"
+          >Centers for Medicare &
+            Medicaid Services</a>.
+        </p>
+      </section>
+    </div>
+  </section>
+  <nav
+    class="usa-identifier__section usa-identifier__section--required-links"
+    aria-label="Important links,"
+  >
+    <div class="usa-identifier__container">
+      <ul class="usa-identifier__required-links-list">
+        
+        <li class="usa-identifier__required-links-item">
+          <a
+            href="https://www.cms.gov/about-cms"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="usa-identifier__required-link usa-link usa-link--external"
+            data-tealium="identifier"
+          >About CMS</a>
+        </li>
+        
+        <li class="usa-identifier__required-links-item">
+          <a
+            href="https://www.medicare.gov/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="usa-identifier__required-link usa-link usa-link--external"
+            data-tealium="identifier"
+          >Medicare.gov</a>
+        </li>
+        
+        <li class="usa-identifier__required-links-item">
+          <a
+            href="https://www.medicaid.gov/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="usa-identifier__required-link usa-link usa-link--external"
+            data-tealium="identifier"
+          >Medicaid.gov</a>
+        </li>
+        
+        <li class="usa-identifier__required-links-item">
+          <a
+            href="https://www.healthcare.gov/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="usa-identifier__required-link usa-link usa-link--external"
+            data-tealium="identifier"
+          >Healthcare.gov</a>
+        </li>
+        
+        <li class="usa-identifier__required-links-item">
+          <a
+            href="https://developer.cms.gov"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="usa-identifier__required-link usa-link usa-link--external"
+            data-tealium="identifier"
+          >Developer.cms.gov</a>
+        </li>
+        
+        <li class="usa-identifier__required-links-item">
+          <a
+            href="https://design.cms.gov/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="usa-identifier__required-link usa-link usa-link--external"
+            data-tealium="identifier"
+          >CMS Design System</a>
+        </li>
+        
+        <li class="usa-identifier__required-links-item">
+          <a
+            href="https://designsystem.digital.gov/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="usa-identifier__required-link usa-link usa-link--external"
+            data-tealium="identifier"
+          >U.S. Web Design System</a>
+        </li>
+        
+        <li class="usa-identifier__required-links-item">
+          <a
+            href="https://www.cms.gov/about-cms/web-policies-important-links/foia"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="usa-identifier__required-link usa-link usa-link--external"
+            data-tealium="identifier"
+          >Freedom of Information Act</a>
+        </li>
+        
+        <li class="usa-identifier__required-links-item">
+          <a
+            href="https://oig.hhs.gov/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="usa-identifier__required-link usa-link usa-link--external"
+            data-tealium="identifier"
+          >Inspector General</a>
+        </li>
+        
+        <li class="usa-identifier__required-links-item">
+          <a
+            href="https://www.cms.gov/about-cms/web-policies-important-links/no-fear-act"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="usa-identifier__required-link usa-link usa-link--external"
+            data-tealium="identifier"
+          >No Fear Act</a>
+        </li>
+        
+        <li class="usa-identifier__required-links-item">
+          <a
+            href="https://www.medicare.gov/about-us/plain-writing"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="usa-identifier__required-link usa-link usa-link--external"
+            data-tealium="identifier"
+          >Plain Writing</a>
+        </li>
+        
+        <li class="usa-identifier__required-links-item">
+          <a
+            href="https://www.cms.gov/About-CMS/Agency-Information/Aboutwebsite/Privacy-Policy"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="usa-identifier__required-link usa-link usa-link--external"
+            data-tealium="identifier"
+          >CMS Privacy Policy</a>
+        </li>
+        
+        <li class="usa-identifier__required-links-item">
+          <a
+            href="https://www.cms.gov/vulnerability-disclosure-policy"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="usa-identifier__required-link usa-link usa-link--external"
+            data-tealium="identifier"
+          >CMS/HHS Vulnerability Disclosure Policy</a>
+        </li>
+        
+        <li class="usa-identifier__required-links-item">
+          <a
+            href="https://www.cms.gov/about-cms/web-policies-important-links/accessibility-nondiscrimination-disabilities-notice"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="usa-identifier__required-link usa-link usa-link--external"
+            data-tealium="identifier"
+          >Accessibility Statement</a>
+        </li>
+        
+        <li class="usa-identifier__required-links-item">
+          <a
+            href="https://www.cms.gov/about-cms/performance-budget/current"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="usa-identifier__required-link usa-link usa-link--external"
+            data-tealium="identifier"
+          >Performance Reports</a>
+        </li>
+        
+        <li class="usa-identifier__required-links-item">
+          <button
+            class="usa-identifier__required-link usa-link usa-button--unstyled"
+            data-privacy-policy="modal-trigger-footer"
+            onclick="utag.gdpr.showConsentPreferences()"
+          >
+            Privacy Settings</button>
+        </li>
+        <li class="usa-identifier__required-links-item">
+          <a
+            href="/sitemap.html"
+            data-tealium="identifier"
+            class="usa-identifier__required-link usa-link"
+          >Sitemap</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <section
+    class="usa-identifier__section usa-identifier__section--usagov"
+    aria-label="U.S. government information and services,"
+  >
+    <div class="usa-identifier__container">
+      <div class="usa-identifier__usagov-description">
+        Looking for U.S. government information and services?
+      </div>
+      <a
+        href="https://www.usa.gov/"
+        class="usa-link usa-link--external"
+        data-tealium="identifier"
+      >Visit USA.gov</a>
+    </div>
+  </section>
+</div>
+</footer>
+
+  <script src="/assets/uswds/js/uswds.min.js"></script>
+
+  <script src="/assets/js/tealium-click-events.js"></script>
+
+</body>
+
+</html>

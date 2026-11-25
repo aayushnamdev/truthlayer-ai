@@ -1,0 +1,1302 @@
+{
+ "rows": [
+  {
+   "change_id": "CHG-001",
+   "resource": "ExplanationOfBenefit",
+   "change_type": "renamed",
+   "v1_element": "Eob.information",
+   "v2_element": "Eob.SupportingInfo",
+   "status": "caught",
+   "labels": [
+    "MISSING"
+   ],
+   "finding_ids": [
+    "F-045"
+   ],
+   "spec_change_kinds": [
+    "ADDED",
+    "REMOVED"
+   ]
+  },
+  {
+   "change_id": "CHG-002",
+   "resource": "ExplanationOfBenefit",
+   "change_type": "renamed",
+   "v1_element": "Eob.careTeamLinkId",
+   "v2_element": "Eob.careTeamSequence",
+   "status": "caught",
+   "labels": [
+    "WRONG"
+   ],
+   "finding_ids": [
+    "F-011"
+   ],
+   "spec_change_kinds": [
+    "POSSIBLE_RENAME"
+   ]
+  },
+  {
+   "change_id": "CHG-003",
+   "resource": "ExplanationOfBenefit",
+   "change_type": "renamed",
+   "v1_element": "Eob.diagnosisLinkId",
+   "v2_element": "Eob.diagnosisSequence",
+   "status": "caught",
+   "labels": [
+    "WRONG"
+   ],
+   "finding_ids": [
+    "F-004"
+   ],
+   "spec_change_kinds": [
+    "POSSIBLE_RENAME"
+   ]
+  },
+  {
+   "change_id": "CHG-004",
+   "resource": "ExplanationOfBenefit",
+   "change_type": "renamed",
+   "v1_element": "Eob.service",
+   "v2_element": "Eob.productOrService",
+   "status": "caught",
+   "labels": [
+    "EXAMPLE",
+    "MISSING",
+    "WRONG"
+   ],
+   "finding_ids": [
+    "F-001",
+    "F-007",
+    "F-008",
+    "F-009",
+    "F-010",
+    "F-028"
+   ],
+   "spec_change_kinds": [
+    "ADDED",
+    "POSSIBLE_RENAME"
+   ]
+  },
+  {
+   "change_id": "CHG-005",
+   "resource": "ExplanationOfBenefit",
+   "change_type": "changed",
+   "v1_element": "Eob.organization; Eob.provider",
+   "v2_element": "Eob.provider",
+   "status": "caught",
+   "labels": [
+    "MISSING"
+   ],
+   "finding_ids": [
+    "F-012",
+    "F-030",
+    "F-058"
+   ],
+   "spec_change_kinds": [
+    "ADDED",
+    "CHANGED",
+    "POSSIBLE_RENAME"
+   ]
+  },
+  {
+   "change_id": "CHG-006",
+   "resource": "ExplanationOfBenefit",
+   "change_type": "removed",
+   "v1_element": "Eob.hospitalization",
+   "v2_element": "",
+   "status": "in-spec-diff-only",
+   "labels": [],
+   "finding_ids": [],
+   "spec_change_kinds": [
+    "REMOVED"
+   ]
+  },
+  {
+   "change_id": "CHG-007",
+   "resource": "ExplanationOfBenefit",
+   "change_type": "changed",
+   "v1_element": "Eob.use (optional)",
+   "v2_element": "Eob.use (mandatory)",
+   "status": "caught",
+   "labels": [
+    "MISSING"
+   ],
+   "finding_ids": [
+    "F-046"
+   ],
+   "spec_change_kinds": [
+    "ADDED"
+   ]
+  },
+  {
+   "change_id": "CHG-008",
+   "resource": "ExplanationOfBenefit",
+   "change_type": "changed",
+   "v1_element": "Eob.patient (optional)",
+   "v2_element": "Eob.patient (mandatory)",
+   "status": "caught",
+   "labels": [
+    "WRONG"
+   ],
+   "finding_ids": [
+    "F-056"
+   ],
+   "spec_change_kinds": [
+    "CHANGED"
+   ]
+  },
+  {
+   "change_id": "CHG-009",
+   "resource": "ExplanationOfBenefit",
+   "change_type": "changed",
+   "v1_element": "Eob.referral (optional)",
+   "v2_element": "Eob.referral (mandatory)",
+   "status": "missed",
+   "labels": [],
+   "finding_ids": [],
+   "spec_change_kinds": []
+  },
+  {
+   "change_id": "CHG-010",
+   "resource": "ExplanationOfBenefit",
+   "change_type": "changed",
+   "v1_element": "Eob.outcome (optional)",
+   "v2_element": "Eob.outcome (mandatory)",
+   "status": "caught",
+   "labels": [
+    "MISSING"
+   ],
+   "finding_ids": [
+    "F-055"
+   ],
+   "spec_change_kinds": [
+    "CHANGED"
+   ]
+  },
+  {
+   "change_id": "CHG-011",
+   "resource": "ExplanationOfBenefit",
+   "change_type": "added",
+   "v1_element": "",
+   "v2_element": "Eob.priority",
+   "status": "caught",
+   "labels": [
+    "MISSING"
+   ],
+   "finding_ids": [
+    "F-042"
+   ],
+   "spec_change_kinds": [
+    "ADDED"
+   ]
+  },
+  {
+   "change_id": "CHG-012",
+   "resource": "ExplanationOfBenefit",
+   "change_type": "added",
+   "v1_element": "",
+   "v2_element": "Eob.preAuthRef",
+   "status": "caught",
+   "labels": [
+    "MISSING"
+   ],
+   "finding_ids": [
+    "F-040"
+   ],
+   "spec_change_kinds": [
+    "ADDED"
+   ]
+  },
+  {
+   "change_id": "CHG-013",
+   "resource": "ExplanationOfBenefit",
+   "change_type": "added",
+   "v1_element": "",
+   "v2_element": "Eob.diagnosis.onAdmission",
+   "status": "caught",
+   "labels": [
+    "MISSING"
+   ],
+   "finding_ids": [
+    "F-035"
+   ],
+   "spec_change_kinds": [
+    "ADDED"
+   ]
+  },
+  {
+   "change_id": "CHG-014",
+   "resource": "ExplanationOfBenefit",
+   "change_type": "added",
+   "v1_element": "",
+   "v2_element": "Eob.formCode",
+   "status": "caught",
+   "labels": [
+    "MISSING"
+   ],
+   "finding_ids": [
+    "F-036"
+   ],
+   "spec_change_kinds": [
+    "ADDED"
+   ]
+  },
+  {
+   "change_id": "CHG-015",
+   "resource": "ExplanationOfBenefit",
+   "change_type": "changed",
+   "v1_element": "EOB.Type (BlueButton value set)",
+   "v2_element": "EOB.Type (C4BB Payee Type value set)",
+   "status": "caught",
+   "labels": [
+    "MISSING",
+    "WRONG"
+   ],
+   "finding_ids": [
+    "F-043",
+    "F-057",
+    "F-061"
+   ],
+   "spec_change_kinds": [
+    "ADDED",
+    "CHANGED",
+    "REMOVED"
+   ]
+  },
+  {
+   "change_id": "CHG-016",
+   "resource": "Patient",
+   "change_type": "removed",
+   "v1_element": "Patient.animal",
+   "v2_element": "",
+   "status": "in-spec-diff-only",
+   "labels": [],
+   "finding_ids": [],
+   "spec_change_kinds": [
+    "REMOVED"
+   ]
+  },
+  {
+   "change_id": "CHG-017",
+   "resource": "Patient",
+   "change_type": "changed",
+   "v1_element": "Patient.active",
+   "v2_element": "Patient.active (different value set/default)",
+   "status": "missed",
+   "labels": [],
+   "finding_ids": [],
+   "spec_change_kinds": []
+  },
+  {
+   "change_id": "CHG-018",
+   "resource": "Patient",
+   "change_type": "changed",
+   "v1_element": "Patient.generalPractitioner",
+   "v2_element": "Patient.generalPractitioner (different reference target)",
+   "status": "missed",
+   "labels": [],
+   "finding_ids": [],
+   "spec_change_kinds": []
+  },
+  {
+   "change_id": "CHG-019",
+   "resource": "Patient",
+   "change_type": "changed",
+   "v1_element": "Patient.identifier.type",
+   "v2_element": "Patient.identifier.type (C4BB Patient Identifier type value set)",
+   "status": "missed",
+   "labels": [],
+   "finding_ids": [],
+   "spec_change_kinds": []
+  },
+  {
+   "change_id": "CHG-020",
+   "resource": "Patient",
+   "change_type": "changed",
+   "v1_element": "Patient.gender value set administrative-gender",
+   "v2_element": "Patient.gender value set administrative-gender|4.0.1",
+   "status": "missed",
+   "labels": [],
+   "finding_ids": [],
+   "spec_change_kinds": []
+  },
+  {
+   "change_id": "CHG-021",
+   "resource": "Patient",
+   "change_type": "changed",
+   "v1_element": "Patient.identifier (no slicing)",
+   "v2_element": "Patient.identifier (sliced by value:type, value:system)",
+   "status": "missed",
+   "labels": [],
+   "finding_ids": [],
+   "spec_change_kinds": []
+  },
+  {
+   "change_id": "CHG-022",
+   "resource": "Patient",
+   "change_type": "changed",
+   "v1_element": "Patient.identifier (hashed MBI/HICN via IncludeIdentifiers header)",
+   "v2_element": "Patient.identifier (unhashed MBI; no HICN)",
+   "status": "missed",
+   "labels": [],
+   "finding_ids": [],
+   "spec_change_kinds": []
+  },
+  {
+   "change_id": "CHG-023",
+   "resource": "Patient",
+   "change_type": "removed",
+   "v1_element": "HTTP header IncludeIdentifiers",
+   "v2_element": "",
+   "status": "missed",
+   "labels": [],
+   "finding_ids": [],
+   "spec_change_kinds": []
+  },
+  {
+   "change_id": "CHG-024",
+   "resource": "Coverage",
+   "change_type": "renamed",
+   "v1_element": "Coverage.grouping",
+   "v2_element": "Coverage.class",
+   "status": "caught",
+   "labels": [
+    "EXAMPLE",
+    "MISSING"
+   ],
+   "finding_ids": [
+    "F-016",
+    "F-017"
+   ],
+   "spec_change_kinds": [
+    "ADDED",
+    "REMOVED"
+   ]
+  },
+  {
+   "change_id": "CHG-025",
+   "resource": "Coverage",
+   "change_type": "changed",
+   "v1_element": "Coverage.status (min 0)",
+   "v2_element": "Coverage.status (min 1)",
+   "status": "caught",
+   "labels": [
+    "EXAMPLE"
+   ],
+   "finding_ids": [
+    "F-049"
+   ],
+   "spec_change_kinds": [
+    "CHANGED"
+   ]
+  },
+  {
+   "change_id": "CHG-026",
+   "resource": "Coverage",
+   "change_type": "changed",
+   "v1_element": "Coverage.beneficiary (min 0)",
+   "v2_element": "Coverage.beneficiary (min 1)",
+   "status": "caught",
+   "labels": [
+    "EXAMPLE"
+   ],
+   "finding_ids": [
+    "F-047"
+   ],
+   "spec_change_kinds": [
+    "CHANGED"
+   ]
+  },
+  {
+   "change_id": "CHG-027",
+   "resource": "Coverage",
+   "change_type": "changed",
+   "v1_element": "Coverage.payor (min 0)",
+   "v2_element": "Coverage.payor (min 1)",
+   "status": "caught",
+   "labels": [
+    "MISSING"
+   ],
+   "finding_ids": [
+    "F-048"
+   ],
+   "spec_change_kinds": [
+    "CHANGED"
+   ]
+  },
+  {
+   "change_id": "CHG-028",
+   "resource": "Coverage",
+   "change_type": "changed",
+   "v1_element": "Coverage.class (max 1)",
+   "v2_element": "Coverage.class (max *)",
+   "status": "caught",
+   "labels": [
+    "MISSING"
+   ],
+   "finding_ids": [
+    "F-017"
+   ],
+   "spec_change_kinds": [
+    "ADDED"
+   ]
+  },
+  {
+   "change_id": "CHG-029",
+   "resource": "Coverage",
+   "change_type": "changed",
+   "v1_element": "Coverage.class (no slicing)",
+   "v2_element": "Coverage.class (sliced by value:type)",
+   "status": "caught",
+   "labels": [
+    "MISSING"
+   ],
+   "finding_ids": [
+    "F-017"
+   ],
+   "spec_change_kinds": [
+    "ADDED"
+   ]
+  },
+  {
+   "change_id": "CHG-030",
+   "resource": "Coverage",
+   "change_type": "changed",
+   "v1_element": "Coverage.status value set fm-status",
+   "v2_element": "Coverage.status value set fm-status|4.0.1",
+   "status": "caught",
+   "labels": [
+    "EXAMPLE"
+   ],
+   "finding_ids": [
+    "F-049"
+   ],
+   "spec_change_kinds": [
+    "CHANGED"
+   ]
+  },
+  {
+   "change_id": "CHG-031",
+   "resource": "Coverage",
+   "change_type": "added",
+   "v1_element": "",
+   "v2_element": "Coverage.class.name",
+   "status": "missed",
+   "labels": [],
+   "finding_ids": [],
+   "spec_change_kinds": []
+  },
+  {
+   "change_id": "CHG-032",
+   "resource": "Coverage",
+   "change_type": "added",
+   "v1_element": "",
+   "v2_element": "Coverage.costToBeneficiary",
+   "status": "caught",
+   "labels": [
+    "MISSING"
+   ],
+   "finding_ids": [
+    "F-018"
+   ],
+   "spec_change_kinds": [
+    "ADDED"
+   ]
+  },
+  {
+   "change_id": "CHG-033",
+   "resource": "Coverage",
+   "change_type": "added",
+   "v1_element": "",
+   "v2_element": "Coverage.costToBeneficiary.type",
+   "status": "missed",
+   "labels": [],
+   "finding_ids": [],
+   "spec_change_kinds": []
+  },
+  {
+   "change_id": "CHG-034",
+   "resource": "Coverage",
+   "change_type": "added",
+   "v1_element": "",
+   "v2_element": "Coverage.class.type",
+   "status": "missed",
+   "labels": [],
+   "finding_ids": [],
+   "spec_change_kinds": []
+  },
+  {
+   "change_id": "CHG-035",
+   "resource": "Coverage",
+   "change_type": "added",
+   "v1_element": "",
+   "v2_element": "Coverage.class.value",
+   "status": "missed",
+   "labels": [],
+   "finding_ids": [],
+   "spec_change_kinds": []
+  }
+ ],
+ "n": 35,
+ "caught": 21,
+ "spec_diff_only": 2,
+ "missed": 12,
+ "recall_findings": 0.6,
+ "recall_spec_diff": 0.6571428571428571,
+ "findings_total": 65,
+ "findings_matched": 28,
+ "precision": 0.4307692307692308,
+ "unmatched_findings": [
+  {
+   "id": "F-002",
+   "label": "MISSING",
+   "confidence": "LOW",
+   "ask_human": true,
+   "change_id": "SC-002",
+   "change_kind": "POSSIBLE_RENAME",
+   "category": "element",
+   "resource": "ExplanationOfBenefit",
+   "v1_element": "ExplanationOfBenefit.item.informationLinkId",
+   "v2_element": "ExplanationOfBenefit.item.informationSequence",
+   "detail": "informationLinkId may have become informationSequence (similarity 0.767)",
+   "v1_def": "ExplanationOfBenefit.item.informationLinkId [0..*] type=positiveInt",
+   "v2_def": "ExplanationOfBenefit.item.informationSequence [0..*] type=positiveInt",
+   "locations": [],
+   "why_confidence": "possible rename guessed from similar names; needs a human check",
+   "plain_english": "v2 changes `ExplanationOfBenefit.item.informationSequence` (informationLinkId may have become informationSequence (similarity 0.767)), and the booklet never mentions it."
+  },
+  {
+   "id": "F-003",
+   "label": "MISSING",
+   "confidence": "LOW",
+   "ask_human": true,
+   "change_id": "SC-003",
+   "change_kind": "POSSIBLE_RENAME",
+   "category": "element",
+   "resource": "ExplanationOfBenefit",
+   "v1_element": "ExplanationOfBenefit.item.procedureLinkId",
+   "v2_element": "ExplanationOfBenefit.item.procedureSequence",
+   "detail": "procedureLinkId may have become procedureSequence (similarity 0.725)",
+   "v1_def": "ExplanationOfBenefit.item.procedureLinkId [0..*] type=positiveInt",
+   "v2_def": "ExplanationOfBenefit.item.procedureSequence [0..*] type=positiveInt",
+   "locations": [],
+   "why_confidence": "possible rename guessed from similar names; needs a human check",
+   "plain_english": "v2 changes `ExplanationOfBenefit.item.procedureSequence` (procedureLinkId may have become procedureSequence (similarity 0.725)), and the booklet never mentions it."
+  },
+  {
+   "id": "F-005",
+   "label": "MISSING",
+   "confidence": "LOW",
+   "ask_human": true,
+   "change_id": "SC-005",
+   "change_kind": "POSSIBLE_RENAME",
+   "category": "element",
+   "resource": "ExplanationOfBenefit",
+   "v1_element": "ExplanationOfBenefit.addItem.sequenceLinkId",
+   "v2_element": "ExplanationOfBenefit.addItem.itemSequence",
+   "detail": "sequenceLinkId may have become itemSequence (similarity 0.715)",
+   "v1_def": "ExplanationOfBenefit.addItem.sequenceLinkId [0..*] type=positiveInt",
+   "v2_def": "ExplanationOfBenefit.addItem.itemSequence [0..*] type=positiveInt",
+   "locations": [],
+   "why_confidence": "possible rename guessed from similar names; needs a human check",
+   "plain_english": "v2 changes `ExplanationOfBenefit.addItem.itemSequence` (sequenceLinkId may have become itemSequence (similarity 0.715)), and the booklet never mentions it."
+  },
+  {
+   "id": "F-006",
+   "label": "MISSING",
+   "confidence": "LOW",
+   "ask_human": true,
+   "change_id": "SC-006",
+   "change_kind": "POSSIBLE_RENAME",
+   "category": "element",
+   "resource": "ExplanationOfBenefit",
+   "v1_element": "ExplanationOfBenefit.totalCost",
+   "v2_element": "ExplanationOfBenefit.total",
+   "detail": "totalCost may have become total (similarity 0.714)",
+   "v1_def": "ExplanationOfBenefit.totalCost [0..1] type=Money",
+   "v2_def": "ExplanationOfBenefit.total [0..*] type=BackboneElement",
+   "locations": [],
+   "why_confidence": "possible rename guessed from similar names; needs a human check",
+   "plain_english": "v2 changes `ExplanationOfBenefit.total` (totalCost may have become total (similarity 0.714)), and the booklet never mentions it."
+  },
+  {
+   "id": "F-013",
+   "label": "MISSING",
+   "confidence": "LOW",
+   "ask_human": true,
+   "change_id": "SC-013",
+   "change_kind": "POSSIBLE_RENAME",
+   "category": "element",
+   "resource": "ExplanationOfBenefit",
+   "v1_element": "ExplanationOfBenefit.addItem.detail.category",
+   "v2_element": "ExplanationOfBenefit.addItem.detail.factor",
+   "detail": "category may have become factor (similarity 0.571)",
+   "v1_def": "ExplanationOfBenefit.addItem.detail.category [0..1] type=CodeableConcept",
+   "v2_def": "ExplanationOfBenefit.addItem.detail.factor [0..1] type=decimal",
+   "locations": [],
+   "why_confidence": "possible rename guessed from similar names; needs a human check",
+   "plain_english": "v2 changes `ExplanationOfBenefit.addItem.detail.factor` (category may have become factor (similarity 0.571)), and the booklet never mentions it."
+  },
+  {
+   "id": "F-014",
+   "label": "MISSING",
+   "confidence": "LOW",
+   "ask_human": true,
+   "change_id": "SC-014",
+   "change_kind": "POSSIBLE_RENAME",
+   "category": "element",
+   "resource": "ExplanationOfBenefit",
+   "v1_element": "ExplanationOfBenefit.addItem.category",
+   "v2_element": "ExplanationOfBenefit.addItem.factor",
+   "detail": "category may have become factor (similarity 0.571)",
+   "v1_def": "ExplanationOfBenefit.addItem.category [0..1] type=CodeableConcept",
+   "v2_def": "ExplanationOfBenefit.addItem.factor [0..1] type=decimal",
+   "locations": [],
+   "why_confidence": "possible rename guessed from similar names; needs a human check",
+   "plain_english": "v2 changes `ExplanationOfBenefit.addItem.factor` (category may have become factor (similarity 0.571)), and the booklet never mentions it."
+  },
+  {
+   "id": "F-015",
+   "label": "MISSING",
+   "confidence": "LOW",
+   "ask_human": true,
+   "change_id": "SC-015",
+   "change_kind": "POSSIBLE_RENAME",
+   "category": "element",
+   "resource": "ExplanationOfBenefit",
+   "v1_element": "ExplanationOfBenefit.totalBenefit",
+   "v2_element": "ExplanationOfBenefit.benefitPeriod",
+   "detail": "totalBenefit may have become benefitPeriod (similarity 0.56)",
+   "v1_def": "ExplanationOfBenefit.totalBenefit [0..1] type=Money",
+   "v2_def": "ExplanationOfBenefit.benefitPeriod [0..1] type=Period",
+   "locations": [],
+   "why_confidence": "possible rename guessed from similar names; needs a human check",
+   "plain_english": "v2 changes `ExplanationOfBenefit.benefitPeriod` (totalBenefit may have become benefitPeriod (similarity 0.56)), and the booklet never mentions it."
+  },
+  {
+   "id": "F-019",
+   "label": "MISSING",
+   "confidence": "LOW",
+   "ask_human": true,
+   "change_id": "SC-033",
+   "change_kind": "ADDED",
+   "category": "element",
+   "resource": "Coverage",
+   "v1_element": "",
+   "v2_element": "Coverage.subrogation",
+   "detail": "new in v2",
+   "v1_def": "",
+   "v2_def": "Coverage.subrogation [0..1] type=boolean",
+   "locations": [],
+   "why_confidence": "optional element; whether the booklet should mention it is a human call",
+   "plain_english": "v2 adds `Coverage.subrogation` (new in v2), and the booklet never mentions it."
+  },
+  {
+   "id": "F-020",
+   "label": "MISSING",
+   "confidence": "LOW",
+   "ask_human": true,
+   "change_id": "SC-034",
+   "change_kind": "ADDED",
+   "category": "element",
+   "resource": "ExplanationOfBenefit",
+   "v1_element": "",
+   "v2_element": "ExplanationOfBenefit.addItem.bodySite",
+   "detail": "new in v2",
+   "v1_def": "",
+   "v2_def": "ExplanationOfBenefit.addItem.bodySite [0..1] type=CodeableConcept",
+   "locations": [],
+   "why_confidence": "optional element; whether the booklet should mention it is a human call",
+   "plain_english": "v2 adds `ExplanationOfBenefit.addItem.bodySite` (new in v2), and the booklet never mentions it."
+  },
+  {
+   "id": "F-021",
+   "label": "MISSING",
+   "confidence": "LOW",
+   "ask_human": true,
+   "change_id": "SC-035",
+   "change_kind": "ADDED",
+   "category": "element",
+   "resource": "ExplanationOfBenefit",
+   "v1_element": "",
+   "v2_element": "ExplanationOfBenefit.addItem.detail.net",
+   "detail": "new in v2",
+   "v1_def": "",
+   "v2_def": "ExplanationOfBenefit.addItem.detail.net [0..1] type=Money",
+   "locations": [],
+   "why_confidence": "optional element; whether the booklet should mention it is a human call",
+   "plain_english": "v2 adds `ExplanationOfBenefit.addItem.detail.net` (new in v2), and the booklet never mentions it."
+  },
+  {
+   "id": "F-022",
+   "label": "MISSING",
+   "confidence": "LOW",
+   "ask_human": true,
+   "change_id": "SC-036",
+   "change_kind": "ADDED",
+   "category": "element",
+   "resource": "ExplanationOfBenefit",
+   "v1_element": "",
+   "v2_element": "ExplanationOfBenefit.addItem.detail.quantity",
+   "detail": "new in v2",
+   "v1_def": "",
+   "v2_def": "ExplanationOfBenefit.addItem.detail.quantity [0..1] type=Quantity",
+   "locations": [],
+   "why_confidence": "optional element; whether the booklet should mention it is a human call",
+   "plain_english": "v2 adds `ExplanationOfBenefit.addItem.detail.quantity` (new in v2), and the booklet never mentions it."
+  },
+  {
+   "id": "F-023",
+   "label": "MISSING",
+   "confidence": "LOW",
+   "ask_human": true,
+   "change_id": "SC-037",
+   "change_kind": "ADDED",
+   "category": "element",
+   "resource": "ExplanationOfBenefit",
+   "v1_element": "",
+   "v2_element": "ExplanationOfBenefit.addItem.detail.subDetail",
+   "detail": "new in v2",
+   "v1_def": "",
+   "v2_def": "ExplanationOfBenefit.addItem.detail.subDetail [0..*] type=BackboneElement",
+   "locations": [],
+   "why_confidence": "optional element; whether the booklet should mention it is a human call",
+   "plain_english": "v2 adds `ExplanationOfBenefit.addItem.detail.subDetail` (new in v2), and the booklet never mentions it."
+  },
+  {
+   "id": "F-024",
+   "label": "MISSING",
+   "confidence": "LOW",
+   "ask_human": true,
+   "change_id": "SC-038",
+   "change_kind": "ADDED",
+   "category": "element",
+   "resource": "ExplanationOfBenefit",
+   "v1_element": "",
+   "v2_element": "ExplanationOfBenefit.addItem.detail.unitPrice",
+   "detail": "new in v2",
+   "v1_def": "",
+   "v2_def": "ExplanationOfBenefit.addItem.detail.unitPrice [0..1] type=Money",
+   "locations": [],
+   "why_confidence": "optional element; whether the booklet should mention it is a human call",
+   "plain_english": "v2 adds `ExplanationOfBenefit.addItem.detail.unitPrice` (new in v2), and the booklet never mentions it."
+  },
+  {
+   "id": "F-025",
+   "label": "MISSING",
+   "confidence": "LOW",
+   "ask_human": true,
+   "change_id": "SC-039",
+   "change_kind": "ADDED",
+   "category": "element",
+   "resource": "ExplanationOfBenefit",
+   "v1_element": "",
+   "v2_element": "ExplanationOfBenefit.addItem.detailSequence",
+   "detail": "new in v2",
+   "v1_def": "",
+   "v2_def": "ExplanationOfBenefit.addItem.detailSequence [0..*] type=positiveInt",
+   "locations": [],
+   "why_confidence": "optional element; whether the booklet should mention it is a human call",
+   "plain_english": "v2 adds `ExplanationOfBenefit.addItem.detailSequence` (new in v2), and the booklet never mentions it."
+  },
+  {
+   "id": "F-026",
+   "label": "MISSING",
+   "confidence": "LOW",
+   "ask_human": true,
+   "change_id": "SC-040",
+   "change_kind": "ADDED",
+   "category": "element",
+   "resource": "ExplanationOfBenefit",
+   "v1_element": "",
+   "v2_element": "ExplanationOfBenefit.addItem.location[x]",
+   "detail": "new in v2",
+   "v1_def": "",
+   "v2_def": "ExplanationOfBenefit.addItem.location[x] [0..1] type=Address|CodeableConcept|Reference",
+   "locations": [],
+   "why_confidence": "optional element; whether the booklet should mention it is a human call",
+   "plain_english": "v2 adds `ExplanationOfBenefit.addItem.location[x]` (new in v2), and the booklet never mentions it."
+  },
+  {
+   "id": "F-027",
+   "label": "MISSING",
+   "confidence": "LOW",
+   "ask_human": true,
+   "change_id": "SC-041",
+   "change_kind": "ADDED",
+   "category": "element",
+   "resource": "ExplanationOfBenefit",
+   "v1_element": "",
+   "v2_element": "ExplanationOfBenefit.addItem.net",
+   "detail": "new in v2",
+   "v1_def": "",
+   "v2_def": "ExplanationOfBenefit.addItem.net [0..1] type=Money",
+   "locations": [],
+   "why_confidence": "optional element; whether the booklet should mention it is a human call",
+   "plain_english": "v2 adds `ExplanationOfBenefit.addItem.net` (new in v2), and the booklet never mentions it."
+  },
+  {
+   "id": "F-029",
+   "label": "MISSING",
+   "confidence": "LOW",
+   "ask_human": true,
+   "change_id": "SC-043",
+   "change_kind": "ADDED",
+   "category": "element",
+   "resource": "ExplanationOfBenefit",
+   "v1_element": "",
+   "v2_element": "ExplanationOfBenefit.addItem.programCode",
+   "detail": "new in v2",
+   "v1_def": "",
+   "v2_def": "ExplanationOfBenefit.addItem.programCode [0..*] type=CodeableConcept",
+   "locations": [],
+   "why_confidence": "optional element; whether the booklet should mention it is a human call",
+   "plain_english": "v2 adds `ExplanationOfBenefit.addItem.programCode` (new in v2), and the booklet never mentions it."
+  },
+  {
+   "id": "F-031",
+   "label": "MISSING",
+   "confidence": "LOW",
+   "ask_human": true,
+   "change_id": "SC-045",
+   "change_kind": "ADDED",
+   "category": "element",
+   "resource": "ExplanationOfBenefit",
+   "v1_element": "",
+   "v2_element": "ExplanationOfBenefit.addItem.quantity",
+   "detail": "new in v2",
+   "v1_def": "",
+   "v2_def": "ExplanationOfBenefit.addItem.quantity [0..1] type=Quantity",
+   "locations": [],
+   "why_confidence": "optional element; whether the booklet should mention it is a human call",
+   "plain_english": "v2 adds `ExplanationOfBenefit.addItem.quantity` (new in v2), and the booklet never mentions it."
+  },
+  {
+   "id": "F-032",
+   "label": "MISSING",
+   "confidence": "LOW",
+   "ask_human": true,
+   "change_id": "SC-046",
+   "change_kind": "ADDED",
+   "category": "element",
+   "resource": "ExplanationOfBenefit",
+   "v1_element": "",
+   "v2_element": "ExplanationOfBenefit.addItem.subDetailSequence",
+   "detail": "new in v2",
+   "v1_def": "",
+   "v2_def": "ExplanationOfBenefit.addItem.subDetailSequence [0..*] type=positiveInt",
+   "locations": [],
+   "why_confidence": "optional element; whether the booklet should mention it is a human call",
+   "plain_english": "v2 adds `ExplanationOfBenefit.addItem.subDetailSequence` (new in v2), and the booklet never mentions it."
+  },
+  {
+   "id": "F-033",
+   "label": "MISSING",
+   "confidence": "LOW",
+   "ask_human": true,
+   "change_id": "SC-047",
+   "change_kind": "ADDED",
+   "category": "element",
+   "resource": "ExplanationOfBenefit",
+   "v1_element": "",
+   "v2_element": "ExplanationOfBenefit.addItem.subSite",
+   "detail": "new in v2",
+   "v1_def": "",
+   "v2_def": "ExplanationOfBenefit.addItem.subSite [0..*] type=CodeableConcept",
+   "locations": [],
+   "why_confidence": "optional element; whether the booklet should mention it is a human call",
+   "plain_english": "v2 adds `ExplanationOfBenefit.addItem.subSite` (new in v2), and the booklet never mentions it."
+  },
+  {
+   "id": "F-034",
+   "label": "MISSING",
+   "confidence": "LOW",
+   "ask_human": true,
+   "change_id": "SC-048",
+   "change_kind": "ADDED",
+   "category": "element",
+   "resource": "ExplanationOfBenefit",
+   "v1_element": "",
+   "v2_element": "ExplanationOfBenefit.addItem.unitPrice",
+   "detail": "new in v2",
+   "v1_def": "",
+   "v2_def": "ExplanationOfBenefit.addItem.unitPrice [0..1] type=Money",
+   "locations": [],
+   "why_confidence": "optional element; whether the booklet should mention it is a human call",
+   "plain_english": "v2 adds `ExplanationOfBenefit.addItem.unitPrice` (new in v2), and the booklet never mentions it."
+  },
+  {
+   "id": "F-037",
+   "label": "MISSING",
+   "confidence": "LOW",
+   "ask_human": true,
+   "change_id": "SC-051",
+   "change_kind": "ADDED",
+   "category": "element",
+   "resource": "ExplanationOfBenefit",
+   "v1_element": "",
+   "v2_element": "ExplanationOfBenefit.fundsReserve",
+   "detail": "new in v2",
+   "v1_def": "",
+   "v2_def": "ExplanationOfBenefit.fundsReserve [0..1] type=CodeableConcept",
+   "locations": [],
+   "why_confidence": "optional element; whether the booklet should mention it is a human call",
+   "plain_english": "v2 adds `ExplanationOfBenefit.fundsReserve` (new in v2), and the booklet never mentions it."
+  },
+  {
+   "id": "F-038",
+   "label": "MISSING",
+   "confidence": "LOW",
+   "ask_human": true,
+   "change_id": "SC-052",
+   "change_kind": "ADDED",
+   "category": "element",
+   "resource": "ExplanationOfBenefit",
+   "v1_element": "",
+   "v2_element": "ExplanationOfBenefit.fundsReserveRequested",
+   "detail": "new in v2",
+   "v1_def": "",
+   "v2_def": "ExplanationOfBenefit.fundsReserveRequested [0..1] type=CodeableConcept",
+   "locations": [],
+   "why_confidence": "optional element; whether the booklet should mention it is a human call",
+   "plain_english": "v2 adds `ExplanationOfBenefit.fundsReserveRequested` (new in v2), and the booklet never mentions it."
+  },
+  {
+   "id": "F-039",
+   "label": "MISSING",
+   "confidence": "HIGH",
+   "ask_human": false,
+   "change_id": "SC-053",
+   "change_kind": "ADDED",
+   "category": "element",
+   "resource": "ExplanationOfBenefit",
+   "v1_element": "",
+   "v2_element": "ExplanationOfBenefit.insurance.focal",
+   "detail": "new in v2",
+   "v1_def": "",
+   "v2_def": "ExplanationOfBenefit.insurance.focal [1..1] type=boolean",
+   "locations": [],
+   "why_confidence": "v2 definition makes it required (min>=1) and both capability statements list the resource",
+   "plain_english": "v2 adds `ExplanationOfBenefit.insurance.focal` (new in v2), and the booklet never mentions it."
+  },
+  {
+   "id": "F-041",
+   "label": "MISSING",
+   "confidence": "LOW",
+   "ask_human": true,
+   "change_id": "SC-055",
+   "change_kind": "ADDED",
+   "category": "element",
+   "resource": "ExplanationOfBenefit",
+   "v1_element": "",
+   "v2_element": "ExplanationOfBenefit.preAuthRefPeriod",
+   "detail": "new in v2",
+   "v1_def": "",
+   "v2_def": "ExplanationOfBenefit.preAuthRefPeriod [0..*] type=Period",
+   "locations": [],
+   "why_confidence": "optional element; whether the booklet should mention it is a human call",
+   "plain_english": "v2 adds `ExplanationOfBenefit.preAuthRefPeriod` (new in v2), and the booklet never mentions it."
+  },
+  {
+   "id": "F-044",
+   "label": "MISSING",
+   "confidence": "LOW",
+   "ask_human": true,
+   "change_id": "SC-058",
+   "change_kind": "ADDED",
+   "category": "element",
+   "resource": "ExplanationOfBenefit",
+   "v1_element": "",
+   "v2_element": "ExplanationOfBenefit.procedure.udi",
+   "detail": "new in v2",
+   "v1_def": "",
+   "v2_def": "ExplanationOfBenefit.procedure.udi [0..*] type=Reference",
+   "locations": [],
+   "why_confidence": "optional element; whether the booklet should mention it is a human call",
+   "plain_english": "v2 adds `ExplanationOfBenefit.procedure.udi` (new in v2), and the booklet never mentions it."
+  },
+  {
+   "id": "F-050",
+   "label": "EXAMPLE",
+   "confidence": "HIGH",
+   "ask_human": false,
+   "change_id": "SC-064",
+   "change_kind": "CHANGED",
+   "category": "element",
+   "resource": "ExplanationOfBenefit",
+   "v1_element": "ExplanationOfBenefit.created",
+   "v2_element": "ExplanationOfBenefit.created",
+   "detail": "cardinality 0..1 -> 1..1",
+   "v1_def": "ExplanationOfBenefit.created [0..1] type=dateTime",
+   "v2_def": "ExplanationOfBenefit.created [1..1] type=dateTime",
+   "locations": [
+    {
+     "file": "docs/v1/blue-button-v1-stu3-docs.md",
+     "line": 590,
+     "section": "Core Resources > UserInfo:",
+     "kind": "sample",
+     "token": "created",
+     "block_id": "blue-button-v1-stu3-docs:181",
+     "ambiguous": false,
+     "text": "\"created\": \"2017-11-28\","
+    }
+   ],
+   "why_confidence": "v1/v2 definitions differ and both capability statements list the resource",
+   "plain_english": "A sample in the old booklet (docs/v1/blue-button-v1-stu3-docs.md:590) shows `ExplanationOfBenefit.created`, which v2 changed or removed (cardinality 0..1 -> 1..1)."
+  },
+  {
+   "id": "F-051",
+   "label": "MISSING",
+   "confidence": "LOW",
+   "ask_human": true,
+   "change_id": "SC-065",
+   "change_kind": "CHANGED",
+   "category": "element",
+   "resource": "ExplanationOfBenefit",
+   "v1_element": "ExplanationOfBenefit.form",
+   "v2_element": "ExplanationOfBenefit.form",
+   "detail": "type CodeableConcept -> Attachment",
+   "v1_def": "ExplanationOfBenefit.form [0..1] type=CodeableConcept",
+   "v2_def": "ExplanationOfBenefit.form [0..1] type=Attachment",
+   "locations": [],
+   "why_confidence": "optional element; whether the booklet should mention it is a human call",
+   "plain_english": "v2 changes `ExplanationOfBenefit.form` (type CodeableConcept -> Attachment), and the booklet never mentions it."
+  },
+  {
+   "id": "F-052",
+   "label": "WRONG",
+   "confidence": "HIGH",
+   "ask_human": false,
+   "change_id": "SC-066",
+   "change_kind": "CHANGED",
+   "category": "element",
+   "resource": "ExplanationOfBenefit",
+   "v1_element": "ExplanationOfBenefit.insurance",
+   "v2_element": "ExplanationOfBenefit.insurance",
+   "detail": "cardinality 0..1 -> 1..*",
+   "v1_def": "ExplanationOfBenefit.insurance [0..1] type=BackboneElement",
+   "v2_def": "ExplanationOfBenefit.insurance [1..*] type=BackboneElement",
+   "locations": [
+    {
+     "file": "docs/v1/blue-button-v1-stu3-docs.md",
+     "line": 214,
+     "section": "Authorization > Scopes > Ensuring you still get the data you need",
+     "kind": "prose",
+     "token": "Coverage",
+     "block_id": "blue-button-v1-stu3-docs:81",
+     "ambiguous": false,
+     "text": "For example, if you are getting the `patient_ID` from the `v1/fhir/Patient` endpoint, we recommend getting that identifier from the initial authorization response, or another resource like `Explanatio"
+    },
+    {
+     "file": "docs/v1/explanation-of-benefits-fhir.md",
+     "line": 95,
+     "section": "Entry",
+     "kind": "list_item",
+     "token": "insurance",
+     "block_id": "explanation-of-benefits-fhir:26",
+     "ambiguous": false,
+     "text": "insurance"
+    }
+   ],
+   "why_confidence": "v1/v2 definitions differ and both capability statements list the resource",
+   "plain_english": "The old booklet describes `ExplanationOfBenefit.insurance` (docs/v1/blue-button-v1-stu3-docs.md:214), but in v2 it changed: cardinality 0..1 -> 1..*."
+  },
+  {
+   "id": "F-053",
+   "label": "WRONG",
+   "confidence": "HIGH",
+   "ask_human": false,
+   "change_id": "SC-067",
+   "change_kind": "CHANGED",
+   "category": "element",
+   "resource": "ExplanationOfBenefit",
+   "v1_element": "ExplanationOfBenefit.insurance.coverage",
+   "v2_element": "ExplanationOfBenefit.insurance.coverage",
+   "detail": "cardinality 0..1 -> 1..1",
+   "v1_def": "ExplanationOfBenefit.insurance.coverage [0..1] type=Reference",
+   "v2_def": "ExplanationOfBenefit.insurance.coverage [1..1] type=Reference",
+   "locations": [
+    {
+     "file": "docs/v1/blue-button-v1-stu3-docs.md",
+     "line": 214,
+     "section": "Authorization > Scopes > Ensuring you still get the data you need",
+     "kind": "prose",
+     "token": "Coverage",
+     "block_id": "blue-button-v1-stu3-docs:81",
+     "ambiguous": false,
+     "text": "For example, if you are getting the `patient_ID` from the `v1/fhir/Patient` endpoint, we recommend getting that identifier from the initial authorization response, or another resource like `Explanatio"
+    }
+   ],
+   "why_confidence": "v1/v2 definitions differ and both capability statements list the resource",
+   "plain_english": "The old booklet describes `ExplanationOfBenefit.insurance.coverage` (docs/v1/blue-button-v1-stu3-docs.md:214), but in v2 it changed: cardinality 0..1 -> 1..1."
+  },
+  {
+   "id": "F-054",
+   "label": "MISSING",
+   "confidence": "HIGH",
+   "ask_human": false,
+   "change_id": "SC-068",
+   "change_kind": "CHANGED",
+   "category": "element",
+   "resource": "ExplanationOfBenefit",
+   "v1_element": "ExplanationOfBenefit.insurer",
+   "v2_element": "ExplanationOfBenefit.insurer",
+   "detail": "cardinality 0..1 -> 1..1",
+   "v1_def": "ExplanationOfBenefit.insurer [0..1] type=Reference",
+   "v2_def": "ExplanationOfBenefit.insurer [1..1] type=Reference",
+   "locations": [],
+   "why_confidence": "v2 definition makes it required (min>=1) and both capability statements list the resource",
+   "plain_english": "v2 changes `ExplanationOfBenefit.insurer` (cardinality 0..1 -> 1..1), and the booklet never mentions it."
+  },
+  {
+   "id": "F-059",
+   "label": "WRONG",
+   "confidence": "HIGH",
+   "ask_human": false,
+   "change_id": "SC-073",
+   "change_kind": "CHANGED",
+   "category": "element",
+   "resource": "ExplanationOfBenefit",
+   "v1_element": "ExplanationOfBenefit.status",
+   "v2_element": "ExplanationOfBenefit.status",
+   "detail": "cardinality 0..1 -> 1..1",
+   "v1_def": "ExplanationOfBenefit.status [0..1] type=code",
+   "v2_def": "ExplanationOfBenefit.status [1..1] type=code",
+   "locations": [
+    {
+     "file": "docs/v1/explanation-of-benefits-fhir.md",
+     "line": 87,
+     "section": "Entry",
+     "kind": "list_item",
+     "token": "status",
+     "block_id": "explanation-of-benefits-fhir:18",
+     "ambiguous": false,
+     "text": "status"
+    }
+   ],
+   "why_confidence": "v1/v2 definitions differ and both capability statements list the resource",
+   "plain_english": "The old booklet describes `ExplanationOfBenefit.status` (docs/v1/explanation-of-benefits-fhir.md:87), but in v2 it changed: cardinality 0..1 -> 1..1."
+  },
+  {
+   "id": "F-060",
+   "label": "MISSING",
+   "confidence": "LOW",
+   "ask_human": true,
+   "change_id": "SC-074",
+   "change_kind": "CHANGED",
+   "category": "element",
+   "resource": "ExplanationOfBenefit",
+   "v1_element": "ExplanationOfBenefit.subType",
+   "v2_element": "ExplanationOfBenefit.subType",
+   "detail": "cardinality 0..* -> 0..1",
+   "v1_def": "ExplanationOfBenefit.subType [0..*] type=CodeableConcept",
+   "v2_def": "ExplanationOfBenefit.subType [0..1] type=CodeableConcept",
+   "locations": [],
+   "why_confidence": "optional element; whether the booklet should mention it is a human call",
+   "plain_english": "v2 changes `ExplanationOfBenefit.subType` (cardinality 0..* -> 0..1), and the booklet never mentions it."
+  },
+  {
+   "id": "F-062",
+   "label": "MISSING",
+   "confidence": "HIGH",
+   "ask_human": false,
+   "change_id": "SC-076",
+   "change_kind": "ADDED",
+   "category": "search_param",
+   "resource": "Coverage",
+   "v1_element": "",
+   "v2_element": "Coverage?_profile",
+   "detail": "search parameter new in v2",
+   "v1_def": "",
+   "v2_def": "",
+   "locations": [],
+   "why_confidence": "search parameter listed by v2 capability statement only",
+   "plain_english": "v2 adds `Coverage?_profile` (search parameter new in v2), and the booklet never mentions it."
+  },
+  {
+   "id": "F-063",
+   "label": "MISSING",
+   "confidence": "HIGH",
+   "ask_human": false,
+   "change_id": "SC-078",
+   "change_kind": "ADDED",
+   "category": "search_param",
+   "resource": "Patient",
+   "v1_element": "",
+   "v2_element": "Patient?_has:Coverage.extension",
+   "detail": "search parameter new in v2",
+   "v1_def": "",
+   "v2_def": "",
+   "locations": [],
+   "why_confidence": "search parameter listed by v2 capability statement only",
+   "plain_english": "v2 adds `Patient?_has:Coverage.extension` (search parameter new in v2), and the booklet never mentions it."
+  },
+  {
+   "id": "F-064",
+   "label": "MISSING",
+   "confidence": "HIGH",
+   "ask_human": false,
+   "change_id": "SC-079",
+   "change_kind": "ADDED",
+   "category": "search_param",
+   "resource": "Patient",
+   "v1_element": "",
+   "v2_element": "Patient?_has:Coverage.rfrncyr",
+   "detail": "search parameter new in v2",
+   "v1_def": "",
+   "v2_def": "",
+   "locations": [],
+   "why_confidence": "search parameter listed by v2 capability statement only",
+   "plain_english": "v2 adds `Patient?_has:Coverage.rfrncyr` (search parameter new in v2), and the booklet never mentions it."
+  },
+  {
+   "id": "F-065",
+   "label": "GHOST",
+   "confidence": "HIGH",
+   "ask_human": false,
+   "change_id": "SC-T01",
+   "change_kind": "REMOVED",
+   "category": "resource",
+   "resource": "ReferralRequest",
+   "v1_element": "ReferralRequest",
+   "v2_element": "",
+   "detail": "resource type does not exist in the v2 release",
+   "v1_def": "",
+   "v2_def": "",
+   "locations": [
+    {
+     "file": "docs/v1/blue-button-v1-stu3-docs.md",
+     "line": 421,
+     "section": "Core Resources > UserInfo:",
+     "kind": "sample",
+     "token": "ReferralRequest",
+     "block_id": "blue-button-v1-stu3-docs:155",
+     "ambiguous": false,
+     "text": "\"resourceType\": \"ReferralRequest\","
+    },
+    {
+     "file": "docs/v1/explanation-of-benefits-fhir.md",
+     "line": 25,
+     "section": "Bundle",
+     "kind": "prose",
+     "token": "ReferralRequest",
+     "block_id": "explanation-of-benefits-fhir:6",
+     "ambiguous": false,
+     "text": "Within each entry, you will find additional resourceTypes such as \"Observation\" or \"ReferralRequest\" that classifies the entry. Each entry will have information like \"Code\" and \"valueQuantity\". Resour"
+    },
+    {
+     "file": "docs/v1/explanation-of-benefits-fhir.md",
+     "line": 62,
+     "section": "Entry",
+     "kind": "sample",
+     "token": "ReferralRequest",
+     "block_id": "explanation-of-benefits-fhir:11",
+     "ambiguous": false,
+     "text": "\"resourceType\": \"ReferralRequest\","
+    }
+   ],
+   "why_confidence": "v1 capability/resource list has it and v2 does not",
+   "plain_english": "The old booklet describes `ReferralRequest` (docs/v1/blue-button-v1-stu3-docs.md:421), which does not exist in v2 (resource type does not exist in the v2 release)."
+  }
+ ]
+}

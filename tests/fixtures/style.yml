@@ -1,0 +1,65 @@
+# SYNTHETIC copy of rules/healthplan-style.yml for tests.
+# Illustrative style rules for a fictional US health plan ("Example Health Plan").
+# Each rule is simple and mechanically checkable.
+synthetic: true
+client: Example Health Plan (fictional)
+version: 1
+rules:
+  - id: HP-001
+    name: Use "member" not "patient" in prose
+    check: regex
+    pattern: '\bpatients?\b'
+    scope: prose            # lowercase words in prose only: code, endpoint paths and FHIR resource names (Patient) are skipped
+    severity: warning
+  - id: HP-002
+    name: Dates in prose use YYYY-MM-DD
+    check: regex
+    forbid: '\b\d{1,2}/\d{1,2}/\d{2,4}\b'
+    severity: error
+  - id: HP-003
+    name: Every doc states its API version near the top
+    check: regex
+    require: '(?i)\b(API )?(version|v)\s?[123]\b|FHIR (STU3|R4)'
+    scope: first_50_lines
+    severity: error
+  - id: HP-004
+    name: Every endpoint section lists error codes
+    check: structure
+    require: 'Each heading containing an endpoint path must be followed by a table or list with HTTP status codes (4xx/5xx)'
+    severity: error
+  - id: HP-005
+    name: Every endpoint section includes a code sample
+    check: structure
+    require: 'At least one fenced code block per endpoint section'
+    severity: warning
+  - id: HP-006
+    name: Use "ID" not "Id" or "id" in prose
+    check: regex
+    forbid: '\b(Id|id)\b'
+    scope: prose
+    severity: warning
+  - id: HP-007
+    name: No bare "click here" link text
+    check: regex
+    forbid: '(?i)\[click here\]'
+    severity: warning
+  - id: HP-008
+    name: Headings use sentence case
+    check: regex
+    forbid: '^#{1,6} +[A-Z][a-z]+( [A-Z][a-z]+){2,}'
+    severity: info
+  - id: HP-009
+    name: HTTP methods written in uppercase
+    check: regex
+    forbid: '\b(get|post|put|delete)\b(?= +/)'
+    severity: warning
+  - id: HP-010
+    name: Every doc states the FHIR version it follows
+    check: regex
+    require: 'FHIR (STU3|R4|R3)'
+    severity: error
+  - id: HP-011
+    name: Sample data must be labelled synthetic or sandbox
+    check: structure
+    require: 'Any example beneficiary/member record is marked "synthetic" or "sandbox"'
+    severity: error

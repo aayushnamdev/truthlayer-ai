@@ -1,0 +1,46 @@
+{
+ "resourceType": "CapabilityStatement",
+ "fhirVersion": "3.0.2",
+ "software": {
+  "name": "SYNTHETIC fixture server"
+ },
+ "rest": [
+  {
+   "mode": "server",
+   "resource": [
+    {
+     "type": "Patient",
+     "interaction": [
+      {
+       "code": "read"
+      },
+      {
+       "code": "search-type"
+      }
+     ],
+     "searchParam": [
+      {
+       "name": "_id"
+      },
+      {
+       "name": "legacy-id"
+      }
+     ]
+    },
+    {
+     "type": "Coverage",
+     "interaction": [
+      {
+       "code": "read"
+      }
+     ],
+     "searchParam": [
+      {
+       "name": "beneficiary"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
