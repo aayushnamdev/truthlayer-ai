@@ -53,7 +53,7 @@ Hard limit **$1.00** per ledger (`fixes/cost-ledger.json`), checked **before eve
 |---|---|
 | `truthlayer check [--fail-on SEVERITY]` | Find drift and style problems; write `reports/drift-report.md` (plain English, "Fix these first" first) and `.json`. Exit 1 if a finding at or above the threshold exists. |
 | `truthlayer style` | Run only the style rules (`rules/healthplan-style.yml`, SYNTHETIC). |
-| `truthlayer fix [--live] [--max-calls N]` | Make fix proposals (PENDING). MOCK unless `--live` and a key. |
+| `truthlayer fix [--live] [--max-calls N] [--retry-unparseable]` | Make fix proposals (PENDING). MOCK unless `--live` and a key. |
 | `truthlayer ai-test` | One real AI call to measure real tokens before a full run. |
 | `truthlayer review [--pending]` | Show proposals as before/after. |
 | `truthlayer approve ID` / `approve --auto-approve-high` / `reject ID` | Decide. Auto only for HIGH-confidence changes; recorded as approver `auto`. |
@@ -64,9 +64,11 @@ Hard limit **$1.00** per ledger (`fixes/cost-ledger.json`), checked **before eve
 | `truthlayer serve-mcp` | Start the MCP server (see below). |
 | `truthlayer score CSV` | Score against a ground-truth list. Only after tuning is finished. |
 
-Findings have a **label** (WRONG, GHOST, EXAMPLE, MISSING, UNVERIFIABLE) and a **severity** (CRITICAL: removed, renamed or now-required things named in the text; HIGH: wrong examples and rule changes; MEDIUM: missing required items; LOW: missing optional additions). Low-confidence findings say "ask a human".
+Findings have a **label** (WRONG: the text states something now false; NEEDS_NOTE: it only names a changed field; GHOST; EXAMPLE; MISSING; UNVERIFIABLE) and a **severity** (CRITICAL: removed, renamed or now-required things named in the text; HIGH: wrong examples and rule changes; MEDIUM: missing required items; LOW: missing optional additions). Low-confidence findings say "ask a human".
 
 ## Dashboard
+On another device (for example your phone), run `truthlayer app --host 0.0.0.0` and open `http://<your computer's Wi-Fi address>:8501`; there is no password, so use home Wi-Fi only.
+
 `make app` opens a Streamlit page with: **Home** (the bundled Blue Button case, or upload two sets of specs and a docs folder), **Overview** score cards (findings by severity, CMS recall, real drift found, run time, AI cost), **Fix these first** with severity/label filters, **Finding detail** (old booklet text next to the v2 truth with differences highlighted, the AI fix, Approve / Reject), **Downloads** (verified Markdown, `llms.txt`, Word export, audit log) and an **Audit log** viewer. A banner shows MOCK mode when no key is set. The dashboard never calls the AI on page load; it runs only when you press "Ask AI for a fix", inside the cost limit.
 
 ## GitHub Action
@@ -82,6 +84,8 @@ Detection is built and tuned only from the v1/v2 definitions, the docs and SYNTH
 | Findings (all) | 65 | 155 (9 critical, 22 high, 39 medium, 85 low) |
 | Strict precision (on CMS's list) | 43% | 28% (the extra findings are real differences CMS did not list) |
 | Run time | 0.34 s | 0.63 s |
+
+A third score (`reports/results-v3.md`) splits WRONG into WRONG (3) and NEEDS_NOTE (17); recall stays 32 of 35.
 
 The second score was taken after I saw what the first one missed, so it shows known gaps being closed, not an independent test. The real-AI fixer was run once on the Blue Button case: 25 calls, about $0.04; 2 text fixes, 15 correct "nothing to change", 7 unparseable (since fixed in the prompt). See `reports/results-v2.md`.
 

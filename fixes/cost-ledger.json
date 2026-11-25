@@ -1,10 +1,10 @@
 {
  "limit_usd": 1.0,
  "max_calls": 25,
- "spent_usd": 0.088104,
- "calls": 25,
- "input_tokens": 8927,
- "output_tokens": 7025,
+ "spent_usd": 0.119592,
+ "calls": 32,
+ "input_tokens": 12286,
+ "output_tokens": 9502,
  "entries": [
   {
    "label": "test:F-002",
@@ -203,6 +203,62 @@
    "input_tokens": 257,
    "output_tokens": 232,
    "charged_usd": 0.002834,
+   "ok": true,
+   "real_usage": true
+  },
+  {
+   "label": "retry:P-005",
+   "input_tokens": 381,
+   "output_tokens": 400,
+   "charged_usd": 0.004762,
+   "ok": true,
+   "real_usage": true
+  },
+  {
+   "label": "retry:P-008",
+   "input_tokens": 527,
+   "output_tokens": 400,
+   "charged_usd": 0.005054,
+   "ok": true,
+   "real_usage": true
+  },
+  {
+   "label": "retry:P-009",
+   "input_tokens": 411,
+   "output_tokens": 264,
+   "charged_usd": 0.003462,
+   "ok": true,
+   "real_usage": true
+  },
+  {
+   "label": "retry:P-010",
+   "input_tokens": 289,
+   "output_tokens": 400,
+   "charged_usd": 0.004578,
+   "ok": true,
+   "real_usage": true
+  },
+  {
+   "label": "retry:P-011",
+   "input_tokens": 321,
+   "output_tokens": 213,
+   "charged_usd": 0.002772,
+   "ok": true,
+   "real_usage": true
+  },
+  {
+   "label": "retry:P-017",
+   "input_tokens": 741,
+   "output_tokens": 400,
+   "charged_usd": 0.005482,
+   "ok": true,
+   "real_usage": true
+  },
+  {
+   "label": "retry:P-018",
+   "input_tokens": 689,
+   "output_tokens": 400,
+   "charged_usd": 0.005378,
    "ok": true,
    "real_usage": true
   }

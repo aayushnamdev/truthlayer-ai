@@ -138,7 +138,7 @@
    "v2_element": "Eob.patient (mandatory)",
    "status": "caught",
    "labels": [
-    "WRONG"
+    "NEEDS_NOTE"
    ],
    "finding_ids": [
     "F-107"
@@ -155,7 +155,7 @@
    "v2_element": "Eob.referral (mandatory)",
    "status": "caught",
    "labels": [
-    "WRONG"
+    "NEEDS_NOTE"
    ],
    "finding_ids": [
     "F-122"
@@ -258,7 +258,7 @@
    "status": "caught",
    "labels": [
     "MISSING",
-    "WRONG"
+    "NEEDS_NOTE"
    ],
    "finding_ids": [
     "F-044",
@@ -1545,7 +1545,7 @@
   },
   {
    "id": "F-064",
-   "label": "WRONG",
+   "label": "NEEDS_NOTE",
    "confidence": "HIGH",
    "ask_human": false,
    "change_id": "SC-078",
@@ -1571,9 +1571,9 @@
     }
    ],
    "why_confidence": "v1/v2 definitions differ and both capability statements list the resource",
-   "plain_english": "The old booklet describes `ExplanationOfBenefit.billablePeriod` (docs/v1/explanation-of-benefits-fhir.md:90), but in v2 it changed: profile: must-support False -> True.",
-   "severity": "MEDIUM",
-   "why_severity": "the text names something that changed in a minor way",
+   "plain_english": "The old booklet only names `ExplanationOfBenefit.billablePeriod` (docs/v1/explanation-of-benefits-fhir.md:90) and says nothing that is now false, but v2 changed its rules (profile: must-support False -> True). A writer should add a note.",
+   "severity": "LOW",
+   "why_severity": "the text names the field; only a minor rule changed",
    "sub_kinds": [
     "must_support"
    ],
@@ -1582,7 +1582,7 @@
   },
   {
    "id": "F-065",
-   "label": "WRONG",
+   "label": "NEEDS_NOTE",
    "confidence": "HIGH",
    "ask_human": false,
    "change_id": "SC-079",
@@ -1608,9 +1608,9 @@
     }
    ],
    "why_confidence": "v1/v2 definitions differ and both capability statements list the resource",
-   "plain_english": "The old booklet describes `ExplanationOfBenefit.careTeam` (docs/v1/explanation-of-benefits-fhir.md:93), but in v2 it changed: profile: cardinality 1..* -> 0..*.",
-   "severity": "HIGH",
-   "why_severity": "the text names something whose rules changed (profile_cardinality)",
+   "plain_english": "The old booklet only names `ExplanationOfBenefit.careTeam` (docs/v1/explanation-of-benefits-fhir.md:93) and says nothing that is now false, but v2 changed its rules (profile: cardinality 1..* -> 0..*). A writer should add a note.",
+   "severity": "LOW",
+   "why_severity": "the text names the field; only a minor rule changed",
    "sub_kinds": [
     "profile_cardinality"
    ],
@@ -1736,7 +1736,7 @@
   },
   {
    "id": "F-071",
-   "label": "WRONG",
+   "label": "NEEDS_NOTE",
    "confidence": "HIGH",
    "ask_human": false,
    "change_id": "SC-085",
@@ -1762,9 +1762,9 @@
     }
    ],
    "why_confidence": "v1/v2 definitions differ and both capability statements list the resource",
-   "plain_english": "The old booklet describes `ExplanationOfBenefit.diagnosis` (docs/v1/explanation-of-benefits-fhir.md:94), but in v2 it changed: profile: cardinality 0..* -> 1..*; profile: must-support False -> True.",
-   "severity": "CRITICAL",
-   "why_severity": "the text names something that is now required",
+   "plain_english": "The old booklet only names `ExplanationOfBenefit.diagnosis` (docs/v1/explanation-of-benefits-fhir.md:94) and says nothing that is now false, but v2 changed its rules (profile: cardinality 0..* -> 1..*; profile: must-support False -> True). A writer should add a note.",
+   "severity": "MEDIUM",
+   "why_severity": "the text names the field but says nothing about its changed rule; add a note",
    "sub_kinds": [
     "profile_cardinality",
     "profile_now_required",
@@ -1827,7 +1827,7 @@
   },
   {
    "id": "F-075",
-   "label": "WRONG",
+   "label": "NEEDS_NOTE",
    "confidence": "HIGH",
    "ask_human": false,
    "change_id": "SC-089",
@@ -1853,9 +1853,9 @@
     }
    ],
    "why_confidence": "v1/v2 definitions differ and both capability statements list the resource",
-   "plain_english": "The old booklet describes `ExplanationOfBenefit.disposition` (docs/v1/explanation-of-benefits-fhir.md:92), but in v2 it changed: profile: cardinality 1..1 -> 0..1; profile: must-support True -> False.",
-   "severity": "HIGH",
-   "why_severity": "the text names something whose rules changed (profile_cardinality)",
+   "plain_english": "The old booklet only names `ExplanationOfBenefit.disposition` (docs/v1/explanation-of-benefits-fhir.md:92) and says nothing that is now false, but v2 changed its rules (profile: cardinality 1..1 -> 0..1; profile: must-support True -> False). A writer should add a note.",
+   "severity": "LOW",
+   "why_severity": "the text names the field; only a minor rule changed",
    "sub_kinds": [
     "profile_cardinality",
     "must_support"
@@ -1917,7 +1917,7 @@
   },
   {
    "id": "F-078",
-   "label": "WRONG",
+   "label": "NEEDS_NOTE",
    "confidence": "HIGH",
    "ask_human": false,
    "change_id": "SC-092",
@@ -1943,9 +1943,9 @@
     }
    ],
    "why_confidence": "v1/v2 definitions differ and both capability statements list the resource",
-   "plain_english": "The old booklet describes `ExplanationOfBenefit.insurance` (docs/v1/explanation-of-benefits-fhir.md:95), but in v2 it changed: cardinality 0..1 -> 1..*.",
-   "severity": "CRITICAL",
-   "why_severity": "the text names something that is now required",
+   "plain_english": "The old booklet only names `ExplanationOfBenefit.insurance` (docs/v1/explanation-of-benefits-fhir.md:95) and says nothing that is now false, but v2 changed its rules (cardinality 0..1 -> 1..*). A writer should add a note.",
+   "severity": "MEDIUM",
+   "why_severity": "the text names the field but says nothing about its changed rule; add a note",
    "sub_kinds": [
     "cardinality",
     "now_required"
@@ -2008,7 +2008,7 @@
   },
   {
    "id": "F-081",
-   "label": "WRONG",
+   "label": "NEEDS_NOTE",
    "confidence": "LOW",
    "ask_human": true,
    "change_id": "SC-095",
@@ -2210,9 +2210,9 @@
     }
    ],
    "why_confidence": "the booklet's wording matches more than one element",
-   "plain_english": "The old booklet describes `ExplanationOfBenefit.item` (docs/v1/blue-button-v1-stu3-docs.md:850), but in v2 it changed: profile: cardinality 1..* -> 0..*.",
-   "severity": "HIGH",
-   "why_severity": "the text names something whose rules changed (profile_cardinality)",
+   "plain_english": "The old booklet only names `ExplanationOfBenefit.item` (docs/v1/blue-button-v1-stu3-docs.md:850) and says nothing that is now false, but v2 changed its rules (profile: cardinality 1..* -> 0..*). A writer should add a note.",
+   "severity": "LOW",
+   "why_severity": "the text names the field; only a minor rule changed",
    "sub_kinds": [
     "profile_cardinality"
    ],
@@ -2221,7 +2221,7 @@
   },
   {
    "id": "F-082",
-   "label": "WRONG",
+   "label": "NEEDS_NOTE",
    "confidence": "HIGH",
    "ask_human": false,
    "change_id": "SC-096",
@@ -2280,9 +2280,9 @@
     }
    ],
    "why_confidence": "v1/v2 definitions differ and both capability statements list the resource",
-   "plain_english": "The old booklet describes `ExplanationOfBenefit.item.adjudication` (docs/v1/explanation-of-benefits-fhir.md:116), but in v2 it changed: profile: cardinality 1..* -> 2..*; profile: slicing 'none' -> 'sliced by pattern:category; required slices: adjudicationamounttype, inoutnetwork'.",
-   "severity": "HIGH",
-   "why_severity": "the text names something whose rules changed (profile_cardinality, slicing)",
+   "plain_english": "The old booklet only names `ExplanationOfBenefit.item.adjudication` (docs/v1/explanation-of-benefits-fhir.md:116) and says nothing that is now false, but v2 changed its rules (profile: cardinality 1..* -> 2..*; profile: slicing 'none' -> 'sliced by pattern:category; required slices: adjudicationamounttype, inoutnetwork'). A writer should add a note.",
+   "severity": "LOW",
+   "why_severity": "the text names the field; only a minor rule changed",
    "sub_kinds": [
     "profile_cardinality",
     "slicing"
@@ -2418,7 +2418,7 @@
   },
   {
    "id": "F-087",
-   "label": "WRONG",
+   "label": "NEEDS_NOTE",
    "confidence": "HIGH",
    "ask_human": false,
    "change_id": "SC-101",
@@ -2455,9 +2455,9 @@
     }
    ],
    "why_confidence": "v1/v2 definitions differ and both capability statements list the resource",
-   "plain_english": "The old booklet describes `ExplanationOfBenefit.item.category` (docs/v1/explanation-of-benefits-fhir.md:110), but in v2 it changed: value set http://hl7.org/fhir/ValueSet/benefit-subcategory -> http://hl7.org/fhir/ValueSet/ex-benefitcategory.",
-   "severity": "HIGH",
-   "why_severity": "the text names something whose rules changed (value_set)",
+   "plain_english": "The old booklet only names `ExplanationOfBenefit.item.category` (docs/v1/explanation-of-benefits-fhir.md:110) and says nothing that is now false, but v2 changed its rules (value set http://hl7.org/fhir/ValueSet/benefit-subcategory -> http://hl7.org/fhir/ValueSet/ex-benefitcategory). A writer should add a note.",
+   "severity": "MEDIUM",
+   "why_severity": "the text names the field but says nothing about its changed rule; add a note",
    "sub_kinds": [
     "value_set"
    ],
@@ -2716,7 +2716,7 @@
   },
   {
    "id": "F-098",
-   "label": "WRONG",
+   "label": "NEEDS_NOTE",
    "confidence": "HIGH",
    "ask_human": false,
    "change_id": "SC-112",
@@ -2742,9 +2742,9 @@
     }
    ],
    "why_confidence": "v1/v2 definitions differ and both capability statements list the resource",
-   "plain_english": "The old booklet describes `ExplanationOfBenefit.item.location[x]` (docs/v1/explanation-of-benefits-fhir.md:114), but in v2 it changed: profile: value set https://bluebutton.cms.gov/assets/ig/ValueSet-service-place -> http://hl7.org/fhir/ValueSet/service-place; profile: slicing 'sliced by ?' -> 'none'.",
-   "severity": "HIGH",
-   "why_severity": "the text names something whose rules changed (profile_value_set, slicing)",
+   "plain_english": "The old booklet only names `ExplanationOfBenefit.item.location[x]` (docs/v1/explanation-of-benefits-fhir.md:114) and says nothing that is now false, but v2 changed its rules (profile: value set https://bluebutton.cms.gov/assets/ig/ValueSet-service-place -> http://hl7.org/fhir/ValueSet/service-place; profile: slicing 'sliced by ?' -> 'none'). A writer should add a note.",
+   "severity": "LOW",
+   "why_severity": "the text names the field; only a minor rule changed",
    "sub_kinds": [
     "profile_value_set",
     "slicing"
@@ -2754,7 +2754,7 @@
   },
   {
    "id": "F-099",
-   "label": "WRONG",
+   "label": "NEEDS_NOTE",
    "confidence": "HIGH",
    "ask_human": false,
    "change_id": "SC-113",
@@ -2780,9 +2780,9 @@
     }
    ],
    "why_confidence": "v1/v2 definitions differ and both capability statements list the resource",
-   "plain_english": "The old booklet describes `ExplanationOfBenefit.item.modifier` (docs/v1/explanation-of-benefits-fhir.md:112), but in v2 it changed: profile: value set https://bluebutton.cms.gov/assets/ig/ValueSet-claim-modifiers -> http://hl7.org/fhir/us/carin-bb/ValueSet/AMACPTCMSHCPCSModifiers; profile: binding strength example -> required; profile: must-support False -> True.",
-   "severity": "HIGH",
-   "why_severity": "the text names something whose rules changed (profile_binding_strength, profile_value_set)",
+   "plain_english": "The old booklet only names `ExplanationOfBenefit.item.modifier` (docs/v1/explanation-of-benefits-fhir.md:112) and says nothing that is now false, but v2 changed its rules (profile: value set https://bluebutton.cms.gov/assets/ig/ValueSet-claim-modifiers -> http://hl7.org/fhir/us/carin-bb/ValueSet/AMACPTCMSHCPCSModifiers; profile: binding strength example -> required; profile: must-support False -> True). A writer should add a note.",
+   "severity": "LOW",
+   "why_severity": "the text names the field; only a minor rule changed",
    "sub_kinds": [
     "profile_value_set",
     "profile_binding_strength",
@@ -2843,7 +2843,7 @@
   },
   {
    "id": "F-102",
-   "label": "WRONG",
+   "label": "NEEDS_NOTE",
    "confidence": "HIGH",
    "ask_human": false,
    "change_id": "SC-116",
@@ -2869,9 +2869,9 @@
     }
    ],
    "why_confidence": "v1/v2 definitions differ and both capability statements list the resource",
-   "plain_english": "The old booklet describes `ExplanationOfBenefit.item.quantity` (docs/v1/explanation-of-benefits-fhir.md:115), but in v2 it changed: profile: cardinality 1..1 -> 0..1.",
-   "severity": "HIGH",
-   "why_severity": "the text names something whose rules changed (profile_cardinality)",
+   "plain_english": "The old booklet only names `ExplanationOfBenefit.item.quantity` (docs/v1/explanation-of-benefits-fhir.md:115) and says nothing that is now false, but v2 changed its rules (profile: cardinality 1..1 -> 0..1). A writer should add a note.",
+   "severity": "LOW",
+   "why_severity": "the text names the field; only a minor rule changed",
    "sub_kinds": [
     "profile_cardinality"
    ],
@@ -2909,7 +2909,7 @@
   },
   {
    "id": "F-104",
-   "label": "WRONG",
+   "label": "NEEDS_NOTE",
    "confidence": "HIGH",
    "ask_human": false,
    "change_id": "SC-118",
@@ -2935,9 +2935,9 @@
     }
    ],
    "why_confidence": "v1/v2 definitions differ and both capability statements list the resource",
-   "plain_english": "The old booklet describes `ExplanationOfBenefit.item.serviced[x]` (docs/v1/explanation-of-benefits-fhir.md:113), but in v2 it changed: profile: cardinality 1..1 -> 0..1; profile: slicing 'sliced by ?' -> 'sliced by type:$this'.",
-   "severity": "HIGH",
-   "why_severity": "the text names something whose rules changed (profile_cardinality, slicing)",
+   "plain_english": "The old booklet only names `ExplanationOfBenefit.item.serviced[x]` (docs/v1/explanation-of-benefits-fhir.md:113) and says nothing that is now false, but v2 changed its rules (profile: cardinality 1..1 -> 0..1; profile: slicing 'sliced by ?' -> 'sliced by type:$this'). A writer should add a note.",
+   "severity": "LOW",
+   "why_severity": "the text names the field; only a minor rule changed",
    "sub_kinds": [
     "profile_cardinality",
     "slicing"
@@ -3025,7 +3025,7 @@
   },
   {
    "id": "F-111",
-   "label": "WRONG",
+   "label": "NEEDS_NOTE",
    "confidence": "HIGH",
    "ask_human": false,
    "change_id": "SC-125",
@@ -3051,9 +3051,9 @@
     }
    ],
    "why_confidence": "v1/v2 definitions differ and both capability statements list the resource",
-   "plain_english": "The old booklet describes `ExplanationOfBenefit.payment` (docs/v1/explanation-of-benefits-fhir.md:97), but in v2 it changed: profile: cardinality 1..1 -> 0..1; profile: must-support False -> True.",
-   "severity": "HIGH",
-   "why_severity": "the text names something whose rules changed (profile_cardinality)",
+   "plain_english": "The old booklet only names `ExplanationOfBenefit.payment` (docs/v1/explanation-of-benefits-fhir.md:97) and says nothing that is now false, but v2 changed its rules (profile: cardinality 1..1 -> 0..1; profile: must-support False -> True). A writer should add a note.",
+   "severity": "LOW",
+   "why_severity": "the text names the field; only a minor rule changed",
    "sub_kinds": [
     "profile_cardinality",
     "must_support"
@@ -3321,7 +3321,7 @@
   },
   {
    "id": "F-126",
-   "label": "WRONG",
+   "label": "NEEDS_NOTE",
    "confidence": "HIGH",
    "ask_human": false,
    "change_id": "SC-140",
@@ -3347,9 +3347,9 @@
     }
    ],
    "why_confidence": "v1/v2 definitions differ and both capability statements list the resource",
-   "plain_english": "The old booklet describes `ExplanationOfBenefit.status` (docs/v1/explanation-of-benefits-fhir.md:87), but in v2 it changed: cardinality 0..1 -> 1..1; value set version http://hl7.org/fhir/ValueSet/explanationofbenefit-status -> http://hl7.org/fhir/ValueSet/explanationofbenefit-status|4.0.1; profile: value set https://bluebutton.cms.gov/assets/ig/ValueSet-explanationofbenefit-status -> http://hl7.org/fhir/ValueSet/explanationofbenefit-status|4.0.1.",
-   "severity": "CRITICAL",
-   "why_severity": "the text names something that is now required",
+   "plain_english": "The old booklet only names `ExplanationOfBenefit.status` (docs/v1/explanation-of-benefits-fhir.md:87) and says nothing that is now false, but v2 changed its rules (cardinality 0..1 -> 1..1; value set version http://hl7.org/fhir/ValueSet/explanationofbenefit-status -> http://hl7.org/fhir/ValueSet/explanationofbenefit-status|4.0.1; profile: value set https://bluebutton.cms.gov/assets/ig/ValueSet-explanationofbenefit-status -> http://hl7.org/fhir/ValueSet/explanationofbenefit-status|4.0.1). A writer should add a note.",
+   "severity": "MEDIUM",
+   "why_severity": "the text names the field but says nothing about its changed rule; add a note",
    "sub_kinds": [
     "cardinality",
     "now_required",

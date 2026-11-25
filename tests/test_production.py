@@ -209,3 +209,15 @@ def test_makefile_targets_and_config_file():
 
 def test_no_license_file_added():
     assert not (REPO / "LICENSE").exists() and not (REPO / "LICENSE.md").exists()
+
+
+def test_app_host_option(monkeypatch):
+    import subprocess
+    seen = {}
+    monkeypatch.setattr(subprocess, "call", lambda args: seen.setdefault("args", args) and 0)
+    CliRunner().invoke(cli.main, ["app", "--host", "0.0.0.0", "--port", "8123"])
+    a = seen["args"]
+    assert a[a.index("--server.address") + 1] == "0.0.0.0" and a[a.index("--server.port") + 1] == "8123"
+    seen.clear()
+    CliRunner().invoke(cli.main, ["app"])
+    assert seen["args"][seen["args"].index("--server.address") + 1] == "127.0.0.1"      # safe default

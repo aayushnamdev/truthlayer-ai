@@ -89,11 +89,21 @@ def style(ctx: click.Context) -> None:
 @main.command()
 @click.option("--live", is_flag=True, help="Really call the AI (needs ANTHROPIC_API_KEY). Without it: MOCK mode.")
 @click.option("--max-calls", type=int, default=None, help="Extra cap on AI calls for this run.")
+@click.option("--retry-unparseable", is_flag=True, help="Re-ask ONLY the proposals whose AI reply was unreadable (needs --live).")
+@click.option("--extra-calls", type=int, default=7, show_default=True, help="With --retry-unparseable: calls allowed beyond the cap.")
+@click.option("--extra-usd", type=float, default=0.10, show_default=True, help="With --retry-unparseable: extra spend allowed.")
 @click.pass_context
 @friendly
-def fix(ctx: click.Context, live: bool, max_calls: int | None) -> None:
+def fix(ctx: click.Context, live: bool, max_calls: int | None, retry_unparseable: bool, extra_calls: int, extra_usd: float) -> None:
     """Make fix proposals (PENDING). MOCK mode unless --live. Stays inside the cost limit in truthlayer.yml."""
     cfg = _cfg(ctx)
+    if retry_unparseable:
+        if not (live and fixer.has_key()):
+            raise ValueError("--retry-unparseable needs --live and ANTHROPIC_API_KEY")
+        a, _ = pipeline.check(cfg)
+        r = fixer.retry_unparseable(a, cfg, load_settings(cfg.root), extra_calls=extra_calls, extra_usd=extra_usd)
+        click.echo(json.dumps(r, indent=1))
+        return
     a, _ = pipeline.check(cfg)
     data = fixer.propose_fixes(a, cfg, live=live, limit_calls=max_calls)
     m = data["meta"]
@@ -219,13 +229,16 @@ def serve_mcp(ctx: click.Context) -> None:
 
 @main.command()
 @click.option("--port", default=8501, type=int)
+@click.option("--host", default="127.0.0.1", show_default=True,
+              help="Use 0.0.0.0 to open the dashboard from other devices on your Wi-Fi (for example your phone).")
 @click.pass_context
 @friendly
-def app(ctx: click.Context, port: int) -> None:
+def app(ctx: click.Context, port: int, host: str) -> None:
     """Start the web dashboard (Streamlit)."""
     import subprocess
     script = Path(__file__).resolve().parent / "dashboard.py"
     sys.exit(subprocess.call([sys.executable, "-m", "streamlit", "run", str(script), "--server.port", str(port),
+                              "--server.address", host, "--server.headless", "true",
                               "--", "--root", str(Path(ctx.obj["root"]).resolve())]))
 
 

@@ -2,7 +2,20 @@
 import pytest
 from conftest import FX
 
-from truthlayer.drift import CRITICAL, EXAMPLE, GHOST, HIGH, LOW, MEDIUM, MISSING, UNVERIFIABLE, WRONG, fix_first, write_reports
+from truthlayer.drift import (
+    CRITICAL,
+    EXAMPLE,
+    GHOST,
+    HIGH,
+    LOW,
+    MEDIUM,
+    MISSING,
+    NEEDS_NOTE,
+    UNVERIFIABLE,
+    WRONG,
+    fix_first,
+    write_reports,
+)
 from truthlayer.fhir_adapter import Element, apply_profiles, load_definitions, load_maps, load_profile_overlay
 from truthlayer.maps import parse_version_map
 from truthlayer.specdiff import POSSIBLE_RENAME, RENAMED, diff_elements, rule_diffs
@@ -21,8 +34,8 @@ def test_value_set_and_binding_strength_change(analysis):
 
 
 def test_reference_target_change(analysis):
-    f = get(analysis, WRONG, "Patient.managingOrganization")[0]
-    assert "target_type" in f.sub_kinds and f.severity == HIGH
+    f = get(analysis, NEEDS_NOTE, "Patient.managingOrganization")[0]
+    assert "target_type" in f.sub_kinds and f.severity == MEDIUM
 
 
 def test_profile_rules_slicing_must_support_required_slice(analysis):
@@ -147,3 +160,45 @@ def test_invalid_json_gives_clear_error(tmp_path):
     notsd.write_text('{"resourceType": "Patient"}')
     with pytest.raises(ValueError, match="not a FHIR StructureDefinition"):
         load_definitions([notsd])
+
+
+# ---- NEEDS_NOTE: WRONG means the text states something now false
+def test_wrong_needs_a_false_statement_needs_note_does_not(analysis):
+    # table says "Optional." and the field is now required: a false statement -> WRONG
+    assert get(analysis, WRONG, "Patient.active")
+    # prose says "value set" and the value set changed -> WRONG
+    assert get(analysis, WRONG, "Patient.gender")
+    # prose only names `managingOrganization`: nothing false -> NEEDS_NOTE, not WRONG
+    assert get(analysis, NEEDS_NOTE, "Patient.managingOrganization")
+    assert not get(analysis, WRONG, "Patient.managingOrganization")
+    # renames are always false statements
+    assert get(analysis, WRONG, "Patient.dob") and get(analysis, WRONG, "Patient.phoneNumber")
+
+
+def test_needs_note_is_not_sent_to_the_fixer_or_fix_first(analysis):
+    from truthlayer import fixer
+    from truthlayer.settings import Settings
+    sent = {f.id for f in fixer.candidates(analysis, Settings())}
+    nn = {f.id for f in analysis.findings if f.label == NEEDS_NOTE}
+    assert nn and not (sent & nn)
+    assert not ({f.id for f in fix_first(analysis.findings)} & nn)
+
+
+def test_needs_note_in_report_and_english(analysis, cfg):
+    md, _ = write_reports(analysis, cfg)
+    text = md.read_text()
+    assert "## NEEDS_NOTE" in text and "a writer should add" in text.lower()
+    f = get(analysis, NEEDS_NOTE, "Patient.managingOrganization")[0]
+    assert "says nothing that is now false" in f.plain_english
+
+
+def test_makes_claim_unit():
+    from truthlayer.claims import makes_claim
+    assert not makes_claim(["cardinality", "now_required"], "insurance")
+    assert makes_claim(["cardinality"], "This field is optional.")
+    assert makes_claim(["cardinality"], "Allowed: 0..1")
+    assert not makes_claim(["value_set"], "status")
+    assert makes_claim(["value_set"], "uses this value set")
+    assert makes_claim(["target_type"], "a reference to the clinic")
+    assert not makes_claim(["must_support"], "careTeam")
+    assert makes_claim(["something_unknown"], "x")            # unknown change kinds stay cautious

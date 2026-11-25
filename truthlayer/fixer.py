@@ -12,6 +12,7 @@ import logging
 import os
 import re
 import time
+from dataclasses import replace
 from typing import Any, Callable
 
 from . import audit
@@ -258,3 +259,59 @@ def propose_one(a: Analysis, cfg: Config, settings: Settings, finding_id: str, l
     p_path.write_text(json.dumps(data, indent=1))
     audit.log(cfg.audit_file, "proposal", item=pid, model=p["model"], prompt_hash=ph, finding=f.id, mode=m)
     return p
+
+
+def retry_unparseable(a: Analysis, cfg: Config, settings: Settings, client: Any = None, extra_calls: int = 7,
+                      extra_usd: float = 0.10, sleep: Callable[[float], None] = time.sleep) -> dict[str, Any]:
+    """Re-ask ONLY the proposals whose AI reply could not be read. Has its own caps on top of the ledger:
+    at most `extra_calls` calls and `extra_usd` more spend (charged basis). Approval status is kept."""
+    p_path = cfg.fixes_dir / "proposals.json"
+    if not p_path.exists():
+        raise FileNotFoundError(f"no proposals file at {p_path}; run `truthlayer fix --live` first")
+    data: dict[str, Any] = json.loads(p_path.read_text())
+    targets = [p for p in data["proposals"] if p["mode"] == "LIVE" and str(p["reason"]).startswith("unparseable")][:extra_calls]
+    ledger = Budget(cfg.fixes_dir / "cost-ledger.json", settings.ai)
+    before_spent, before_calls = ledger.spent, int(ledger.data["calls"])
+    ai2 = replace(settings.ai, max_calls=before_calls + extra_calls, cost_limit_usd=round(before_spent + extra_usd, 6))
+    lc = LiveClient(replace(settings, ai=ai2), Budget(cfg.fixes_dir / "cost-ledger.json", ai2), sleep, client)
+    fixed = still_bad = unchanged = 0
+    stopped = ""
+    for p in targets:
+        f = next((x for x in a.findings if x.id == p["finding_id"]), None)
+        if f is None:
+            continue
+        prompt = build_prompt(p["original"], f.v2_def, f.detail, f.v1_element, f.v2_element)
+        try:
+            revised, reason, ti, to = lc.call(prompt, f"retry:{p['id']}")
+        except BudgetExceeded as exc:
+            stopped = str(exc)
+            break
+        except AIUnavailable as exc:
+            revised, reason, ti, to = "", str(exc), 0, 0
+        p["input_tokens"] += ti
+        p["output_tokens"] += to
+        p["prompt_hash"] = audit.sha256_text(prompt)
+        p["retried"] = True
+        if reason.startswith("unparseable") or not revised:
+            still_bad += 1
+            p["reason"] = reason or "unparseable reply (retry)"
+        else:
+            p["proposed"], p["reason"] = revised, reason
+            p["changed"] = revised.strip() != p["original"].strip()
+            fixed += 1 if p["changed"] else 0
+            unchanged += 0 if p["changed"] else 1
+        audit.log(cfg.audit_file, "proposal_retry", item=p["id"], model=settings.ai.model, prompt_hash=p["prompt_hash"])
+    final = Budget(cfg.fixes_dir / "cost-ledger.json", ai2)
+    spent_now = final.spent - before_spent
+    real = round((sum(e["input_tokens"] or 0 for e in final.data["entries"][-len(targets):]) * settings.ai.price_in_per_mtok
+                  + sum(e["output_tokens"] or 0 for e in final.data["entries"][-len(targets):]) * settings.ai.price_out_per_mtok) / 1e6, 6)
+    data["meta"]["budget"] = {"limit_usd": settings.ai.cost_limit_usd, "charged_usd": round(final.spent, 6),
+                              "remaining_usd": round(settings.ai.cost_limit_usd - final.spent, 6),
+                              "calls_total": final.data["calls"], "max_calls": settings.ai.max_calls}
+    data["meta"]["input_tokens"] = sum(p["input_tokens"] for p in data["proposals"])
+    data["meta"]["output_tokens"] = sum(p["output_tokens"] for p in data["proposals"])
+    p_path.write_text(json.dumps(data, indent=1))
+    return {"retried": len(targets), "fixed": fixed, "unchanged_ok": unchanged, "still_unparseable": still_bad,
+            "stopped": stopped, "charged_usd": round(spent_now, 6), "cost_usd_at_assumed_prices": real,
+            "input_tokens": sum(e["input_tokens"] or 0 for e in final.data["entries"][-len(targets):]),
+            "output_tokens": sum(e["output_tokens"] or 0 for e in final.data["entries"][-len(targets):])}

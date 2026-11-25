@@ -1,10 +1,12 @@
 """1D + A1/A3/A4/A6. Label each piece of drift and give it a severity. Deterministic.
 
 Labels
-  WRONG         the booklet's text names something that still exists but changed (or was renamed).
+  WRONG         the booklet's text STATES something that is now false (a renamed name, or a claim about a rule that changed).
   GHOST         the text describes something that is gone in v2 with no replacement.
   EXAMPLE       the old name only appears inside a sample (JSON / code), not in prose.
   MISSING       something changed or is new in v2 and the booklet never mentions it.
+  NEEDS_NOTE    the text only NAMES a field whose rules changed and states nothing that is now false
+                (a list item, table cell or heading). A writer should add the new rule; no wording is wrong.
   UNVERIFIABLE  a statement no spec can prove (HTTP headers, policies); a human must check it.
 
 Severity
@@ -23,6 +25,7 @@ from pathlib import Path
 from typing import Any
 
 from . import audit
+from .claims import makes_claim
 from .config import Config
 from .docmap import PROSE_KINDS, Block, Index, Mention, find_mentions, parse_json_sample, parse_markdown
 from .fhir_adapter import Element, apply_profiles, load_capability, load_definitions, load_maps, load_profile_overlay, load_types
@@ -32,6 +35,7 @@ from .unverifiable import find_unverifiable
 log = logging.getLogger("truthlayer.drift")
 
 WRONG, EXAMPLE, MISSING, GHOST, UNVERIFIABLE = "WRONG", "EXAMPLE", "MISSING", "GHOST", "UNVERIFIABLE"
+NEEDS_NOTE = "NEEDS_NOTE"
 CRITICAL, HIGH, MEDIUM, LOW = "CRITICAL", "HIGH", "MEDIUM", "LOW"
 SEVERITY_RANK = {CRITICAL: 0, HIGH: 1, MEDIUM: 2, LOW: 3}
 RULE_KINDS = {"value_set", "binding_strength", "fixed_default", "target_type", "slicing", "type", "cardinality",
@@ -124,6 +128,10 @@ def _severity(label: str, ch: SpecChange, v2: dict[str, Element]) -> tuple[str, 
         if sk & RULE_KINDS:
             return HIGH, "the text names something whose rules changed (" + ", ".join(sorted(sk & RULE_KINDS)) + ")"
         return MEDIUM, "the text names something that changed in a minor way"
+    if label == NEEDS_NOTE:
+        if sk & {"now_required", "profile_now_required", "cardinality", "value_set", "type", "target_type"}:
+            return MEDIUM, "the text names the field but says nothing about its changed rule; add a note"
+        return LOW, "the text names the field; only a minor rule changed"
     if label == EXAMPLE:
         if sk and sk <= {"must_support", "value_set_version"}:
             return MEDIUM, "a sample is only affected by a minor profile flag"
@@ -173,6 +181,7 @@ def analyse(cfg: Config) -> Analysis:
                     out.append(m); break
         return out
 
+    text_of = {b.id: b.text for b in blocks}
     n = 0
     for ch in changes:
         ms = matching(ch) if ch.v1_path else []
@@ -181,8 +190,15 @@ def analyse(cfg: Config) -> Analysis:
         if ms:
             if ch.kind == REMOVED and ch.category != "interaction":
                 label = GHOST if prose else EXAMPLE
-            elif ch.kind == CHANGED or ch.kind in RENAME_KINDS:
+            elif ch.kind in RENAME_KINDS:
                 label = WRONG if prose else EXAMPLE
+            elif ch.kind == CHANGED:
+                if not prose:
+                    label = EXAMPLE
+                elif any(makes_claim(ch.sub_kinds, text_of.get(m.block_id, m.text)) for m in prose):
+                    label = WRONG
+                else:
+                    label = NEEDS_NOTE
         else:
             only_version = bool(ch.sub_kinds) and set(ch.sub_kinds) <= {"value_set_version"}
             if ch.category == "element" and ch.kind in (ADDED, CHANGED, *RENAME_KINDS) and not only_version:
@@ -251,6 +267,9 @@ def _english(f: Finding) -> str:
     if f.label == WRONG and f.change_kind in RENAME_KINDS:
         sure = "confirmed by HL7's official map" if f.change_kind == RENAMED_KIND else "a guess; a human should confirm"
         return f"The old booklet talks about `{old}` ({where}). In v2 it is now `{new}` ({sure})."
+    if f.label == NEEDS_NOTE:
+        return (f"The old booklet only names `{old}` ({where}) and says nothing that is now false, but v2 changed its rules "
+                f"({f.detail}). A writer should add a note.")
     if f.label == WRONG:
         return f"The old booklet describes `{old}` ({where}), but in v2 it changed: {f.detail}."
     if f.label == GHOST:
@@ -292,8 +311,9 @@ def write_reports(a: Analysis, cfg: Config, style_findings: list | None = None) 
           f"{by_sev.get(MEDIUM, 0)} medium, {by_sev.get(LOW, 0)} low. "
           f"{conf.get('HIGH', 0)} are high confidence; {conf.get('LOW', 0)} are marked \"ask a human\".", "",
           f"By label: {len(L.get(WRONG, []))} wrong, {len(L.get(GHOST, []))} ghost, {len(L.get(EXAMPLE, []))} example, "
-          f"{len(L.get(MISSING, []))} missing, {len(L.get(UNVERIFIABLE, []))} unverifiable.", "",
-          "- **WRONG**: the text names something that still exists but changed (or was renamed).",
+          f"{len(L.get(NEEDS_NOTE, []))} needs-note, {len(L.get(MISSING, []))} missing, {len(L.get(UNVERIFIABLE, []))} unverifiable.", "",
+          "- **WRONG**: the text states something that is now false (a renamed name, or a claim about a rule that changed).",
+          "- **NEEDS_NOTE**: the text only names a field whose rules changed and says nothing false; a writer should add the rule.",
           "- **GHOST**: the text describes something that is gone in v2.",
           "- **EXAMPLE**: only a sample/code block shows the old name.",
           "- **MISSING**: v2 adds or changes it and the booklet is silent.",
@@ -309,8 +329,8 @@ def write_reports(a: Analysis, cfg: Config, style_findings: list | None = None) 
         md.append(f"1. **{f.severity}** · {f.label} · {f.confidence}{' (ask a human)' if f.ask_human else ''} · "
                   f"`{f.v1_element or f.v2_element}` · {w}  \n   {f.plain_english}")
     md.append("")
-    for label in (WRONG, GHOST, EXAMPLE):
-        fs = [f for f in L.get(label, []) if f.severity != LOW]
+    for label in (WRONG, GHOST, EXAMPLE, NEEDS_NOTE):
+        fs = [f for f in L.get(label, []) if f.severity != LOW or label == NEEDS_NOTE]
         md += [f"## {label} ({len(fs)})", ""]
         if not fs:
             md += ["None.", ""]

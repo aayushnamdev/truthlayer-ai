@@ -10,7 +10,10 @@ FX = Path(__file__).parent / "fixtures"
 
 @pytest.fixture(autouse=True)
 def no_api_key(monkeypatch):
+    """Tests never use a real key: clear it and stop the CLI from reading a developer's .env file."""
     monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+    import truthlayer.cli
+    monkeypatch.setattr(truthlayer.cli, "load_dotenv", lambda root=".": 0)
 
 
 @pytest.fixture

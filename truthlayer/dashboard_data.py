@@ -8,7 +8,7 @@ from pathlib import Path
 from typing import Any
 
 SEVERITIES = ["CRITICAL", "HIGH", "MEDIUM", "LOW"]
-LABELS = ["WRONG", "GHOST", "EXAMPLE", "MISSING", "UNVERIFIABLE"]
+LABELS = ["WRONG", "GHOST", "EXAMPLE", "NEEDS_NOTE", "MISSING", "UNVERIFIABLE"]
 SEV_COLOR = {"CRITICAL": "#b42318", "HIGH": "#c4320a", "MEDIUM": "#b54708", "LOW": "#475467"}
 
 

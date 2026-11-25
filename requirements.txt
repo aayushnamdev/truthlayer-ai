@@ -1,0 +1,2 @@
+# Used by Streamlit Community Cloud (and plain pip): installs TruthLayer with its pinned dependencies.
+-e .

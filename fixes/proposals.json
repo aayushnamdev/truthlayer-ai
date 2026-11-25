@@ -2,15 +2,15 @@
  "meta": {
   "mode": "LIVE",
   "model": "claude-haiku-5-5",
-  "input_tokens": 8644,
-  "output_tokens": 6813,
+  "input_tokens": 12003,
+  "output_tokens": 9290,
   "calls_this_run": 24,
   "estimated_cost_usd": 0.044052,
   "budget": {
    "limit_usd": 1.0,
-   "charged_usd": 0.088104,
-   "remaining_usd": 0.911896,
-   "calls_total": 25,
+   "charged_usd": 0.119592,
+   "remaining_usd": 0.880408,
+   "calls_total": 32,
    "max_calls": 25
   },
   "stopped": "stopped before the call that would exceed the budget: call limit reached (25 calls)",
@@ -137,10 +137,11 @@
    "changed": false,
    "reason": "unparseable reply",
    "prompt_hash": "0f62bc197592f144b7e15710691885fc762ccb13854a0392d8ecdd7100f0385b",
-   "input_tokens": 354,
-   "output_tokens": 400,
+   "input_tokens": 735,
+   "output_tokens": 800,
    "publishable": true,
-   "approver": ""
+   "approver": "",
+   "retried": true
   },
   {
    "id": "P-006",
@@ -212,10 +213,11 @@
    "changed": false,
    "reason": "unparseable reply",
    "prompt_hash": "397f7fd92de748709da1da1a388392b972ecc01ca952377fdf690d81d591d1e2",
-   "input_tokens": 500,
-   "output_tokens": 400,
+   "input_tokens": 1027,
+   "output_tokens": 800,
    "publishable": true,
-   "approver": ""
+   "approver": "",
+   "retried": true
   },
   {
    "id": "P-009",
@@ -233,14 +235,15 @@
    "element": "ExplanationOfBenefit.item.service",
    "v2_element": "ExplanationOfBenefit.item.productOrService",
    "original": "<code>\n\"service\": {\n\"coding\": [{\n\"system\": \"https://www.cms.gov/Medicare/Coding/MedHCPCSGenInfo/index.html\",\n\"version\": \"0\",\n\"code\": \"99215\"\n</code>",
-   "proposed": "<code>\n\"service\": {\n\"coding\": [{\n\"system\": \"https://www.cms.gov/Medicare/Coding/MedHCPCSGenInfo/index.html\",\n\"version\": \"0\",\n\"code\": \"99215\"\n</code>",
-   "changed": false,
-   "reason": "unparseable reply",
+   "proposed": "\"productOrService\": {\n\"coding\": [{\n\"system\": \"https://www.cms.gov/Medicare/Coding/MedHCPCSGenInfo/index.html\",\n\"version\": \"0\",\n\"code\": \"99215\"\n</code>",
+   "changed": true,
+   "reason": "The element was renamed from service to productOrService in v2, so the JSON key is updated.",
    "prompt_hash": "5fee3aae0283a69c3353c357987f6b1aca0c3987ab9e0f6da47f0918b2eded53",
-   "input_tokens": 384,
-   "output_tokens": 400,
+   "input_tokens": 795,
+   "output_tokens": 664,
    "publishable": true,
-   "approver": ""
+   "approver": "",
+   "retried": true
   },
   {
    "id": "P-010",
@@ -262,10 +265,11 @@
    "changed": false,
    "reason": "unparseable reply",
    "prompt_hash": "272c5c49a1a5d994d0468ddfe06705db52172b4918ea5105594a5dd861372eaf",
-   "input_tokens": 262,
-   "output_tokens": 400,
+   "input_tokens": 551,
+   "output_tokens": 800,
    "publishable": false,
-   "approver": ""
+   "approver": "",
+   "retried": true
   },
   {
    "id": "P-011",
@@ -285,12 +289,13 @@
    "original": "                        }\n                    ]\n                },\n                \"beneficiary\": {\n                    \"reference\": \"Patient/20140000008325\"\n                },\n                \"grouping\": {",
    "proposed": "                        }\n                    ]\n                },\n                \"beneficiary\": {\n                    \"reference\": \"Patient/20140000008325\"\n                },\n                \"grouping\": {",
    "changed": false,
-   "reason": "unparseable reply",
+   "reason": "Passage shows only the beneficiary reference; cardinality and must-support changes don't contradict it.",
    "prompt_hash": "b1db6f1346d74ca06bd419787d356550c941e10cde5379d8fd7ba3586fc139c2",
-   "input_tokens": 294,
-   "output_tokens": 400,
+   "input_tokens": 615,
+   "output_tokens": 613,
    "publishable": false,
-   "approver": ""
+   "approver": "",
+   "retried": true
   },
   {
    "id": "P-012",
@@ -437,10 +442,11 @@
    "changed": false,
    "reason": "unparseable reply",
    "prompt_hash": "da0a4550099ac2ce0ec6d6252dcf4aef1e34677df03f8a33a02e745cbc928220",
-   "input_tokens": 714,
-   "output_tokens": 400,
+   "input_tokens": 1455,
+   "output_tokens": 800,
    "publishable": true,
-   "approver": ""
+   "approver": "",
+   "retried": true
   },
   {
    "id": "P-018",
@@ -462,10 +468,11 @@
    "changed": false,
    "reason": "unparseable reply",
    "prompt_hash": "fe1987641851e10bef9957c6483170f0592c601634a95145345b28cc5347e74d",
-   "input_tokens": 662,
-   "output_tokens": 400,
+   "input_tokens": 1351,
+   "output_tokens": 800,
    "publishable": true,
-   "approver": ""
+   "approver": "",
+   "retried": true
   },
   {
    "id": "P-019",

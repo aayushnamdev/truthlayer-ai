@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.0
+- New label NEEDS_NOTE; WRONG now means the text states something false. Third score in `reports/results-v3.md`.
+- `truthlayer fix --live --retry-unparseable`; `truthlayer app --host`; `requirements.txt`.
+
 ## 1.0.0 (branch `v1-production`)
 ### Detection
 - Every finding has a severity (CRITICAL, HIGH, MEDIUM, LOW). The report opens with "Fix these first" (max 15); LOW items are in an appendix by resource.
