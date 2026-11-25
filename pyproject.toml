@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "truthlayer"
+version = "0.1.0"
+description = "TruthLayer AI: verify API docs after an API changes, fix only what broke, republish verified docs."
+requires-python = ">=3.11"
+dependencies = ["click", "PyYAML", "python-docx", "anthropic", "mcp>=2"]
+
+[project.optional-dependencies]
+test = ["pytest"]
+
+[project.scripts]
+truthlayer = "truthlayer.cli:main"
+
+[tool.setuptools]
+packages = ["truthlayer"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

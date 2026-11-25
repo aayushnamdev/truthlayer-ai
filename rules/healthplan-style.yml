@@ -8,8 +8,8 @@ rules:
   - id: HP-001
     name: Use "member" not "patient" in prose
     check: regex
-    pattern: '\b[Pp]atients?\b'
-    scope: prose            # excludes code blocks, endpoint paths and FHIR resource names (e.g. Patient)
+    pattern: '\bpatients?\b'
+    scope: prose            # lowercase words in prose only: code, endpoint paths and FHIR resource names (Patient) are skipped
     severity: warning
   - id: HP-002
     name: Dates in prose use YYYY-MM-DD
