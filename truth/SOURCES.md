@@ -29,8 +29,9 @@ All files below are verbatim public CMS material, or Markdown conversions of CMS
 
 | File | Status | SHA256 |
 |---|---|---|
+| `tests/fixtures/*` | **SYNTHETIC** invented test data | (many small files; not hashed one by one) |
 | `truth/v1-v2-changes.csv` | Compiled by TruthLayer from the CMS sources above; each row cites its source_url | `14f101e28aa0b6f9aa3a1355b4cbff075ffdc36d6e52f0648488d6d9ecb08df6` |
-| `rules/healthplan-style.yml` | **SYNTHETIC** | `3c2ccd72fc7d7aa60cbe2f170ed285b9c2b896c372a56f366b8b2880df01c022` |
+| `rules/healthplan-style.yml` | **SYNTHETIC** (edited in Phase 3-5: rule HP-001 now matches lowercase only) | `f008bf4144ff946749a1d899e727c584cfb9a7272887822da837bdf2fbed0856` |
 
 ## v1 docs recovery (Phase 1b) — source: CMSgov/bluebutton-site-static git history
 
@@ -44,6 +45,21 @@ Repo https://github.com/CMSgov/bluebutton-site-static, snapshot commit `f9391f11
 | `data/v1/sample-coverage-entry.json` | https://github.com/CMSgov/bluebutton-site-static/blob/f9391f119db329a9d308da8652e7be8a8c4a842a/sample-coverage-entry.json; snapshot commit f9391f119db329a9d308da8652e7be8a8c4a842a | 2026-11-25 | `114f8e975804f7da44207570f94776f166822f084894de3d74ca83d485b5106e` |
 
 Notes: `sample-eob-entry.json` from the same commit was NOT saved because CMS published it as invalid JSON (trailing extra data). `docs/v1/terms-v1.md` above remains the live-site v1 terms page. `/checklist/` and `/guide/` (production access) are linked from the v1 page but never mention v1/STU3, so they were not recovered.
+
+## FHIR definitions (Phase 3-5) — official HL7 files, used by the drift checker
+
+| File | Origin | Fetched | SHA256 |
+|---|---|---|---|
+| `data/fhir-defs/STU3-patient.json` | https://hl7.org/fhir/STU3/patient.profile.json | 2026-11-25 | `785809db7242f260ea1a8bf967eae6b9f05e914f971f150ec7e29e0fb94a6191` |
+| `data/fhir-defs/STU3-coverage.json` | https://hl7.org/fhir/STU3/coverage.profile.json | 2026-11-25 | `48690c85cc2e4d188e19ac04ae3b9f99a1ec35f9a333a40abe7447315c7d7a4e` |
+| `data/fhir-defs/STU3-explanationofbenefit.json` | https://hl7.org/fhir/STU3/explanationofbenefit.profile.json | 2026-11-25 | `1baa1b00ff7b16bf0347dfe26deaed4f294570dc262975e77b5d4a4992a1db26` |
+| `data/fhir-defs/resource-types-STU3.json` | derived by TruthLayer (name list only) from https://hl7.org/fhir/STU3/profiles-resources.json | 2026-11-25 | `2b9f658dddb21d6c0ccc898f0a9fffe8d6a7d8b75c29160df7f172e6d7e9806a` |
+| `data/fhir-defs/R4-patient.json` | https://hl7.org/fhir/R4/patient.profile.json | 2026-11-25 | `c60e7a581b7b311d37b4baf0edb87183f3f41242ee3ad8d7fffd3ce79f0a5458` |
+| `data/fhir-defs/R4-coverage.json` | https://hl7.org/fhir/R4/coverage.profile.json | 2026-11-25 | `a0f97e7bb1109648dbb9305a170aa1e11de40a8bb793e52079b87d51b4fad962` |
+| `data/fhir-defs/R4-explanationofbenefit.json` | https://hl7.org/fhir/R4/explanationofbenefit.profile.json | 2026-11-25 | `493b5d4e25352bdafa7703b1e552840e49ad4c2b27e7f7d32b47465bbf6f687e` |
+| `data/fhir-defs/resource-types-R4.json` | derived by TruthLayer (name list only) from https://hl7.org/fhir/R4/profiles-resources.json | 2026-11-25 | `d5a66f215c7a1d1bd1639351bb469a8490718c8eccd1a27bd0b3e78207a2bc90` |
+
+The `resource-types-*.json` files are lists of resource names extracted from the HL7 bundles (the full 23-35 MB bundles were not kept).
 
 ## Failures and gaps
 

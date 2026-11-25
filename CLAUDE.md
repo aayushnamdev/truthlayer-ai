@@ -8,7 +8,7 @@ Real test case: the **CMS Blue Button 2.0 Medicare API**, moving from **v1 (FHIR
 **v2 (FHIR R4)**.
 
 ## Current phase
-**Phase 1 — "Gather the truth".** Only collect real, public data. Do not build the tool yet.
+Phases 1-2 (collect public data, recover v1 docs) are done. **Phases 3-5 are built** on branch `phase-3-5`: the tool, tests, and a scored run (`reports/results.md`).
 
 ## Folder structure
 | Path | Contents |
@@ -18,9 +18,27 @@ Real test case: the **CMS Blue Button 2.0 Medicare API**, moving from **v1 (FHIR
 | `docs/v1/`, `docs/v2/` | Public CMS documentation saved as Markdown (the "booklet" to be checked) |
 | `truth/` | Ground truth: `v1-v2-changes.csv`, `SOURCES.md`, `PHASE1-REPORT.md`, `sources/` (raw copies of CMS source docs) |
 | `rules/` | Client style rules (SYNTHETIC) |
+| `data/fhir-defs/` | Official HL7 StructureDefinitions (STU3, R4) for Patient, Coverage, EOB, plus resource-name lists |
+| `truthlayer/` | The Python package (CLI `truthlayer`) |
+| `tests/`, `tests/fixtures/` | pytest tests; invented SYNTHETIC fixtures |
+| `reports/`, `fixes/`, `publish/`, `audit/` | Outputs: drift report + results, fix proposals, published docs, audit log |
 
 ## Rules
 1. Use only public CMS material. Never invent data.
 2. Every saved file must be listed in `truth/SOURCES.md` with its URL, fetch date and SHA256 hash.
 3. Anything we write ourselves (not from CMS) must be marked **SYNTHETIC**.
 4. Ground truth lists only changes CMS explicitly states; do not infer changes.
+
+## Architecture (package `truthlayer`)
+`fhir_adapter` (read definitions + capability) -> `specdiff` (ADDED/REMOVED/CHANGED/POSSIBLE_RENAME, search params) ->
+`docmap` (parse booklet into located blocks, find element mentions) -> `drift` (WRONG/EXAMPLE/MISSING/GHOST + HIGH/LOW, reports) ->
+`style` (rule engine) -> `fixer` (AI only here; MOCK mode without key) -> `approval` (nothing publishes unless APPROVED) ->
+`publisher` (pages, llms files, docx) -> `mcp_server` (serves publish/ and reports/ only). `audit` logs every step; `pipeline` glues; `cli` is the command line; `score` is used only at the scoring step.
+
+## Commands
+`truthlayer check | style | fix | review | approve [ID | --auto-approve-high] | reject ID | publish | run | demo | serve-mcp | score CSV`. Tests: `pytest`.
+
+## Extra rules for Phases 3-5
+5. Detection is deterministic code. AI is used only in `fixer`.
+6. **Honesty rule:** do not read `truth/v1-v2-changes.csv` while building or tuning detection. Score once with `truthlayer score`, report that score unchanged, and report any later improvement separately with what changed.
+7. Invented test data goes in `tests/fixtures/` and is marked SYNTHETIC.
