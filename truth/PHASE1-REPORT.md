@@ -50,7 +50,7 @@ Rows with "example" evidence come from CMS lists that give only examples. For in
 
 1. **Postman collection**: HTTP 404 on both `bluebutton.cms.gov` and `api.bluebutton.cms.gov`. It is not in the CMSgov repos I cloned either. Not saved.
 2. **`https://bluebutton.cms.gov/v1/`**: HTTP 404. The current site no longer serves a v1 docs section, so `docs/v1/` has only the v1 terms page.
-3. **Blocked fetch**: I tried to pull archived copies of the v1 docs and the Postman file from the Internet Archive. The Bash tool refused that fetch, so I did not retry or work around it. If you want those, approve it or fetch them yourself.
+3. **Blocked fetch**: my first attempt to pull archived copies from the Internet Archive was refused by the Bash tool and not retried. The v1 docs were recovered from CMS GitHub instead (see "v1 docs recovery"). The Postman file is still missing.
 4. **GitHub wiki web pages** are not reachable here, so I read the wiki from its git repo instead.
 
 ## Surprises
@@ -61,7 +61,28 @@ Rows with "example" evidence come from CMS lists that give only examples. For in
 - **The BFD RFC's Patient section says "Renamed Items: NONE"**, so there is no Patient rename in the ground truth.
 - Both sandboxes report software "Blue Button API: Direct 2.288.0" and a current date, so the capability statements are live snapshots and will drift.
 - `bluebutton.cms.gov` runs a different (Astro) site now. Old `/v1/` and the Postman asset have gone.
-- The CMS sources are about BCDA/BFD in places. BCDA says it "is based on" its own implementation, so a few rows are BCDA statements about the shared BFD data model, not Blue Button 2.0 docs. Each row's `source_url` shows which.
+- Some sources are about BCDA, not Blue Button. BCDA is a separate CMS API that shares the underlying BFD (Beneficiary FHIR Data) server with Blue Button, so a few rows are BCDA statements about the shared data model, not Blue Button 2.0 docs. Each row's `source_url` shows which.
 
 ## Not done (by design)
 No tool code was written. `truth/v1-v2-changes.csv` and `rules/healthplan-style.yml` were written by us (the CSV is compiled from CMS statements; the rules are SYNTHETIC).
+
+## v1 docs recovery
+
+**Where from:** CMS's own GitHub repo `CMSgov/bluebutton-site-static` (the old website source), not the Internet Archive. The v1 page was deleted from the repo in commit `f474e7c6` (2025-10-06) and unpublished in `eeb860d1` (2025-08-08). I took the snapshot at commit `f9391f119db329a9d308da8652e7be8a8c4a842a` (2023-12-26, when v1 and v2 were both live). The v1 page was last changed in `1491270c` (2023-03-27).
+
+**Pages recovered: 2 pages, plus 2 samples.**
+- `docs/v1/blue-button-v1-stu3-docs.md` ← `_pages/v1.md` (the old `/v1/` page, ~1,100 lines)
+- `docs/v1/explanation-of-benefits-fhir.md` ← `_pages/eob.md` (the old `/eob/` page, linked from `/v1/`)
+- `data/v1/sample-patient-entry.json`, `data/v1/sample-coverage-entry.json` (STU3 samples linked from `/v1/`)
+- With the existing `docs/v1/terms-v1.md` (live terms page), `docs/v1/` has 3 pages.
+- Not recovered: `/checklist/` and `/guide/` (production access). They never mention v1/STU3.
+- Not saved: `sample-eob-entry.json`; CMS published it as invalid JSON.
+- Caveat: these are the Markdown sources converted to GitHub Markdown, so a few HTML blocks (alert boxes, `<pre>` code samples) remain as HTML, and code sample indentation is flattened inside `<pre>` blocks.
+
+**Which of the 35 ground truth changes the v1 docs mention** (text search of each `v1_element`, then reading the hits):
+- **Named explicitly as v1 fields (6):** CHG-002 `careTeamLinkId`, CHG-003 `diagnosisLinkId`, CHG-004 `service`, CHG-008 `patient`, CHG-009 `referral`, CHG-015 `type`. All are in the EOB page's field lists.
+- **Only appear in sample JSON, not described (3):** CHG-020 `gender` value, CHG-021 and CHG-022 `Patient.identifier` (the `hicnHash` identifier).
+- **Not mentioned (26):** CHG-001, 005, 006, 007, 010, 016-019, 023-030, plus the 9 "added" rows (CHG-011-014, 031-035), which have no v1 element.
+- Not-mentioned examples: `Coverage.grouping`, `Patient.animal`, `Eob.hospitalization`, the `IncludeIdentifiers` header and the cardinality changes.
+
+**Read this as:** the v1 booklet covers only about 6 of the 35 changes by name. The rest are changes the v1 docs never talk about. A verifier checking v2 docs against this booklet will find most of its work in places where the old docs were silent.

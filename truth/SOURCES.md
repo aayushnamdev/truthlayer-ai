@@ -32,10 +32,23 @@ All files below are verbatim public CMS material, or Markdown conversions of CMS
 | `truth/v1-v2-changes.csv` | Compiled by TruthLayer from the CMS sources above; each row cites its source_url | `14f101e28aa0b6f9aa3a1355b4cbff075ffdc36d6e52f0648488d6d9ecb08df6` |
 | `rules/healthplan-style.yml` | **SYNTHETIC** | `3c2ccd72fc7d7aa60cbe2f170ed285b9c2b896c372a56f366b8b2880df01c022` |
 
+## v1 docs recovery (Phase 1b) — source: CMSgov/bluebutton-site-static git history
+
+Repo https://github.com/CMSgov/bluebutton-site-static, snapshot commit `f9391f119db329a9d308da8652e7be8a8c4a842a` (2023-12-26, inside the Jul 2021–Dec 2023 window). Pages converted from Jekyll Markdown to GitHub Markdown (front matter and Liquid removed).
+
+| File | Origin | Fetched | SHA256 |
+|---|---|---|---|
+| `docs/v1/blue-button-v1-stu3-docs.md` | https://github.com/CMSgov/bluebutton-site-static/blob/f9391f119db329a9d308da8652e7be8a8c4a842a/_pages/v1.md (live URL formerly https://bluebutton.cms.gov/v1/); repo snapshot commit f9391f119db329a9d308da8652e7be8a8c4a842a dated 2023-12-26; file last changed in 1491270c on 2023-03-27 | 2026-11-25 | `30976f71442d0b15c92ef5e77a151b40e64d74fbf7fb41ad93793b299fa37f69` |
+| `docs/v1/explanation-of-benefits-fhir.md` | https://github.com/CMSgov/bluebutton-site-static/blob/f9391f119db329a9d308da8652e7be8a8c4a842a/_pages/eob.md (live URL formerly https://bluebutton.cms.gov/eob/); repo snapshot commit f9391f119db329a9d308da8652e7be8a8c4a842a dated 2023-12-26; file last changed in e9055a25 on 2020-10-01 | 2026-11-25 | `23526776152dfdf64d8b84efbf54c5aed4fd3bd6eaf5e3a1f959f705681bef63` |
+| `data/v1/sample-patient-entry.json` | https://github.com/CMSgov/bluebutton-site-static/blob/f9391f119db329a9d308da8652e7be8a8c4a842a/sample-patient-entry.json; snapshot commit f9391f119db329a9d308da8652e7be8a8c4a842a | 2026-11-25 | `43cde431207a91634262c0157aac96d56323e9945889755bd20447548f3e096b` |
+| `data/v1/sample-coverage-entry.json` | https://github.com/CMSgov/bluebutton-site-static/blob/f9391f119db329a9d308da8652e7be8a8c4a842a/sample-coverage-entry.json; snapshot commit f9391f119db329a9d308da8652e7be8a8c4a842a | 2026-11-25 | `114f8e975804f7da44207570f94776f166822f084894de3d74ca83d485b5106e` |
+
+Notes: `sample-eob-entry.json` from the same commit was NOT saved because CMS published it as invalid JSON (trailing extra data). `docs/v1/terms-v1.md` above remains the live-site v1 terms page. `/checklist/` and `/guide/` (production access) are linked from the v1 page but never mention v1/STU3, so they were not recovered.
+
 ## Failures and gaps
 
 - **Postman collection** `https://bluebutton.cms.gov/assets/files/CMS-BlueButton-2.0-API-Sandbox.postman_collection.json` — HTTP 404 on 2026-11-25. Same path on `https://api.bluebutton.cms.gov/` — HTTP 404. Not saved. The path was not found in the cms.gov repos checked either.
-- **v1 docs** `https://bluebutton.cms.gov/v1/` — HTTP 404 on 2026-11-25 (the current site no longer serves it). Only `/terms/v1/` exists as a live v1 page; saved as `docs/v1/terms-v1.md`. An archived copy exists in the Internet Archive but was not fetched in this phase.
+- **v1 docs** `https://bluebutton.cms.gov/v1/` — HTTP 404 on 2026-11-25 (the current site no longer serves it). Only `/terms/v1/` exists as a live v1 page; saved as `docs/v1/terms-v1.md`. The removed v1 page was recovered from CMS GitHub history instead (see "v1 docs recovery"); the Internet Archive was not needed.
 - `https://bluebutton.cms.gov/developers` — redirects to `/api-documentation/`; that page and its sub-pages were saved.
 - Capability statements: sandbox host succeeded for v1 and v2, so the api.bluebutton.cms.gov fallback was not needed (it also answered HTTP 200 when probed; not saved).
 - GitHub wiki HTML pages are not reachable via this environment; wiki content was read from a git clone of `CMSgov/beneficiary-fhir-data.wiki.git`.
