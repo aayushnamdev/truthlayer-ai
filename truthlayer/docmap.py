@@ -272,6 +272,8 @@ class Index:
 
 
 IDENT = re.compile(r"[A-Za-z_][A-Za-z0-9_\-]*(?:\.[A-Za-z_][A-Za-z0-9_\[\]\-]*)*")
+COMMON_WORDS = {"patient", "status", "type", "code", "use", "name", "value", "system", "text", "id",
+                "identifier", "resource", "reference", "display", "period", "date", "subject", "category"}
 GENERIC_WORDS = {"resourceType", "fullUrl", "lastUpdated"}   # JSON plumbing words, not element names
 CAMEL = re.compile(r"^[a-z]+(?:[A-Z][a-z0-9]*)+$")
 
@@ -336,7 +338,9 @@ def find_mentions(blocks: list[Block], idx: Index, titles: dict[str, str]) -> li
             if "." in tok:
                 cands = idx.resolve_path(tok)
                 emit(b, b.line, tok, cands, "element", len(cands) > 1)
-            elif IDENT.fullmatch(tok) and CAMEL.match(tok):
+            elif IDENT.fullmatch(tok) and (CAMEL.match(tok) or (
+                    tok.lower() not in COMMON_WORDS and len(idx.by_name.get(tok.lower(), [])) == 1)):
+                # camelCase names, or plain words that name exactly one element in the whole v1 spec
                 cands, amb = idx.resolve_name(tok, ctx, hw, choice=False)
                 emit(b, b.line, tok, cands, "element", amb)
         for tok in re.findall(r"\b(?:[A-Za-z]+)(?:\.[A-Za-z]+(?:\[x\])?)+\b", text):

@@ -1,0 +1,95 @@
+{
+ "resourceType": "StructureDefinition",
+ "id": "Patient",
+ "name": "Patient",
+ "description": "SYNTHETIC test fixture - not CMS data",
+ "snapshot": {
+  "element": [
+   {
+    "path": "Patient",
+    "min": 0,
+    "max": "*"
+   },
+   {
+    "path": "Patient.name",
+    "min": 0,
+    "max": "*",
+    "type": [
+     {
+      "code": "HumanName"
+     }
+    ]
+   },
+   {
+    "path": "Patient.birthDate",
+    "min": 0,
+    "max": "1",
+    "type": [
+     {
+      "code": "date"
+     }
+    ]
+   },
+   {
+    "path": "Patient.phone",
+    "min": 0,
+    "max": "1",
+    "type": [
+     {
+      "code": "string"
+     }
+    ]
+   },
+   {
+    "path": "Patient.active",
+    "min": 1,
+    "max": "1",
+    "type": [
+     {
+      "code": "boolean"
+     }
+    ]
+   },
+   {
+    "path": "Patient.maritalStatus",
+    "min": 0,
+    "max": "1",
+    "type": [
+     {
+      "code": "string"
+     }
+    ]
+   },
+   {
+    "path": "Patient.gender",
+    "min": 0,
+    "max": "1",
+    "type": [
+     {
+      "code": "code"
+     }
+    ]
+   },
+   {
+    "path": "Patient.mrn",
+    "min": 1,
+    "max": "1",
+    "type": [
+     {
+      "code": "string"
+     }
+    ]
+   },
+   {
+    "path": "Patient.preferredLanguage",
+    "min": 0,
+    "max": "1",
+    "type": [
+     {
+      "code": "code"
+     }
+    ]
+   }
+  ]
+ }
+}
