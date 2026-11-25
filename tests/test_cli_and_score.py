@@ -1,5 +1,7 @@
 import json
+
 from click.testing import CliRunner
+
 from truthlayer.cli import main
 from truthlayer.score import score
 

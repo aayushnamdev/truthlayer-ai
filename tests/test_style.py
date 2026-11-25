@@ -1,5 +1,6 @@
-from truthlayer import style
 from conftest import FX
+
+from truthlayer import style
 
 
 def run():

@@ -1,5 +1,6 @@
 """The `truthlayer` command line."""
 from __future__ import annotations
+
 import functools
 import json
 import shutil
@@ -14,7 +15,7 @@ from . import __version__, approval, fixer, logging_setup, pipeline, publisher
 from .budget import BudgetExceeded
 from .config import Config
 from .drift import SEVERITY_RANK
-from .settings import SettingsError, load_settings
+from .settings import SettingsError, load_dotenv, load_settings
 
 SEV_CHOICES = ["CRITICAL", "HIGH", "MEDIUM", "LOW", "NONE"]
 
@@ -40,6 +41,7 @@ def friendly(fn: Callable[..., Any]) -> Callable[..., Any]:
 def main(ctx: click.Context, root: str, log_json: bool, log_level: str) -> None:
     """TruthLayer AI: check API docs for drift, fix only what broke, republish verified docs."""
     logging_setup.setup(log_json, log_level)
+    load_dotenv(root)
     ctx.obj = {"root": root}
 
 

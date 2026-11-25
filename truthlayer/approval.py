@@ -1,6 +1,9 @@
 """2C. Nothing is published unless APPROVED. Review, approve, reject, auto-approve HIGH."""
 from __future__ import annotations
-import difflib, json
+
+import difflib
+import json
+
 from . import audit
 from .config import Config
 

@@ -1,5 +1,6 @@
-from truthlayer.fhir_adapter import load_capability, load_definitions, load_types
 from conftest import FX
+
+from truthlayer.fhir_adapter import load_capability, load_definitions, load_types
 
 
 def test_definitions_have_type_and_cardinality():

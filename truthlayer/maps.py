@@ -1,6 +1,7 @@
 """Parse HL7's official FHIR R3 -> R4 version maps (FHIR Mapping Language shown on the
 `<resource>-version-maps.html` pages) into {R3 path: R4 path} for elements that were renamed."""
 from __future__ import annotations
+
 import html
 import re
 from pathlib import Path

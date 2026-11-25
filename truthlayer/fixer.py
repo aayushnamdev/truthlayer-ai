@@ -6,18 +6,18 @@ Budget rules (enforced in code): only the configured model; only CRITICAL/HIGH f
 The API key is read from the environment, never printed, logged or stored.
 """
 from __future__ import annotations
+
 import json
 import logging
 import os
 import re
 import time
-from pathlib import Path
 from typing import Any, Callable
 
 from . import audit
 from .budget import Budget, BudgetExceeded
 from .config import Config
-from .drift import Analysis, EXAMPLE, GHOST, SEVERITY_RANK, WRONG, Finding
+from .drift import EXAMPLE, GHOST, SEVERITY_RANK, WRONG, Analysis, Finding
 from .settings import Settings, load_settings
 from .specdiff import CHANGED, REMOVED, RENAME_KINDS
 
@@ -231,7 +231,7 @@ def propose_one(a: Analysis, cfg: Config, settings: Settings, finding_id: str, l
     if f is None or not f.locations:
         raise KeyError(f"no fixable finding {finding_id}")
     p_path = cfg.fixes_dir / "proposals.json"
-    data = json.loads(p_path.read_text()) if p_path.exists() else {"meta": {"mode": "MOCK"}, "proposals": []}
+    data: dict[str, Any] = json.loads(p_path.read_text()) if p_path.exists() else {"meta": {"mode": "MOCK"}, "proposals": []}
     loc = f.locations[0]
     passage, lo, hi = passage_for(a, loc, settings.ai.max_passage_chars)
     prompt = build_prompt(passage, f.v2_def, f.detail, f.v1_element, f.v2_element)
@@ -245,7 +245,7 @@ def propose_one(a: Analysis, cfg: Config, settings: Settings, finding_id: str, l
     else:
         revised, reason = _mock_fix(f, passage, loc)
     props = [x for x in data["proposals"] if x["finding_id"] != finding_id]
-    pid = f"P-{len(data['proposals']) + 1:03d}"
+    pid = f"P-{max([int(x['id'][2:]) for x in data['proposals']] + [0]) + 1:03d}"
     p = {"id": pid, "finding_id": f.id, "label": f.label, "severity": f.severity, "confidence": f.confidence,
          "status": "PENDING", "mode": m, "model": settings.ai.model if m == "LIVE" else "MOCK (no model called)",
          "file": loc["file"], "line": lo, "end_line": hi, "kind": loc["kind"], "element": f.v1_element,

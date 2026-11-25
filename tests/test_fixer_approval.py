@@ -1,5 +1,5 @@
-import json
 import pytest
+
 from truthlayer import approval, audit, fixer
 
 
@@ -48,7 +48,7 @@ def test_auto_approve_only_high_and_changed(analysis, cfg):
     done = approval.auto_approve_high(cfg)
     props = {p["id"]: p for p in approval.load(cfg)["proposals"]}
     assert done
-    for pid, p in props.items():
+    for p in props.values():
         if p["status"] == "APPROVED":
             assert p["confidence"] == "HIGH" and p["changed"] and p["approver"] == "auto"
         if p["confidence"] == "LOW":

@@ -1,5 +1,6 @@
 """Where the inputs and outputs of one run live. Fixtures and real data use the same class."""
 from __future__ import annotations
+
 from dataclasses import dataclass, field
 from pathlib import Path
 

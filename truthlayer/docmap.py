@@ -1,8 +1,10 @@
 """1C. Turn the old booklet (Markdown with HTML blocks) into located pieces and find element mentions."""
 from __future__ import annotations
-import json, re
-from dataclasses import dataclass, field, asdict
+
+import re
+from dataclasses import asdict, dataclass
 from pathlib import Path
+
 from .fhir_adapter import Element
 
 PROSE_KINDS = ("prose", "list_item", "table")
@@ -82,9 +84,6 @@ def parse_markdown(path: Path, display: str | None = None) -> list[Block]:
                 add("prose", para[0][0], para[-1][0], _strip_tags(text) if text.lstrip().startswith("<") else text)
             para = []
 
-    in_pre = False
-    pre_start = 0
-    pre_buf: list[str] = []
     while i < n:
         raw = lines[i]
         ln = i + 1

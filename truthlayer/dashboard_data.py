@@ -1,5 +1,6 @@
 """Plain functions behind the dashboard, so they can be tested without a browser."""
 from __future__ import annotations
+
 import difflib
 import html
 import json

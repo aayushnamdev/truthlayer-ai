@@ -1,6 +1,8 @@
 """Shared helpers. All fixtures live in tests/fixtures and are SYNTHETIC."""
 from pathlib import Path
+
 import pytest
+
 from truthlayer.config import Config
 
 FX = Path(__file__).parent / "fixtures"

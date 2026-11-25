@@ -1,6 +1,9 @@
 """Phase 5 scoring: compare findings with CMS's own v1->v2 change list. Only used at the scoring step."""
 from __future__ import annotations
-import csv, json, re
+
+import csv
+import json
+import re
 from pathlib import Path
 
 

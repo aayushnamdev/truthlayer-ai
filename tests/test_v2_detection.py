@@ -1,11 +1,11 @@
 """Part A features on SYNTHETIC fixtures: value sets, rules, official renames, context traps, unverifiable, severity."""
 import pytest
-from truthlayer.drift import (CRITICAL, EXAMPLE, GHOST, HIGH, LOW, MEDIUM, MISSING, UNVERIFIABLE, WRONG,
-                              fix_first, write_reports)
-from truthlayer.fhir_adapter import (Element, apply_profiles, load_definitions, load_maps, load_profile_overlay)
-from truthlayer.maps import parse_version_map
-from truthlayer.specdiff import (CHANGED, RENAMED, POSSIBLE_RENAME, diff_elements, rule_diffs)
 from conftest import FX
+
+from truthlayer.drift import CRITICAL, EXAMPLE, GHOST, HIGH, LOW, MEDIUM, MISSING, UNVERIFIABLE, WRONG, fix_first, write_reports
+from truthlayer.fhir_adapter import Element, apply_profiles, load_definitions, load_maps, load_profile_overlay
+from truthlayer.maps import parse_version_map
+from truthlayer.specdiff import POSSIBLE_RENAME, RENAMED, diff_elements, rule_diffs
 
 
 def get(analysis, label, element):

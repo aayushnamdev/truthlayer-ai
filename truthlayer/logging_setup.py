@@ -1,5 +1,6 @@
 """Structured logging: key=value lines by default, JSON lines with --log-json. Never logs secrets."""
 from __future__ import annotations
+
 import json
 import logging
 import sys

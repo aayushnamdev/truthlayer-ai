@@ -1,9 +1,13 @@
 """2D. Publish: one Markdown page per doc section, llms.txt, llms-full.txt and a Word export.
 Only APPROVED fixes are applied. Pages still carrying open findings say so."""
 from __future__ import annotations
-import json, re
+
+import json
+import re
 from datetime import date
 from pathlib import Path
+from typing import Any
+
 from . import __version__, audit
 from .config import Config
 from .drift import Analysis
@@ -46,7 +50,7 @@ def publish(a: Analysis, cfg: Config, proposals: dict | None = None) -> dict:
     approved = [p for p in props if p["status"] == "APPROVED" and p["publishable"] and p["changed"]]
     today = date.today().isoformat()
     v_hashes = {str(f.name): audit.sha256_file(f) for f in cfg.defs_v1 + cfg.defs_v2}
-    manifest = {"truthlayer_version": __version__, "published_on": today, "pages": []}
+    manifest: dict[str, Any] = {"truthlayer_version": __version__, "published_on": today, "pages": []}
     skipped = [p["id"] for p in props if p["status"] == "APPROVED" and not p["publishable"]]
     docs = sorted(Path(cfg.docs_dir).glob("*.md"))
     for f in docs:
@@ -143,7 +147,7 @@ def _docx(out: Path, manifest: dict, cfg: Config):
                 run = d.add_paragraph().add_run(l)
                 run.font.name = "Courier New"; run.font.size = Pt(8)
             elif re.match(r"^#{1,6}\s", l):
-                d.add_heading(re.sub(r"^#+\s*", "", l), min(len(re.match(r"^#+", l).group()) , 3))
+                d.add_heading(re.sub(r"^#+\s*", "", l), min(len(l) - len(l.lstrip("#")), 3))
             elif l.strip():
                 d.add_paragraph(re.sub(r"<[^>]+>", "", l))
-    d.save(out / "export.docx")
+    d.save(str(out / "export.docx"))

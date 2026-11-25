@@ -1,11 +1,12 @@
 """The fixer with a FAKE client. No test ever calls the real API."""
 import json
 import types
+
 import pytest
-from truthlayer import audit, fixer
+
+from truthlayer import fixer
 from truthlayer.budget import Budget, BudgetExceeded
 from truthlayer.settings import AISettings, Settings, SettingsError, load_settings
-from conftest import FX
 
 
 class FakeClient:

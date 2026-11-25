@@ -1,8 +1,11 @@
 """1B. Compare v1 and v2 definitions. Plain deterministic code."""
 from __future__ import annotations
-import difflib, re
-from dataclasses import dataclass, field, asdict
-from .fhir_adapter import Element, Capability
+
+import difflib
+import re
+from dataclasses import asdict, dataclass, field
+
+from .fhir_adapter import Capability, Element
 
 ADDED, REMOVED, CHANGED, POSSIBLE_RENAME = "ADDED", "REMOVED", "CHANGED", "POSSIBLE_RENAME"
 RENAMED = "RENAMED"          # confirmed by HL7's official R3 -> R4 map
@@ -189,6 +192,8 @@ def diff_capability(c1: Capability, c2: Capability, start: int = 0) -> list[Spec
             continue
         if b and not a:
             out.append(SpecChange(nid(), ADDED, "resource", r, "", r, "resource new in v2 capability statement"))
+            continue
+        if a is None or b is None:
             continue
         for s in sorted(a["search"] - b["search"]):
             out.append(SpecChange(nid(), REMOVED, "search_param", r, f"{r}?{s}", "", "search parameter not in v2"))

@@ -1,6 +1,8 @@
 """Append-only audit log (JSON lines). Every check, finding, proposal, approval and publish."""
 from __future__ import annotations
-import hashlib, json
+
+import hashlib
+import json
 from datetime import datetime, timezone
 from pathlib import Path
 

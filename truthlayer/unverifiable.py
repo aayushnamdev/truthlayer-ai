@@ -1,9 +1,11 @@
 """A6. Statements no specification can prove or disprove: HTTP headers and policies.
 They are listed separately, with the booklet location, for a human to check."""
 from __future__ import annotations
+
 import re
 from dataclasses import dataclass
-from .docmap import Block, PROSE_KINDS
+
+from .docmap import PROSE_KINDS, Block
 
 HEADER_WORD = re.compile(r"\bheaders?\b", re.I)
 TOKEN = re.compile(r"`([A-Za-z][A-Za-z0-9-]*)`|\b([A-Z][a-z]+(?:[A-Z][a-z]+)+)\b|\b([A-Z][A-Za-z]*(?:-[A-Za-z0-9]+)+)\b")

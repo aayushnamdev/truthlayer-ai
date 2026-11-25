@@ -1,8 +1,11 @@
 """1E. Apply the client style rules (rules/healthplan-style.yml). Simple regex + structure checks."""
 from __future__ import annotations
+
 import re
 from pathlib import Path
+
 import yaml
+
 from .docmap import Block, parse_markdown
 
 SUGGEST = {
@@ -49,7 +52,7 @@ def check_file(path: Path, rules: list[dict], display: str | None = None) -> lis
                 if not re.search(r["require"], hay):
                     add(r, 1)
                 continue
-            pat = r.get("forbid") or r.get("pattern")
+            pat = r.get("forbid") or r.get("pattern") or ""
             rx = re.compile(pat, re.M)
             if scope == "prose":
                 for b in blocks:
@@ -72,7 +75,6 @@ def check_file(path: Path, rules: list[dict], display: str | None = None) -> lis
                         add(r, i, l.strip())
         elif kind == "structure":
             if r["id"] in ("HP-004", "HP-005"):
-                heads = [(b, i) for i, b in enumerate(blocks)]
                 # sections = group blocks by their heading chain
                 secs: dict[str, list[Block]] = {}
                 for b in blocks:

@@ -14,6 +14,7 @@ Severity
   LOW       missing optional additions.
 """
 from __future__ import annotations
+
 import json
 import logging
 from collections import defaultdict
@@ -23,9 +24,8 @@ from typing import Any
 
 from . import audit
 from .config import Config
-from .docmap import Block, Index, Mention, PROSE_KINDS, SAMPLE_KINDS, find_mentions, parse_json_sample, parse_markdown
-from .fhir_adapter import (Element, apply_profiles, load_capability, load_definitions, load_maps,
-                           load_profile_overlay, load_types)
+from .docmap import PROSE_KINDS, Block, Index, Mention, find_mentions, parse_json_sample, parse_markdown
+from .fhir_adapter import Element, apply_profiles, load_capability, load_definitions, load_maps, load_profile_overlay, load_types
 from .specdiff import ADDED, CHANGED, POSSIBLE_RENAME, REMOVED, RENAME_KINDS, SpecChange, run_diff
 from .unverifiable import find_unverifiable
 

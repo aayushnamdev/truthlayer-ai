@@ -1,0 +1,57 @@
+name: TruthLayer drift check
+
+# Runs TruthLayer in MOCK mode (no AI, no key) whenever the API data or the docs change.
+# Fails the job when drift at or above the chosen severity exists.
+#   - default threshold: thresholds.fail_on_severity in truthlayer.yml (CRITICAL)
+#   - override for the whole repo:  Settings > Variables > TRUTHLAYER_FAIL_ON  (CRITICAL, HIGH, MEDIUM, LOW or NONE)
+#   - override for one manual run:  Actions > Run workflow > fail_on
+
+on:
+  pull_request:
+    paths: ["data/**", "docs/**", "truthlayer.yml"]
+  push:
+    paths: ["data/**", "docs/**", "truthlayer.yml"]
+  workflow_dispatch:
+    inputs:
+      fail_on:
+        description: "Fail if a finding at or above this severity exists (CRITICAL, HIGH, MEDIUM, LOW, NONE)"
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    env:
+      ANTHROPIC_API_KEY: ""        # MOCK mode on purpose: this workflow never calls the AI
+      FAIL_ON: ${{ inputs.fail_on || vars.TRUTHLAYER_FAIL_ON || '' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -e .
+      - name: Run the check (never fails here; the gate is the last step)
+        run: truthlayer check --fail-on NONE
+      - name: Job summary
+        run: |
+          {
+            echo "## TruthLayer drift check (MOCK mode, no AI)"
+            echo
+            sed -n '1,/^## WRONG/p' reports/drift-report.md | sed '$d'
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: truthlayer-drift-report
+          path: |
+            reports/drift-report.md
+            reports/drift-report.json
+            audit/audit-log.jsonl
+      - name: Gate on severity
+        run: |
+          if [ -n "$FAIL_ON" ]; then truthlayer check --fail-on "$FAIL_ON"; else truthlayer check; fi

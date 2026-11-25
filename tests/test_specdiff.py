@@ -1,6 +1,7 @@
+from conftest import FX
+
 from truthlayer.fhir_adapter import load_capability, load_definitions
 from truthlayer.specdiff import ADDED, CHANGED, POSSIBLE_RENAME, REMOVED, run_diff
-from conftest import FX
 
 
 def diff():

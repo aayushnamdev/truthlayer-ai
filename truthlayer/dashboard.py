@@ -4,6 +4,7 @@ Safety: nothing here calls the AI on page load. The AI runs only when the user p
 "Ask AI for a fix", and always inside the cost limit from truthlayer.yml.
 """
 from __future__ import annotations
+
 import json
 import os
 import sys
@@ -14,10 +15,11 @@ from typing import Any
 
 import streamlit as st
 
-from truthlayer import approval, audit, dashboard_data as dd, fixer, pipeline, publisher
-from truthlayer.budget import Budget, BudgetExceeded
+from truthlayer import approval, fixer, pipeline, publisher
+from truthlayer import dashboard_data as dd
+from truthlayer.budget import BudgetExceeded
 from truthlayer.config import Config
-from truthlayer.drift import analyse, write_reports
+from truthlayer.drift import analyse
 from truthlayer.settings import load_settings
 
 
@@ -176,11 +178,11 @@ elif page == "Overview":
     for col, sev in zip(cols, dd.SEVERITIES):
         card(f"{sev.title()} findings", cards["by_severity"][sev], col, dd.SEV_COLOR[sev])
     st.write("")
-    c = st.columns(4)
-    card("CMS recall", cards["cms_recall"] + (f" ({cards['cms_recall_pct']}%)" if cards["cms_recall_pct"] is not None else ""), c[0])
-    card("Real drift found", cards["real_drift_found"], c[1])
-    card("Run time", f"{cards['run_seconds']} s" if cards["run_seconds"] is not None else "n/a", c[2])
-    card("AI cost", f"${cards['ai_cost_usd']:.4f}" if cards["ai_cost_usd"] is not None else "$0.0000 (no AI run)", c[3])
+    row2 = st.columns(4)
+    card("CMS recall", cards["cms_recall"] + (f" ({cards['cms_recall_pct']}%)" if cards["cms_recall_pct"] is not None else ""), row2[0])
+    card("Real drift found", cards["real_drift_found"], row2[1])
+    card("Run time", f"{cards['run_seconds']} s" if cards["run_seconds"] is not None else "n/a", row2[2])
+    card("AI cost", f"${cards['ai_cost_usd']:.4f}" if cards["ai_cost_usd"] is not None else "$0.0000 (no AI run)", row2[3])
     st.write("")
     st.markdown((cfg.reports_dir / "drift-report.md").read_text().split("## Fix these first")[0])
 

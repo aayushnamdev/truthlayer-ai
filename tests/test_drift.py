@@ -1,6 +1,6 @@
-from collections import Counter
-from truthlayer.drift import EXAMPLE, GHOST, MISSING, WRONG, write_reports
 import json
+
+from truthlayer.drift import EXAMPLE, GHOST, MISSING, WRONG, write_reports
 
 
 def by(analysis):

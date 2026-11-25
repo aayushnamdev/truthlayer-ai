@@ -1,5 +1,5 @@
-import json
 from docx import Document
+
 from truthlayer import approval, fixer, publisher
 
 

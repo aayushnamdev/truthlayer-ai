@@ -1,6 +1,8 @@
 """2E. MCP server. Serves ONLY from publish/ and reports/. Four read-only tools."""
 from __future__ import annotations
-import json, re
+
+import json
+import re
 from pathlib import Path
 
 

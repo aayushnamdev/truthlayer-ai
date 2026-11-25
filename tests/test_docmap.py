@@ -1,6 +1,7 @@
+from conftest import FX
+
 from truthlayer.docmap import Index, find_mentions, json_keys, parse_markdown
 from truthlayer.fhir_adapter import load_definitions
-from conftest import FX
 
 
 def blocks():
