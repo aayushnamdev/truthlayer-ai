@@ -35,7 +35,7 @@ def test_profile_rules_slicing_must_support_required_slice(analysis):
 def test_rule_diffs_unit():
     a = Element("X.y", ("code",), 0, "1", binding="http://a/vs|1", strength="required", fixed="fixedCode=1")
     b = Element("X.y", ("code",), 1, "1", binding="http://a/vs|2", strength="required", fixed="fixedCode=2", must_support=True)
-    kinds, _ = rule_diffs(a, b)
+    kinds = [k for k, _ in rule_diffs(a, b)]
     assert {"cardinality", "now_required", "value_set_version", "fixed_default", "must_support"} <= set(kinds)
     assert "value_set" not in kinds      # same value set, only the version differs
 

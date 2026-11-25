@@ -62,45 +62,52 @@ def _vs_base(vs: str) -> str:
     return vs.split("|")[0]
 
 
-def rule_diffs(e1: Element, e2: Element) -> tuple[list[str], list[str]]:
-    """(sub_kinds, human-readable reasons) for everything that differs between two elements."""
-    kinds: list[str] = []
-    why: list[str] = []
+def rule_diffs(e1: Element, e2: Element) -> list[tuple[str, str]]:
+    """[(sub_kind, human-readable reason)] for everything that differs between two elements."""
+    out: list[tuple[str, str]] = []
     if e1.types != e2.types:
-        kinds.append("type")
-        why.append(f"type {'|'.join(e1.types) or 'Backbone'} -> {'|'.join(e2.types) or 'Backbone'}")
+        out.append(("type", f"type {'|'.join(e1.types) or 'Backbone'} -> {'|'.join(e2.types) or 'Backbone'}"))
     if (e1.min, e1.max) != (e2.min, e2.max):
-        kinds.append("cardinality")
-        why.append(f"cardinality {e1.card} -> {e2.card}")
+        out.append(("cardinality", f"cardinality {e1.card} -> {e2.card}"))
         if e1.min == 0 and e2.min >= 1:
-            kinds.append("now_required")
+            out.append(("now_required", ""))
     if e1.binding != e2.binding:
         if _vs_base(e1.binding) != _vs_base(e2.binding):
-            kinds.append("value_set")
-            why.append(f"value set {e1.binding or '(none)'} -> {e2.binding or '(none)'}")
+            out.append(("value_set", f"value set {e1.binding or '(none)'} -> {e2.binding or '(none)'}"))
         else:
-            kinds.append("value_set_version")
-            why.append(f"value set version {e1.binding} -> {e2.binding}")
+            out.append(("value_set_version", f"value set version {e1.binding} -> {e2.binding}"))
     if e1.strength != e2.strength and (e1.strength or e2.strength) and (e1.binding or e2.binding):
-        kinds.append("binding_strength")
-        why.append(f"binding strength {e1.strength or '(none)'} -> {e2.strength or '(none)'}")
+        out.append(("binding_strength", f"binding strength {e1.strength or '(none)'} -> {e2.strength or '(none)'}"))
     if e1.fixed != e2.fixed:
-        kinds.append("fixed_default")
-        why.append(f"fixed/default value {e1.fixed or '(none)'} -> {e2.fixed or '(none)'}")
+        out.append(("fixed_default", f"fixed/default value {e1.fixed or '(none)'} -> {e2.fixed or '(none)'}"))
     if e1.targets != e2.targets:
-        kinds.append("target_type")
-        why.append(f"reference targets {'|'.join(e1.targets) or '(any)'} -> {'|'.join(e2.targets) or '(any)'}")
+        out.append(("target_type", f"reference targets {'|'.join(e1.targets) or '(any)'} -> {'|'.join(e2.targets) or '(any)'}"))
     if e1.must_support != e2.must_support:
-        kinds.append("must_support")
-        why.append(f"must-support {e1.must_support} -> {e2.must_support}")
+        out.append(("must_support", f"must-support {e1.must_support} -> {e2.must_support}"))
     if e1.slicing != e2.slicing:
-        kinds.append("slicing")
-        why.append(f"slicing '{e1.slicing or 'none'}' -> '{e2.slicing or 'none'}'")
+        out.append(("slicing", f"slicing '{e1.slicing or 'none'}' -> '{e2.slicing or 'none'}'"))
+    return out
+
+
+def combined_rule_diffs(b1: Element | None, b2: Element | None, m1: Element, m2: Element) -> tuple[list[str], list[str]]:
+    """Base-resource differences (HL7 STU3 vs R4) plus differences that only the profiles add
+    (CMS Blue Button IG vs CARIN BB IG). Profile-only ones are prefixed 'profile_'."""
+    base = rule_diffs(b1, b2) if (b1 is not None and b2 is not None) else []
+    kinds = [k for k, _ in base]
+    why = [w for _, w in base if w]
+    for k, w in rule_diffs(m1, m2):
+        if k in kinds or (k in ("now_required",) and "now_required" in kinds):
+            continue
+        name = k if k in ("must_support", "slicing") else "profile_" + k
+        kinds.append(name)
+        if w:
+            why.append("profile: " + w)
     return kinds, why
 
 
 def diff_elements(v1: dict[str, Element], v2: dict[str, Element],
-                  official_renames: dict[str, str] | None = None) -> list[SpecChange]:
+                  official_renames: dict[str, str] | None = None,
+                  base1: dict[str, Element] | None = None, base2: dict[str, Element] | None = None) -> list[SpecChange]:
     out: list[SpecChange] = []
     n = 0
     official_renames = {k: v for k, v in (official_renames or {}).items() if ".extension" not in v}
@@ -155,7 +162,11 @@ def diff_elements(v1: dict[str, Element], v2: dict[str, Element],
             out.append(SpecChange(nid(), ADDED, "element", v2[a].resource, "", a, "new in v2",
                                   "", v2[a].describe(), False, 0.0, len(kids_a[a]), ["added"], kids_a[a]))
     for p in sorted(set(v1) & set(v2)):
-        kinds, why = rule_diffs(v1[p], v2[p])
+        if base1 is not None and base2 is not None:
+            kinds, why = combined_rule_diffs(base1.get(p), base2.get(p), v1[p], v2[p])
+        else:
+            pairs2 = rule_diffs(v1[p], v2[p])
+            kinds, why = [k for k, _ in pairs2], [w for _, w in pairs2 if w]
         if kinds:
             out.append(SpecChange(nid(), CHANGED, "element", v1[p].resource, p, p, "; ".join(why),
                                   v1[p].describe(), v2[p].describe(), sub_kinds=kinds))
@@ -191,6 +202,7 @@ def diff_capability(c1: Capability, c2: Capability, start: int = 0) -> list[Spec
 
 
 def run_diff(v1, v2, c1: Capability, c2: Capability,
-             official_renames: dict[str, str] | None = None) -> list[SpecChange]:
-    el = diff_elements(v1, v2, official_renames)
+             official_renames: dict[str, str] | None = None,
+             base1: dict[str, Element] | None = None, base2: dict[str, Element] | None = None) -> list[SpecChange]:
+    el = diff_elements(v1, v2, official_renames, base1, base2)
     return el + diff_capability(c1, c2, start=len(el))

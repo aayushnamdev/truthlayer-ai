@@ -5,24 +5,24 @@
 ## Pages
 
 - [Introduction](pages/blue-button-v1-stu3-docs--introduction.md): docs/v1/blue-button-v1-stu3-docs.md lines 1-21; 0 fixes, 0 open findings
-- [Overview](pages/blue-button-v1-stu3-docs--overview.md): docs/v1/blue-button-v1-stu3-docs.md lines 22-33; 0 fixes, 0 open findings
+- [Overview](pages/blue-button-v1-stu3-docs--overview.md): docs/v1/blue-button-v1-stu3-docs.md lines 22-33; 0 fixes, 1 open findings
 - [Try the API](pages/blue-button-v1-stu3-docs--try-the-api.md): docs/v1/blue-button-v1-stu3-docs.md lines 34-179; 0 fixes, 0 open findings
-- [Authorization](pages/blue-button-v1-stu3-docs--authorization.md): docs/v1/blue-button-v1-stu3-docs.md lines 180-380; 2 fixes, 0 open findings
-- [Core Resources](pages/blue-button-v1-stu3-docs--core-resources.md): docs/v1/blue-button-v1-stu3-docs.md lines 381-782; 0 fixes, 3 open findings
-- [FHIR Data Model](pages/blue-button-v1-stu3-docs--fhir-data-model.md): docs/v1/blue-button-v1-stu3-docs.md lines 783-832; 0 fixes, 0 open findings
-- [Sample Beneficiaries](pages/blue-button-v1-stu3-docs--sample-beneficiaries.md): docs/v1/blue-button-v1-stu3-docs.md lines 833-913; 0 fixes, 2 open findings
-- [Production API Access](pages/blue-button-v1-stu3-docs--production-api-access.md): docs/v1/blue-button-v1-stu3-docs.md lines 914-919; 0 fixes, 0 open findings
-- [Developer Guidelines](pages/blue-button-v1-stu3-docs--developer-guidelines.md): docs/v1/blue-button-v1-stu3-docs.md lines 920-949; 0 fixes, 0 open findings
+- [Authorization](pages/blue-button-v1-stu3-docs--authorization.md): docs/v1/blue-button-v1-stu3-docs.md lines 180-380; 0 fixes, 0 open findings
+- [Core Resources](pages/blue-button-v1-stu3-docs--core-resources.md): docs/v1/blue-button-v1-stu3-docs.md lines 381-782; 0 fixes, 8 open findings
+- [FHIR Data Model](pages/blue-button-v1-stu3-docs--fhir-data-model.md): docs/v1/blue-button-v1-stu3-docs.md lines 783-832; 0 fixes, 1 open findings
+- [Sample Beneficiaries](pages/blue-button-v1-stu3-docs--sample-beneficiaries.md): docs/v1/blue-button-v1-stu3-docs.md lines 833-913; 0 fixes, 3 open findings
+- [Production API Access](pages/blue-button-v1-stu3-docs--production-api-access.md): docs/v1/blue-button-v1-stu3-docs.md lines 914-919; 0 fixes, 2 open findings
+- [Developer Guidelines](pages/blue-button-v1-stu3-docs--developer-guidelines.md): docs/v1/blue-button-v1-stu3-docs.md lines 920-949; 0 fixes, 3 open findings
 - [Blue Button 2.0 Implementation Guide](pages/blue-button-v1-stu3-docs--blue-button-2-0-implementation-guide.md): docs/v1/blue-button-v1-stu3-docs.md lines 950-985; 0 fixes, 0 open findings
 - [Introduction](pages/explanation-of-benefits-fhir--introduction.md): docs/v1/explanation-of-benefits-fhir.md lines 1-6; 0 fixes, 0 open findings
 - [Overview](pages/explanation-of-benefits-fhir--overview.md): docs/v1/explanation-of-benefits-fhir.md lines 7-12; 0 fixes, 0 open findings
-- [Bundle](pages/explanation-of-benefits-fhir--bundle.md): docs/v1/explanation-of-benefits-fhir.md lines 13-28; 1 fixes, 0 open findings
+- [Bundle](pages/explanation-of-benefits-fhir--bundle.md): docs/v1/explanation-of-benefits-fhir.md lines 13-28; 0 fixes, 1 open findings
 - [Paging](pages/explanation-of-benefits-fhir--paging.md): docs/v1/explanation-of-benefits-fhir.md lines 29-49; 0 fixes, 0 open findings
-- [Entry](pages/explanation-of-benefits-fhir--entry.md): docs/v1/explanation-of-benefits-fhir.md lines 50-101; 4 fixes, 1 open findings
-- [Item](pages/explanation-of-benefits-fhir--item.md): docs/v1/explanation-of-benefits-fhir.md lines 102-191; 0 fixes, 3 open findings
+- [Entry](pages/explanation-of-benefits-fhir--entry.md): docs/v1/explanation-of-benefits-fhir.md lines 50-101; 8 fixes, 4 open findings
+- [Item](pages/explanation-of-benefits-fhir--item.md): docs/v1/explanation-of-benefits-fhir.md lines 102-191; 8 fixes, 4 open findings
 - [Introduction](pages/terms-v1--introduction.md): docs/v1/terms-v1.md lines 1-4; 0 fixes, 0 open findings
 - [API Terms of Service](pages/terms-v1--api-terms-of-service.md): docs/v1/terms-v1.md lines 5-8; 0 fixes, 0 open findings
-- [These Terms of Service has been deprecated](pages/terms-v1--these-terms-of-service-has-been-deprecated.md): docs/v1/terms-v1.md lines 9-14; 0 fixes, 0 open findings
+- [These Terms of Service has been deprecated](pages/terms-v1--these-terms-of-service-has-been-deprecated.md): docs/v1/terms-v1.md lines 9-14; 0 fixes, 2 open findings
 - [Overview](pages/terms-v1--overview.md): docs/v1/terms-v1.md lines 15-26; 0 fixes, 0 open findings
 - [Data Rights and Usage](pages/terms-v1--data-rights-and-usage.md): docs/v1/terms-v1.md lines 27-44; 0 fixes, 0 open findings
 - [Attribution](pages/terms-v1--attribution.md): docs/v1/terms-v1.md lines 45-50; 0 fixes, 0 open findings

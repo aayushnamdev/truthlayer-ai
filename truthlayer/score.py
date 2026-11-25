@@ -37,11 +37,10 @@ def score(csv_path: Path, report_json: Path) -> dict:
     for r in rows:
         keys_v1, keys_v2 = _norm_items(r["v1_element"]), _norm_items(r["v2_element"])
         keys = [(k, "v1") for k in keys_v1] + [(k, "v2") for k in keys_v2]
-        fh = []
-        for f in findings:
-            if any(_match(k, f["v1_element"]) or _match(k, f["v2_element"]) for k, _ in keys):
-                fh.append(f)
-        ch = [c for c in changes if any(_match(k, c["v1_path"]) or _match(k, c["v2_path"]) for k, _ in keys)]
+        def paths(x):          # a finding on a new/removed parent also covers the children it lists
+            return [x.get("v1_element", x.get("v1_path", "")), x.get("v2_element", x.get("v2_path", "")), *x.get("children", [])]
+        fh = [f for f in findings if any(_match(k, p) for k, _ in keys for p in paths(f))]
+        ch = [c for c in changes if any(_match(k, p) for k, _ in keys for p in paths(c))]
         for f in fh:
             matched_findings.add(f["id"])
         status = "caught" if fh else ("in-spec-diff-only" if ch else "missed")

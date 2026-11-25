@@ -16,9 +16,11 @@ spec_hashes:
   STU3-patient.json: "785809db7242f260ea1a8bf967eae6b9f05e914f971f150ec7e29e0fb94a6191"
 truthlayer_version: "0.1.0"
 fixes_applied: 0
-open_findings: 0
-status: "verified"
+open_findings: 2
+status: "needs_review"
 ---
+> **Not fully verified:** 2 finding(s) on this section are still open (F-154, F-155). See reports/drift-report.md.
+
 ## These Terms of Service has been deprecated
 
 This document is intended for reference only as applications transition to our new terms of service.

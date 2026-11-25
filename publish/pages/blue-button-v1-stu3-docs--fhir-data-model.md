@@ -16,9 +16,11 @@ spec_hashes:
   STU3-patient.json: "785809db7242f260ea1a8bf967eae6b9f05e914f971f150ec7e29e0fb94a6191"
 truthlayer_version: "0.1.0"
 fixes_applied: 0
-open_findings: 0
-status: "verified"
+open_findings: 1
+status: "needs_review"
 ---
+> **Not fully verified:** 1 finding(s) on this section are still open (F-148). See reports/drift-report.md.
+
 ## FHIR Data Model
 
 We have mapped over 1,300 fields from the CMS claims data warehouse into FHIR. These fields are surfaced across the Patient, Coverage and Explanation of Benefits FHIR resources.

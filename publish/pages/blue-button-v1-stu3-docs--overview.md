@@ -16,9 +16,11 @@ spec_hashes:
   STU3-patient.json: "785809db7242f260ea1a8bf967eae6b9f05e914f971f150ec7e29e0fb94a6191"
 truthlayer_version: "0.1.0"
 fixes_applied: 0
-open_findings: 0
-status: "verified"
+open_findings: 1
+status: "needs_review"
 ---
+> **Not fully verified:** 1 finding(s) on this section are still open (F-146). See reports/drift-report.md.
+
 ## Overview
 
 The Centers for Medicare and Medicaid Services (CMS) Blue Button 2.0 API enables Medicare beneficiaries to connect their Medicare claims data to the applications, services, and research programs they trust.

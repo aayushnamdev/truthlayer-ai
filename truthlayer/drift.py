@@ -34,7 +34,9 @@ log = logging.getLogger("truthlayer.drift")
 WRONG, EXAMPLE, MISSING, GHOST, UNVERIFIABLE = "WRONG", "EXAMPLE", "MISSING", "GHOST", "UNVERIFIABLE"
 CRITICAL, HIGH, MEDIUM, LOW = "CRITICAL", "HIGH", "MEDIUM", "LOW"
 SEVERITY_RANK = {CRITICAL: 0, HIGH: 1, MEDIUM: 2, LOW: 3}
-RULE_KINDS = {"value_set", "binding_strength", "fixed_default", "target_type", "slicing", "type", "cardinality"}
+RULE_KINDS = {"value_set", "binding_strength", "fixed_default", "target_type", "slicing", "type", "cardinality",
+              "profile_value_set", "profile_binding_strength", "profile_fixed_default", "profile_target_type",
+              "profile_type", "profile_cardinality"}
 
 
 @dataclass
@@ -117,7 +119,7 @@ def _severity(label: str, ch: SpecChange, v2: dict[str, Element]) -> tuple[str, 
             return CRITICAL, "the text names something that was removed or renamed"
         if ch.category in ("resource", "search_param"):
             return CRITICAL, "the text describes a resource or search option that is gone"
-        if "now_required" in sk:
+        if "now_required" in sk or "profile_now_required" in sk:
             return CRITICAL, "the text names something that is now required"
         if sk & RULE_KINDS:
             return HIGH, "the text names something whose rules changed (" + ", ".join(sorted(sk & RULE_KINDS)) + ")"
@@ -131,20 +133,21 @@ def _severity(label: str, ch: SpecChange, v2: dict[str, Element]) -> tuple[str, 
     kids_required = any((v2.get(c) is not None and v2[c].min >= 1) for c in ch.children)
     if ch.category in ("search_param", "resource"):
         return MEDIUM, "new search option or resource in v2"
-    if "now_required" in sk or (v2e is not None and v2e.min >= 1) or kids_required or "required slices" in (v2e.slicing if v2e else ""):
+    if "now_required" in sk or "profile_now_required" in sk or (v2e is not None and v2e.min >= 1) or kids_required or "required slices" in (v2e.slicing if v2e else ""):
         return MEDIUM, "v2 requires it and the booklet is silent"
     return LOW, "optional addition or minor rule change; booklet is silent"
 
 
 def analyse(cfg: Config) -> Analysis:
-    v1 = apply_profiles(load_definitions(cfg.defs_v1), load_profile_overlay(cfg.profiles_v1))
-    v2 = apply_profiles(load_definitions(cfg.defs_v2), load_profile_overlay(cfg.profiles_v2))
+    b1, b2 = load_definitions(cfg.defs_v1), load_definitions(cfg.defs_v2)
+    v1 = apply_profiles(b1, load_profile_overlay(cfg.profiles_v1))
+    v2 = apply_profiles(b2, load_profile_overlay(cfg.profiles_v2))
     if not v1 or not v2:
         raise ValueError("no elements found in the v1/v2 definition files")
     c1, c2 = load_capability(cfg.cap_v1), load_capability(cfg.cap_v2)
     t1, t2 = load_types(cfg.types_v1), load_types(cfg.types_v2)
     renames = load_maps(cfg.map_files)
-    changes = run_diff(v1, v2, c1, c2, renames)
+    changes = run_diff(v1, v2, c1, c2, renames, b1, b2)
     audit.log(cfg.audit_file, "check_spec_diff", item=f"{len(changes)} changes", v1=len(v1), v2=len(v2),
               official_renames=len(renames))
     gone_types = (t1 - t2) if t1 and t2 else set()

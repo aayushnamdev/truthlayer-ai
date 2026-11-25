@@ -16,9 +16,11 @@ spec_hashes:
   STU3-patient.json: "785809db7242f260ea1a8bf967eae6b9f05e914f971f150ec7e29e0fb94a6191"
 truthlayer_version: "0.1.0"
 fixes_applied: 0
-open_findings: 0
-status: "verified"
+open_findings: 3
+status: "needs_review"
 ---
+> **Not fully verified:** 3 finding(s) on this section are still open (F-151, F-152, F-153). See reports/drift-report.md.
+
 ## Developer Guidelines
 
 Below are guidelines you should follow to be successful in your Blue Button 2.0 API integration.

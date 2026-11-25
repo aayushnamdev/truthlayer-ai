@@ -16,10 +16,10 @@ spec_hashes:
   STU3-patient.json: "785809db7242f260ea1a8bf967eae6b9f05e914f971f150ec7e29e0fb94a6191"
 truthlayer_version: "0.1.0"
 fixes_applied: 0
-open_findings: 2
+open_findings: 3
 status: "needs_review"
 ---
-> **Not fully verified:** 2 finding(s) on this section are still open (F-001, F-007). See reports/drift-report.md.
+> **Not fully verified:** 3 finding(s) on this section are still open (F-006, F-008, F-081). See reports/drift-report.md.
 
 ## Sample Beneficiaries
 

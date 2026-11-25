@@ -16,9 +16,11 @@ spec_hashes:
   STU3-patient.json: "785809db7242f260ea1a8bf967eae6b9f05e914f971f150ec7e29e0fb94a6191"
 truthlayer_version: "0.1.0"
 fixes_applied: 0
-open_findings: 0
-status: "verified"
+open_findings: 2
+status: "needs_review"
 ---
+> **Not fully verified:** 2 finding(s) on this section are still open (F-149, F-150). See reports/drift-report.md.
+
 ## Production API Access
 
 In order to gain production access, an organization should start by reviewing the [Terms of Service](/terms/), [production access user guide](/guide/), and [checklist](/checklist/). Once an organization believes it is fulfilling all the requirements detailed in the checklist and is adherent to the terms of service, they should email [bluebuttonapi@cms.hhs.gov](bluebuttonapi@cms.hhs.gov) to set up a production access demonstration meeting with the CMS team.

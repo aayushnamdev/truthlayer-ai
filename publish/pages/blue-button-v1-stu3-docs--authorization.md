@@ -15,7 +15,7 @@ spec_hashes:
   STU3-explanationofbenefit.json: "1baa1b00ff7b16bf0347dfe26deaed4f294570dc262975e77b5d4a4992a1db26"
   STU3-patient.json: "785809db7242f260ea1a8bf967eae6b9f05e914f971f150ec7e29e0fb94a6191"
 truthlayer_version: "0.1.0"
-fixes_applied: 2
+fixes_applied: 0
 open_findings: 0
 status: "verified"
 ---
@@ -53,7 +53,7 @@ The default selection when a beneficiary reaches the authorization screen will b
 
 Take the time to ensure that you have fallbacks in place if you are unable to access the `patient` or `userinfo` endpoints.
 
-For example, if you are getting the `patient_ID` from the `v1/fhir/Patient` endpoint, we recommend getting that identifier from the initial authorization response, or another resource like `ExplanationOfBenefit` or `Coverage`. (v2 note: cardinality 0..1 -> 1..1)
+For example, if you are getting the `patient_ID` from the `v1/fhir/Patient` endpoint, we recommend getting that identifier from the initial authorization response, or another resource like `ExplanationOfBenefit` or `Coverage`.
 
 #### Explanation of needed data to Medicare Beneficiaries
 
