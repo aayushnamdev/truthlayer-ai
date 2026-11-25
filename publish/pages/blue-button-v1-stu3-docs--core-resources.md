@@ -15,11 +15,11 @@ spec_hashes:
   STU3-explanationofbenefit.json: "1baa1b00ff7b16bf0347dfe26deaed4f294570dc262975e77b5d4a4992a1db26"
   STU3-patient.json: "785809db7242f260ea1a8bf967eae6b9f05e914f971f150ec7e29e0fb94a6191"
 truthlayer_version: "0.1.0"
-fixes_applied: 0
-open_findings: 8
+fixes_applied: 1
+open_findings: 7
 status: "needs_review"
 ---
-> **Not fully verified:** 8 finding(s) on this section are still open (F-070, F-107, F-130, F-131, F-136, F-138, F-145, F-147). See reports/drift-report.md.
+> **Not fully verified:** 7 finding(s) on this section are still open (F-070, F-130, F-131, F-136, F-138, F-145, F-147). See reports/drift-report.md.
 
 ## Core Resources
 
@@ -232,7 +232,7 @@ The UserInfo Endpoint is an OAuth 2.0 Protected Resource.The above URL fetches t
 "name": "Fred Flinstone",
 "email": "pebbles-daddy@example.com",
 "created": "2017-11-28",
-"patient": "123456789",
+"patient": {"reference": "Patient/123456789"},
 }
 </pre>
 

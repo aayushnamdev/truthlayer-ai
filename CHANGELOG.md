@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.2.0 (go-live)
+- JSON sample fixes now use a small checked edit (`old_text`, `new_text`, a reason of 20 words or fewer) applied in code and re-validated as JSON; approved sample fixes are published (fenced samples keep their fences; JSON files go to `publish/samples/`). 1 of the 5 earlier failures is now a valid, auto-approved fix; 1 correctly unchanged; 3 still unusable.
+- Dashboard opens on a **saved real run** (read-only, no AI, can not spend money); "Ask AI for a fix" shows only with an API key in work mode; optional `APP_PASSWORD` secret; "About this demo" panel; phone-friendly layout with top navigation.
+- `streamlit_app.py`, pinned `requirements.txt`, `.streamlit/config.toml` for Streamlit Community Cloud.
+- A MOCK run can no longer overwrite proposals that came from the real AI (`--overwrite` to force).
+- The drift-check Action only reports on plain pushes and fails on CRITICAL for pull requests and manual runs.
+
 ## 1.1.0
 - New label NEEDS_NOTE; WRONG now means the text states something false. Third score in `reports/results-v3.md`.
 - `truthlayer fix --live --retry-unparseable`; `truthlayer app --host`; `requirements.txt`.

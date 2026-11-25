@@ -66,6 +66,9 @@ Hard limit **$1.00** per ledger (`fixes/cost-ledger.json`), checked **before eve
 
 Findings have a **label** (WRONG: the text states something now false; NEEDS_NOTE: it only names a changed field; GHOST; EXAMPLE; MISSING; UNVERIFIABLE) and a **severity** (CRITICAL: removed, renamed or now-required things named in the text; HIGH: wrong examples and rule changes; MEDIUM: missing required items; LOW: missing optional additions). Low-confidence findings say "ask a human".
 
+## Live demo (Streamlit Community Cloud)
+On share.streamlit.io choose this repository, branch `main`, main file `streamlit_app.py`, and Python 3.12. The app opens on the **saved real run** (read-only) and needs no secrets. Optional secret `APP_PASSWORD` puts a password in front of everything. Do **not** add an `ANTHROPIC_API_KEY` secret to the public app; without one the AI button is hidden and the app can never spend money.
+
 ## Dashboard
 On another device (for example your phone), run `truthlayer app --host 0.0.0.0` and open `http://<your computer's Wi-Fi address>:8501`; there is no password, so use home Wi-Fi only.
 

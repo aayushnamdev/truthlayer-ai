@@ -391,7 +391,7 @@ Below you will find a sample account you can use to test your Blue Button 2.0 AP
 
 
 <!-- page: blue-button-v1-stu3-docs--core-resources -->
-> **Not fully verified:** 8 finding(s) on this section are still open (F-070, F-107, F-130, F-131, F-136, F-138, F-145, F-147). See reports/drift-report.md.
+> **Not fully verified:** 7 finding(s) on this section are still open (F-070, F-130, F-131, F-136, F-138, F-145, F-147). See reports/drift-report.md.
 
 ## Core Resources
 
@@ -604,7 +604,7 @@ The UserInfo Endpoint is an OAuth 2.0 Protected Resource.The above URL fetches t
 "name": "Fred Flinstone",
 "email": "pebbles-daddy@example.com",
 "created": "2017-11-28",
-"patient": "123456789",
+"patient": {"reference": "Patient/123456789"},
 }
 </pre>
 

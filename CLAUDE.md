@@ -8,7 +8,7 @@ Real test case: the **CMS Blue Button 2.0 Medicare API**, moving from **v1 (FHIR
 **v2 (FHIR R4)**.
 
 ## Current phase
-Phases 1-5 are done (collect data, recover v1 docs, tool + first score in `reports/results.md`). **Branch `v1-production`** adds severity, rule/profile checks, a dashboard, CI and a second score in `reports/results-v2.md`. The real-AI fixer was run once (25 calls, about $0.04); see `reports/results-v2.md`.
+Phases 1-5 are done (collect data, recover v1 docs, tool + first score in `reports/results.md`). **Branch `v1-production`** adds severity, rule/profile checks, a dashboard, CI and a second score in `reports/results-v2.md`. The real-AI fixer has run 37 calls in total (about $0.07); see `reports/results-v2.md` and `results-v3.md`. Go-live work: sample edits, saved-run dashboard, `streamlit_app.py`.
 
 ## Folder structure
 | Path | Contents |
@@ -45,3 +45,4 @@ New in 1.0: `settings` (truthlayer.yml), `budget` (hard cost limit ledger), `map
 7. Invented test data goes in `tests/fixtures/` and is marked SYNTHETIC.
 8. **Budget rule for AI:** only claude-haiku-5-5, hard limit and call cap from `truthlayer.yml`, fix only CRITICAL/HIGH, never print/log/commit the API key. AI runs only with `--live` or a dashboard button.
 9. Keep `reports/results.md` (first score) unchanged; new scores go to a new file with the list of changes.
+10. Never run a MOCK `fix`/`run` over real AI proposals (the tool now refuses without `--overwrite`). Never write the API key to any file.

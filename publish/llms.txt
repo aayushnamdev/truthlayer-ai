@@ -8,7 +8,7 @@
 - [Overview](pages/blue-button-v1-stu3-docs--overview.md): docs/v1/blue-button-v1-stu3-docs.md lines 22-33; 0 fixes, 1 open findings
 - [Try the API](pages/blue-button-v1-stu3-docs--try-the-api.md): docs/v1/blue-button-v1-stu3-docs.md lines 34-179; 0 fixes, 0 open findings
 - [Authorization](pages/blue-button-v1-stu3-docs--authorization.md): docs/v1/blue-button-v1-stu3-docs.md lines 180-380; 0 fixes, 0 open findings
-- [Core Resources](pages/blue-button-v1-stu3-docs--core-resources.md): docs/v1/blue-button-v1-stu3-docs.md lines 381-782; 0 fixes, 8 open findings
+- [Core Resources](pages/blue-button-v1-stu3-docs--core-resources.md): docs/v1/blue-button-v1-stu3-docs.md lines 381-782; 1 fixes, 7 open findings
 - [FHIR Data Model](pages/blue-button-v1-stu3-docs--fhir-data-model.md): docs/v1/blue-button-v1-stu3-docs.md lines 783-832; 0 fixes, 1 open findings
 - [Sample Beneficiaries](pages/blue-button-v1-stu3-docs--sample-beneficiaries.md): docs/v1/blue-button-v1-stu3-docs.md lines 833-913; 0 fixes, 3 open findings
 - [Production API Access](pages/blue-button-v1-stu3-docs--production-api-access.md): docs/v1/blue-button-v1-stu3-docs.md lines 914-919; 0 fixes, 2 open findings

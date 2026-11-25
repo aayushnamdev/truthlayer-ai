@@ -66,11 +66,11 @@
     381,
     782
    ],
-   "fixes_applied": 0,
-   "open_findings": 8,
+   "fixes_applied": 1,
+   "open_findings": 7,
    "api_version": "2 (FHIR R4)",
    "verified_on": "2026-11-25",
-   "sha256": "74be2c554f2ad8053918532ae6e02c04d455874258afb978a60ef355fd3f4fab"
+   "sha256": "69e3709428b9267625bb0d1e69ae85df602ec70b9e34d672282bc7b4a0ca468c"
   },
   {
    "id": "blue-button-v1-stu3-docs--fhir-data-model",

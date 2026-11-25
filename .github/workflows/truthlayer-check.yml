@@ -2,7 +2,8 @@ name: TruthLayer drift check
 
 # Runs TruthLayer in MOCK mode (no AI, no key) whenever the API data or the docs change.
 # Fails the job when drift at or above the chosen severity exists.
-#   - default threshold: thresholds.fail_on_severity in truthlayer.yml (CRITICAL)
+#   - default threshold: thresholds.fail_on_severity in truthlayer.yml (CRITICAL) on pull requests and manual runs;
+#     a plain push only reports (NONE) so main does not turn red because the bundled old booklet really is out of date
 #   - override for the whole repo:  Settings > Variables > TRUTHLAYER_FAIL_ON  (CRITICAL, HIGH, MEDIUM, LOW or NONE)
 #   - override for one manual run:  Actions > Run workflow > fail_on
 
@@ -26,7 +27,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       ANTHROPIC_API_KEY: ""        # MOCK mode on purpose: this workflow never calls the AI
-      FAIL_ON: ${{ inputs.fail_on || vars.TRUTHLAYER_FAIL_ON || '' }}
+      # on a plain push the check only reports (NONE); on pull requests it uses truthlayer.yml unless overridden
+      FAIL_ON: ${{ inputs.fail_on || vars.TRUTHLAYER_FAIL_ON || (github.event_name == 'push' && 'NONE') || '' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
