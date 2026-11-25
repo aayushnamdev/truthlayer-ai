@@ -83,7 +83,7 @@ Detection is built and tuned only from the v1/v2 definitions, the docs and SYNTH
 | Strict precision (on CMS's list) | 43% | 28% (the extra findings are real differences CMS did not list) |
 | Run time | 0.34 s | 0.63 s |
 
-The second score was taken after I saw what the first one missed, so it shows known gaps being closed, not an independent test. The real-AI fixer has **not** been run on the Blue Button case yet (no key was available in the build session), so no AI quality or cost figures exist.
+The second score was taken after I saw what the first one missed, so it shows known gaps being closed, not an independent test. The real-AI fixer was run once on the Blue Button case: 25 calls, about $0.04; 2 text fixes, 15 correct "nothing to change", 7 unparseable (since fixed in the prompt). See `reports/results-v2.md`.
 
 ## Limitations
 - Compares what machine-readable definitions say. HTTP headers, policies and prose-only rules cannot be proven; they are listed as UNVERIFIABLE for a human.
@@ -91,7 +91,7 @@ The second score was taken after I saw what the first one missed, so it shows kn
 - Matching booklet text to elements is rule-based. It is cautious (a bare word like "Coverage" does not match a field) and can miss loosely worded passages.
 - Many findings are low-value optional additions (LOW, in an appendix). About 6 are only must-support flags.
 - Only Patient, Coverage and ExplanationOfBenefit are modelled. Fixes to JSON sample files can be approved but are not published.
-- The AI fixer is untested against the live API in this repository.
+- The AI fixer was run on 24 findings only; most findings are about bare field names, so it rightly changed little.
 
 ## Connect the MCP server to Claude
 The server reads only `publish/` and `reports/`. Tools: `search_docs(query, api_version)`, `get_page(id)`, `get_drift_report()`, `get_change(element)`. First run `make run`, then:

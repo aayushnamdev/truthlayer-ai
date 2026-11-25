@@ -15,11 +15,11 @@ spec_hashes:
   STU3-explanationofbenefit.json: "1baa1b00ff7b16bf0347dfe26deaed4f294570dc262975e77b5d4a4992a1db26"
   STU3-patient.json: "785809db7242f260ea1a8bf967eae6b9f05e914f971f150ec7e29e0fb94a6191"
 truthlayer_version: "0.1.0"
-fixes_applied: 8
-open_findings: 4
+fixes_applied: 2
+open_findings: 10
 status: "needs_review"
 ---
-> **Not fully verified:** 4 finding(s) on this section are still open (F-006, F-081, F-084, F-085). See reports/drift-report.md.
+> **Not fully verified:** 10 finding(s) on this section are still open (F-006, F-081, F-082, F-084, F-085, F-087, F-098, F-099, F-102, F-104). See reports/drift-report.md.
 
 ## Item
 
@@ -29,13 +29,13 @@ The Item resource with the Entry resource contains the bulk of the Explanation o
 - sequence
 careTeamSequence
 diagnosisSequence
-category (v2 note: value set http://hl7.org/fhir/ValueSet/benefit-subcategory -> http://hl7.org/fhir/ValueSet/ex-benefitcategory)
+- category
 - service
-modifier (v2 note: profile: value set https://bluebutton.cms.gov/assets/ig/ValueSet-claim-modifiers -> http://hl7.org/fhir/us/carin-bb/ValueSet/AMACPTCMSHCPCSModifiers; profile: binding strength example -> required; profile: must-support False -> True)
-servicedPeriod (v2 note: profile: cardinality 1..1 -> 0..1; profile: slicing 'sliced by ?' -> 'sliced by type:$this')
-locationCodeableConcept (v2 note: profile: value set https://bluebutton.cms.gov/assets/ig/ValueSet-service-place -> http://hl7.org/fhir/ValueSet/service-place; profile: slicing 'sliced by ?' -> 'none')
-quantity (v2 note: profile: cardinality 1..1 -> 0..1)
-adjudication (v2 note: profile: cardinality 1..* -> 2..*; profile: slicing 'none' -> 'sliced by pattern:category; required slices: adjudicationamounttype, inoutnetwork')
+- modifier
+- servicedPeriod
+- locationCodeableConcept
+- quantity
+- adjudication
 
 You will see the Extension FHIR resource with CMS specific coding systems as well as common industry coding systems.
 

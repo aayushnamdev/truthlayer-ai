@@ -18,8 +18,8 @@
 - [Overview](pages/explanation-of-benefits-fhir--overview.md): docs/v1/explanation-of-benefits-fhir.md lines 7-12; 0 fixes, 0 open findings
 - [Bundle](pages/explanation-of-benefits-fhir--bundle.md): docs/v1/explanation-of-benefits-fhir.md lines 13-28; 0 fixes, 1 open findings
 - [Paging](pages/explanation-of-benefits-fhir--paging.md): docs/v1/explanation-of-benefits-fhir.md lines 29-49; 0 fixes, 0 open findings
-- [Entry](pages/explanation-of-benefits-fhir--entry.md): docs/v1/explanation-of-benefits-fhir.md lines 50-101; 8 fixes, 4 open findings
-- [Item](pages/explanation-of-benefits-fhir--item.md): docs/v1/explanation-of-benefits-fhir.md lines 102-191; 8 fixes, 4 open findings
+- [Entry](pages/explanation-of-benefits-fhir--entry.md): docs/v1/explanation-of-benefits-fhir.md lines 50-101; 0 fixes, 12 open findings
+- [Item](pages/explanation-of-benefits-fhir--item.md): docs/v1/explanation-of-benefits-fhir.md lines 102-191; 2 fixes, 10 open findings
 - [Introduction](pages/terms-v1--introduction.md): docs/v1/terms-v1.md lines 1-4; 0 fixes, 0 open findings
 - [API Terms of Service](pages/terms-v1--api-terms-of-service.md): docs/v1/terms-v1.md lines 5-8; 0 fixes, 0 open findings
 - [These Terms of Service has been deprecated](pages/terms-v1--these-terms-of-service-has-been-deprecated.md): docs/v1/terms-v1.md lines 9-14; 0 fixes, 2 open findings

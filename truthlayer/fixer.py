@@ -25,8 +25,8 @@ log = logging.getLogger("truthlayer.fixer")
 
 SYSTEM = ("You fix API documentation. You are given one passage from an old booklet and the current v2 "
           "definition of the element it mentions. Change ONLY the words that are wrong because of that "
-          "definition. Keep everything else byte-for-byte. Reply with JSON only: "
-          '{"revised_passage": "...", "reason": "..."}')
+          "definition. Keep everything else byte-for-byte. If nothing in the passage is wrong, return it unchanged. "
+          'Reply with JSON only: {"revised_passage": "...", "reason": "<at most 20 words>"}')
 
 
 class AIUnavailable(RuntimeError):

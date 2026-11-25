@@ -5,7 +5,7 @@
 ## Read this first: how fair is the second score?
 - The first score was taken blind (see `results.md`). **This second score is not blind.** I changed the tool *after* seeing which of the 35 CMS changes it missed, and the first-score misses (value-set rules, slicing, children of new parents) are exactly what several changes target. Treat the improvement as "fixing known gaps", not as an independent test.
 - Two of the changes were made after I had already seen a second-iteration score (29/35): the base-vs-profile split and counting children in the scorer. Both are listed below.
-- **The AI fixer was NOT run for real.** The task says `ANTHROPIC_API_KEY` is set, but it is not set in this session, and the platform does not allow a key to be saved for Anthropic's own hosts. So no real tokens were used, **AI cost is $0.00**, the full $1.00 budget is untouched, and the "3 before/after AI fix examples" could not be produced. All fixes here are MOCK (a simple built-in stand-in), labelled as such everywhere. The code path for the real run is built and tested with a fake client (never the real API); run `truthlayer ai-test` then `truthlayer fix --live` when a key is available.
+- **The AI fixer was run for real afterwards** (the key was supplied in chat after the first version of this file; see "Real AI run" at the bottom). The first part of this file (scores) comes from the MOCK run and is unaffected: detection never uses AI.
 
 ## First vs second score
 | Measure | First score (`results.md`) | Second score |
@@ -21,7 +21,7 @@
 | Strict precision (finding is on CMS's list) | 43% (28 of 65) | 28% (43 of 155) |
 | Precision of the CRITICAL + HIGH findings | n/a | 42% (13 of 31) |
 | Run time (whole pipeline, wall clock) | 0.34 s | 0.63 s |
-| AI tokens and cost | 0 / $0.00 (MOCK) | 0 / $0.00 (MOCK; no key in this session) |
+| AI tokens and cost | 0 / $0.00 (MOCK) | 15,458 in+out tokens, about $0.04 at assumed prices (real run, see bottom) |
 
 Precision fell because the tool now looks at many more rules, so it reports many more real differences that CMS never listed (see below). It is not a sign that the extra findings are wrong.
 
@@ -51,5 +51,14 @@ Precision fell because the tool now looks at many more rules, so it reports many
 ## The "Fix these first" list (real run)
 See `reports/drift-report.md`. Nine are CRITICAL and 22 HIGH; the report shows the first 15.
 
-## AI fix examples
-Not produced: no API key in this session (see the top of this file). `fixes/proposals.json` holds 31 proposals, all MOCK, so no AI before/after examples are shown rather than passing off mock output as AI.
+## Real AI run (claude-haiku-5-5)
+- **Test call first:** 283 input and 212 output tokens (about $0.0013).
+- **Full run:** 24 more calls, 8,644 input and 6,813 output tokens. **Total 25 calls, 8,927 in / 7,025 out, about $0.044 at the assumed prices ($0.088 as charged to the budget, which doubles prices). Budget left: $0.91 of $1.00.** It stopped at the 25-call cap. No failed or retried calls. Prices are my assumption, not looked up; check the Anthropic console for the real bill.
+- **Results of the 24 proposals:** 2 changed the text, 15 correctly left it unchanged, 7 came back unparseable (the 400-token cap cut the JSON off because the model wrote a long "reason").
+- **The model was right to decline most.** The booklet passages are bare field names like `insurance` or `status`. The change (for example 0..1 to 1..*) does not make any word in them wrong, so there was nothing to fix. This also says something about the detector: many "WRONG" findings are real spec changes where the old text never made a claim that is now false.
+- **Fix after the run:** the prompt now asks for a reason of at most 20 words and to return unchanged text if nothing is wrong. Not re-run, because the 25-call limit is used up.
+
+### Before/after examples
+1. **Renamed field (approved automatically, HIGH confidence).** Old booklet, `explanation-of-benefits-fhir.md` line 108, listed `careTeamLinkId`. v2 calls it `careTeamSequence` (HL7's official map). Now says `careTeamSequence`.
+2. **Same kind of rename.** Line 109, `diagnosisLinkId` became `diagnosisSequence`.
+3. **Correctly left alone.** Line 95 says only `insurance`. v2 now requires at least one insurance entry, but the text states no count, so the model returned it unchanged, with the reason "it states no cardinality". That is a note for a writer to add the new rule, not a wording fix.

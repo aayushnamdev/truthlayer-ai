@@ -206,11 +206,11 @@
     50,
     101
    ],
-   "fixes_applied": 8,
-   "open_findings": 4,
+   "fixes_applied": 0,
+   "open_findings": 12,
    "api_version": "2 (FHIR R4)",
    "verified_on": "2026-11-25",
-   "sha256": "7c67ed1403f83a0fac3a4ab4c001a9e8059a8acf1ece6fef8afd58f41123fbe8"
+   "sha256": "e14c0e71597192a3f5aa2d57f3731bc349e56794f7119330abc5b34987140ada"
   },
   {
    "id": "explanation-of-benefits-fhir--item",
@@ -220,11 +220,11 @@
     102,
     191
    ],
-   "fixes_applied": 8,
-   "open_findings": 4,
+   "fixes_applied": 2,
+   "open_findings": 10,
    "api_version": "2 (FHIR R4)",
    "verified_on": "2026-11-25",
-   "sha256": "f873b95b681d3b526beba76fff01b2af6eb72ff96da9e018381eb7655d56de17"
+   "sha256": "da1cba61a03554a69c3bd44b1f3255698fa0522580d4ca02f4f6941580734dbc"
   },
   {
    "id": "terms-v1--introduction",

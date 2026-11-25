@@ -8,7 +8,7 @@ Real test case: the **CMS Blue Button 2.0 Medicare API**, moving from **v1 (FHIR
 **v2 (FHIR R4)**.
 
 ## Current phase
-Phases 1-5 are done (collect data, recover v1 docs, tool + first score in `reports/results.md`). **Branch `v1-production`** adds severity, rule/profile checks, a dashboard, CI and a second score in `reports/results-v2.md`. The real-AI fixer has not yet been run (no key in the build session).
+Phases 1-5 are done (collect data, recover v1 docs, tool + first score in `reports/results.md`). **Branch `v1-production`** adds severity, rule/profile checks, a dashboard, CI and a second score in `reports/results-v2.md`. The real-AI fixer was run once (25 calls, about $0.04); see `reports/results-v2.md`.
 
 ## Folder structure
 | Path | Contents |

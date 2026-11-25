@@ -15,7 +15,7 @@
 ### Product
 - Streamlit dashboard (`truthlayer app`), GitHub Action drift check, CI (pytest, ruff, mypy), Dockerfile, Makefile, `truthlayer.yml`, `.env.example`, pinned dependencies, structured logging, clear errors for missing or invalid files.
 ### Results
-- Second score 32 of 35 (first: 21 of 35); see `reports/results-v2.md`. Real-AI fixer not yet run.
+- Second score 32 of 35 (first: 21 of 35); see `reports/results-v2.md`. Real-AI fixer run once (25 calls, about $0.04).
 
 ## 0.1.0 (branch `phase-3-5`)
 - First version: spec diff, docs map, drift labels, style checker, MOCK/AI fixer, approvals, publisher, MCP server, audit log, tests. First score 21 of 35.

@@ -15,11 +15,11 @@ spec_hashes:
   STU3-explanationofbenefit.json: "1baa1b00ff7b16bf0347dfe26deaed4f294570dc262975e77b5d4a4992a1db26"
   STU3-patient.json: "785809db7242f260ea1a8bf967eae6b9f05e914f971f150ec7e29e0fb94a6191"
 truthlayer_version: "0.1.0"
-fixes_applied: 8
-open_findings: 4
+fixes_applied: 0
+open_findings: 12
 status: "needs_review"
 ---
-> **Not fully verified:** 4 finding(s) on this section are still open (F-064, F-081, F-107, F-145). See reports/drift-report.md.
+> **Not fully verified:** 12 finding(s) on this section are still open (F-064, F-065, F-071, F-075, F-078, F-081, F-107, F-111, F-122, F-126, F-128, F-145). See reports/drift-report.md.
 
 ## Entry
 
@@ -58,17 +58,17 @@ You will find these FHIR resources in the Entry:
 - contained
 - extension
 - identifier
-status (v2 note: cardinality 0..1 -> 1..1; value set version http://hl7.org/fhir/ValueSet/explanationofbenefit-status -> http://hl7.org/fhir/ValueSet/explanationofbenefit-status|4.0.1; profile: value set https://bluebutton.cms.gov/assets/ig/ValueSet-explanationofbenefit-status -> http://hl7.org/fhir/ValueSet/explanationofbenefit-status|4.0.1)
-type (v2 note: cardinality 0..1 -> 1..1; binding strength required -> extensible; profile: value set https://bluebutton.cms.gov/assets/ig/ValueSet-claim-type -> http://hl7.org/fhir/ValueSet/claim-type; profile: fixed/default value (none) -> patternCodeableConcept={"coding": [{"code": "institutional", "system": "http://terminology.hl7.org/CodeSystem/claim-type"}]})
+- status
+- type
 - patient
 - billableperiod
-referral (v2 note: reference targets ReferralRequest -> ServiceRequest)
-disposition (v2 note: profile: cardinality 1..1 -> 0..1; profile: must-support True -> False)
-careTeam (v2 note: profile: cardinality 1..* -> 0..*)
-diagnosis (v2 note: profile: cardinality 0..* -> 1..*; profile: must-support False -> True)
-insurance (v2 note: cardinality 0..1 -> 1..*)
+- referral
+- disposition
+- careTeam
+- diagnosis
+- insurance
 - item
-payment (v2 note: profile: cardinality 1..1 -> 0..1; profile: must-support False -> True)
+- payment
 - benefitBalance
 
 [Download a sample Explanation of Benefit Entry](/sample-eob-entry.json)
