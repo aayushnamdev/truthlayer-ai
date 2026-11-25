@@ -89,12 +89,14 @@ def style(ctx: click.Context) -> None:
 @main.command()
 @click.option("--live", is_flag=True, help="Really call the AI (needs ANTHROPIC_API_KEY). Without it: MOCK mode.")
 @click.option("--max-calls", type=int, default=None, help="Extra cap on AI calls for this run.")
+@click.option("--overwrite", is_flag=True, help="Allow a MOCK run to replace proposals that came from the real AI.")
 @click.option("--retry-unparseable", is_flag=True, help="Re-ask ONLY the proposals whose AI reply was unreadable (needs --live).")
 @click.option("--extra-calls", type=int, default=7, show_default=True, help="With --retry-unparseable: calls allowed beyond the cap.")
 @click.option("--extra-usd", type=float, default=0.10, show_default=True, help="With --retry-unparseable: extra spend allowed.")
 @click.pass_context
 @friendly
-def fix(ctx: click.Context, live: bool, max_calls: int | None, retry_unparseable: bool, extra_calls: int, extra_usd: float) -> None:
+def fix(ctx: click.Context, live: bool, max_calls: int | None, overwrite: bool, retry_unparseable: bool, extra_calls: int,
+        extra_usd: float) -> None:
     """Make fix proposals (PENDING). MOCK mode unless --live. Stays inside the cost limit in truthlayer.yml."""
     cfg = _cfg(ctx)
     if retry_unparseable:
@@ -105,7 +107,7 @@ def fix(ctx: click.Context, live: bool, max_calls: int | None, retry_unparseable
         click.echo(json.dumps(r, indent=1))
         return
     a, _ = pipeline.check(cfg)
-    data = fixer.propose_fixes(a, cfg, live=live, limit_calls=max_calls)
+    data = fixer.propose_fixes(a, cfg, live=live, limit_calls=max_calls, overwrite=overwrite)
     m = data["meta"]
     click.echo(f"Mode: {m['mode']}. {len(data['proposals'])} proposals saved to {cfg.fixes_dir}/proposals.json "
                f"(calls {m['calls_this_run']}, tokens in/out {m['input_tokens']}/{m['output_tokens']}, "
@@ -184,11 +186,12 @@ def publish(ctx: click.Context) -> None:
 @main.command()
 @click.option("--auto-approve-high", is_flag=True)
 @click.option("--live", is_flag=True, help="Really call the AI (within the cost limit).")
+@click.option("--overwrite", is_flag=True, help="Allow a MOCK run to replace proposals that came from the real AI.")
 @click.pass_context
 @friendly
-def run(ctx: click.Context, auto_approve_high: bool, live: bool) -> None:
+def run(ctx: click.Context, auto_approve_high: bool, live: bool, overwrite: bool) -> None:
     """Whole pipeline: check, fix, (auto-)approve, publish. Prints wall-clock time."""
-    r = pipeline.run_all(_cfg(ctx), auto_approve_high, live)
+    r = pipeline.run_all(_cfg(ctx), auto_approve_high, live, overwrite=overwrite)
     click.echo(f"Done in {r['seconds']}s. {len(r['analysis'].findings)} findings, "
                f"{len(r['proposals']['proposals'])} proposals, {len(r['auto_approved'])} auto-approved, "
                f"{len(r['manifest']['pages'])} pages published (mode {r['proposals']['meta']['mode']}).")

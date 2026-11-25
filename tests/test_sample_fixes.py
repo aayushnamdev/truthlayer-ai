@@ -168,3 +168,20 @@ def test_dashboard_auto_approve_counts_json_samples(analysis, cfg):
     ids = approval.auto_approve_high(cfg)
     props = {p["id"]: p for p in approval.load(cfg)["proposals"]}
     assert all(props[i]["file"].endswith((".md", ".json")) for i in ids)
+
+
+def test_mock_run_never_overwrites_real_ai_proposals(analysis, cfg):
+    fixer.propose_fixes(analysis, cfg, Settings(), live=True, client=EditClient(edit=RENAME, rewrite={"revised_passage": "x", "reason": "y"}))
+    with pytest.raises(ValueError, match="real AI proposals"):
+        fixer.propose_fixes(analysis, cfg, Settings())                       # MOCK
+    kept = json.loads((cfg.fixes_dir / "proposals.json").read_text())
+    assert kept["meta"]["mode"] == "LIVE"
+    fixer.propose_fixes(analysis, cfg, Settings(), overwrite=True)           # only with the explicit flag
+    assert json.loads((cfg.fixes_dir / "proposals.json").read_text())["meta"]["mode"] == "MOCK"
+
+
+def test_old_rewrite_proposals_still_publish_as_edits(analysis, cfg):
+    file = "tests/fixtures/docs-v1/sample-patient.json"
+    props = approved(cfg, file=file, line=9, end_line=11, original='  "nickname": "Sam",', proposed='  "alias": "Sam",')
+    publisher.publish(analysis, cfg, props)               # no 'edit' key: derived from the rewrite
+    assert "alias" in json.loads((cfg.publish_dir / "samples" / "sample-patient.json").read_text())

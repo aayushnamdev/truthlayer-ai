@@ -8,7 +8,7 @@ from datetime import date
 from pathlib import Path
 from typing import Any
 
-from . import __version__, audit
+from . import __version__, audit, sample_edit
 from .config import Config
 from .drift import Analysis
 
@@ -36,10 +36,8 @@ def _apply_fix(seg: list[str], p: dict) -> tuple[list[str], bool]:
     """Apply one approved fix to the lines of its block. Uses the small old/new edit when there is one
     (so code fences and surrounding text are never touched); otherwise replaces the block with the proposed text."""
     text = "\n".join(seg)
-    e = p.get("edit")
-    if e and e.get("old_text"):
-        if text.count(e["old_text"]) != 1:
-            return seg, False
+    e = p.get("edit") or sample_edit.edit_from_rewrite(p.get("original", ""), p.get("proposed", ""))
+    if e and e.get("old_text") and text.count(e["old_text"]) == 1:
         return text.replace(e["old_text"], e["new_text"], 1).split("\n"), True
     if p.get("kind") in ("sample", "code"):
         return seg, False            # never replace a whole code block with a rewrite

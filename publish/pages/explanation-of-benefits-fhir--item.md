@@ -27,8 +27,8 @@ The Item resource with the Entry resource contains the bulk of the Explanation o
 
 - extension
 - sequence
-careTeamSequence
-diagnosisSequence
+- careTeamSequence
+- diagnosisSequence
 - category
 - service
 - modifier

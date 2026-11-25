@@ -84,10 +84,13 @@ def test_dashboard_loads_without_calling_the_ai(monkeypatch):
     at = AppTest.from_file(str(REPO / "truthlayer" / "dashboard.py"), default_timeout=30).run()
     assert not at.exception
     assert [t.value for t in at.title] == ["TruthLayer AI"]
-    assert any("MOCK mode" in m.value for m in at.sidebar.markdown)          # MOCK is shown clearly
+    assert any("No AI key" in m.value for m in at.sidebar.markdown)          # the missing key is shown clearly
+    assert not [b for b in at.button if "AI" in b.label]                     # no AI button without a key
+    nav = next(r for r in at.radio if r.key == "nav")
     for page in ("Overview", "Fix these first", "Finding detail", "Downloads", "Audit log"):
-        at.sidebar.radio[0].set_value(page).run()
+        nav.set_value(page).run()
         assert not at.exception, page
+    assert not [b for b in at.button if b.label in ("Approve", "Reject", "Ask AI for a fix")]   # saved mode is read-only
 
 
 # ---------- CLI
@@ -221,3 +224,86 @@ def test_app_host_option(monkeypatch):
     seen.clear()
     CliRunner().invoke(cli.main, ["app"])
     assert seen["args"][seen["args"].index("--server.address") + 1] == "127.0.0.1"      # safe default
+
+
+# ---------- Part 2: saved real run, password gate, AI button, about panel
+def _app(monkeypatch, key=None, secrets=None):
+    from streamlit.testing.v1 import AppTest
+
+    def boom(*a, **k):
+        raise AssertionError("the dashboard called the AI")
+
+    monkeypatch.setattr(fixer.LiveClient, "call_raw", boom)
+    monkeypatch.setattr(fixer, "propose_one", boom)
+    monkeypatch.setenv("TRUTHLAYER_ROOT", str(REPO))
+    if key:
+        monkeypatch.setenv("ANTHROPIC_API_KEY", key)
+    else:
+        monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+    at = AppTest.from_file(str(REPO / "truthlayer" / "dashboard.py"), default_timeout=30)
+    for k, v in (secrets or {}).items():
+        at.secrets[k] = v
+    return at.run()
+
+
+def test_password_gate(monkeypatch):
+    at = _app(monkeypatch, secrets={"APP_PASSWORD": "open-sesame"})
+    assert not at.exception
+    assert at.text_input and not at.radio                  # only the password box: nothing else is shown
+    at.text_input[0].set_value("wrong").run()
+    assert at.error and not at.radio
+    at.text_input[0].set_value("open-sesame").run()
+    assert at.radio and not at.exception                    # now the dashboard shows
+
+
+def test_no_password_means_no_gate(monkeypatch):
+    at = _app(monkeypatch)
+    assert at.radio and not at.text_input
+
+
+def test_saved_mode_is_default_and_shows_real_results(monkeypatch):
+    at = _app(monkeypatch)
+    assert next(r for r in at.radio if r.key == "source").value == "Saved real run (read-only)"
+    nav = next(r for r in at.radio if r.key == "nav")
+    nav.set_value("Overview").run()
+    text = " ".join(m.value for m in at.markdown)
+    assert "CMS recall" in text and "32/35" in text and "AI cost so far" in text
+    assert any("About this demo" in e.label for e in at.expander)
+
+
+def test_about_panel_text(monkeypatch):
+    at = _app(monkeypatch)
+    text = " ".join(m.value for m in at.markdown)
+    for phrase in ("Blue Button", "2023", "35", "blind", "AI cost so far"):
+        assert phrase in text
+
+
+def test_ai_button_needs_a_key_and_work_mode(monkeypatch):
+    # with a key but in saved mode: still no AI button
+    at = _app(monkeypatch, key="sk-ant-test-not-real-000000")
+    next(r for r in at.radio if r.key == "nav").set_value("Finding detail").run()
+    assert not [b for b in at.button if "AI" in b.label]
+    # key + work mode: the button exists but is never pressed on page load
+    next(r for r in at.radio if r.key == "source").set_value("Work on my own project").run()
+    next(r for r in at.radio if r.key == "nav").set_value("Finding detail").run()
+    assert not at.exception
+    assert [b for b in at.button if b.label == "Ask AI for a fix"]
+    # same, without a key: hidden even in work mode
+    at2 = _app(monkeypatch)
+    next(r for r in at2.radio if r.key == "source").set_value("Work on my own project").run()
+    next(r for r in at2.radio if r.key == "nav").set_value("Finding detail").run()
+    assert not [b for b in at2.button if "AI" in b.label]
+
+
+def test_dashboard_helpers_password_and_ledger():
+    assert dd.password_required({"APP_PASSWORD": "x"}) == "x"
+    assert dd.password_required({}) is None and dd.password_required({"APP_PASSWORD": ""}) is None
+
+    class Broken:
+        def get(self, k):
+            raise RuntimeError("no secrets file")
+    assert dd.password_required(Broken()) is None
+    assert dd.password_ok("a", "a") and not dd.password_ok("a", "b")
+    s = dd.ledger_summary({"calls": 32, "input_tokens": 12286, "output_tokens": 9502})
+    assert s["calls"] == 32 and s["cost_usd"] == 0.0598
+    assert dd.ledger_summary(None)["cost_usd"] == 0.0

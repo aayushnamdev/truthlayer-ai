@@ -104,3 +104,34 @@ def zip_pages(publish_dir: Path) -> bytes:
             if (Path(publish_dir) / n).exists():
                 z.write(Path(publish_dir) / n, n)
     return buf.getvalue()
+
+
+# The three scores against CMS's 35 listed changes (source files: reports/results.md, results-v2.md, results-v3.md).
+SCORE_HISTORY = [
+    {"name": "First score", "blind": True, "caught": 21, "of": 35, "note": "taken before looking at the CMS list; tool tuned only on the definitions and fixtures", "file": "reports/results.md"},
+    {"name": "Second score", "blind": False, "caught": 32, "of": 35, "note": "after improving the tool on the known misses (rules, profiles, official renames)", "file": "reports/results-v2.md"},
+    {"name": "Third score", "blind": False, "caught": 32, "of": 35, "note": "same recall; WRONG split into WRONG and NEEDS_NOTE", "file": "reports/results-v3.md"},
+]
+
+
+def ledger_summary(ledger: dict[str, Any] | None, price_in: float = 1.0, price_out: float = 5.0) -> dict[str, Any]:
+    """AI use so far, from the cost ledger. Cost uses the ASSUMED prices in truthlayer.yml."""
+    if not ledger:
+        return {"calls": 0, "input_tokens": 0, "output_tokens": 0, "cost_usd": 0.0}
+    tin, tout = int(ledger.get("input_tokens", 0)), int(ledger.get("output_tokens", 0))
+    return {"calls": int(ledger.get("calls", 0)), "input_tokens": tin, "output_tokens": tout,
+            "cost_usd": round((tin * price_in + tout * price_out) / 1e6, 4)}
+
+
+def password_required(secrets: Any) -> str | None:
+    """The APP_PASSWORD secret, if one is set (None means: no password gate)."""
+    try:
+        pw = secrets.get("APP_PASSWORD")
+    except Exception:           # no secrets file at all
+        return None
+    return str(pw) if pw else None
+
+
+def password_ok(entered: str, expected: str) -> bool:
+    import hmac
+    return hmac.compare_digest(entered.encode(), expected.encode())

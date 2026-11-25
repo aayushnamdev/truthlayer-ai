@@ -224,7 +224,7 @@
    "open_findings": 10,
    "api_version": "2 (FHIR R4)",
    "verified_on": "2026-11-25",
-   "sha256": "da1cba61a03554a69c3bd44b1f3255698fa0522580d4ca02f4f6941580734dbc"
+   "sha256": "451d470f3513b7fbb85ab9264312d3a1304ce9eb84a602faacd96b24f8336256"
   },
   {
    "id": "terms-v1--introduction",
@@ -338,5 +338,6 @@
    "verified_on": "2026-11-25",
    "sha256": "b1719099cc958c0129ed29dcc138c46fe744e2f81fdd6d1b499138f7914acf7e"
   }
- ]
+ ],
+ "samples": []
 }

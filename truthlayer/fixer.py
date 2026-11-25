@@ -216,10 +216,19 @@ def _proposal(pid: str, f: Finding, loc: dict[str, Any], m: str, settings: Setti
 
 def propose_fixes(a: Analysis, cfg: Config, settings: Settings | None = None, live: bool = False,
                   client: Any = None, sleep: Callable[[float], None] = time.sleep,
-                  limit_calls: int | None = None) -> dict[str, Any]:
+                  limit_calls: int | None = None, overwrite: bool = False) -> dict[str, Any]:
     settings = settings or load_settings(cfg.root)
     cfg.fixes_dir.mkdir(parents=True, exist_ok=True)
     m = mode(live) if client is None else ("LIVE" if live else "MOCK")
+    existing = cfg.fixes_dir / "proposals.json"
+    if m == "MOCK" and not overwrite and existing.exists():
+        try:
+            had_live = any(x.get("mode") == "LIVE" for x in json.loads(existing.read_text()).get("proposals", []))
+        except (json.JSONDecodeError, AttributeError):
+            had_live = False
+        if had_live:
+            raise ValueError(f"{existing} holds real AI proposals and a MOCK run would overwrite them. "
+                             "Pass --overwrite if you really want that.")
     if live and m == "MOCK":
         log.warning("live AI requested but ANTHROPIC_API_KEY is not set; running in MOCK mode")
     budget = Budget(cfg.fixes_dir / "cost-ledger.json", settings.ai)
