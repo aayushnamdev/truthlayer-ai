@@ -39,7 +39,7 @@ def auto_approve_high(cfg: Config) -> list[str]:
     data = load(cfg)
     done = []
     for p in data["proposals"]:
-        if p["status"] == "PENDING" and p["confidence"] == "HIGH" and p["changed"] and p["publishable"]:
+        if p["status"] == "PENDING" and p["confidence"] == "HIGH" and p["changed"] and p["file"].endswith((".md", ".json")):
             p["status"], p["approver"] = "APPROVED", "auto"
             done.append(p["id"])
             audit.log(cfg.audit_file, "approval", item=p["id"], model=p["model"],

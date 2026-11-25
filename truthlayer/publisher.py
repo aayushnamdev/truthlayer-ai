@@ -32,13 +32,69 @@ def _sections(lines: list[str]) -> list[tuple[str, int, int]]:
     return out
 
 
-def _apply(lines: list[str], fixes: list[dict]) -> list[str]:
-    """Replace the line range of each approved fix with the proposed text (bottom-up)."""
-    lines = list(lines)
+def _apply_fix(seg: list[str], p: dict) -> tuple[list[str], bool]:
+    """Apply one approved fix to the lines of its block. Uses the small old/new edit when there is one
+    (so code fences and surrounding text are never touched); otherwise replaces the block with the proposed text."""
+    text = "\n".join(seg)
+    e = p.get("edit")
+    if e and e.get("old_text"):
+        if text.count(e["old_text"]) != 1:
+            return seg, False
+        return text.replace(e["old_text"], e["new_text"], 1).split("\n"), True
+    if p.get("kind") in ("sample", "code"):
+        return seg, False            # never replace a whole code block with a rewrite
+    return p["proposed"].split("\n"), True
+
+
+def _apply_section(sec_lines: list[str], lo: int, fixes: list[dict]) -> tuple[list[str], list[dict]]:
+    lines = list(sec_lines)
+    applied: list[dict] = []
     for p in sorted(fixes, key=lambda p: -p["line"]):
-        new = p["proposed"].split("\n")
-        lines[p["line"] - 1:p["end_line"]] = new
-    return lines
+        a, b = p["line"] - lo, p["end_line"] - lo + 1
+        new, ok = _apply_fix(lines[a:b], p)
+        if ok:
+            lines[a:b] = new
+            applied.append(p)
+    return lines, applied
+
+
+def _publish_samples(cfg: Config, approved: list[dict], out: Path) -> list[dict]:
+    """Corrected copies of the JSON sample files (only approved fixes; every result is re-checked as valid JSON)."""
+    import json as _json
+    sdir = out / "samples"
+    sdir.mkdir(parents=True, exist_ok=True)
+    for old in sdir.glob("*.json"):
+        old.unlink()
+    by_file: dict[str, list[dict]] = {}
+    for p in approved:
+        if p["file"].endswith(".json"):
+            by_file.setdefault(p["file"], []).append(p)
+    res: list[dict] = []
+    for file, fixes in sorted(by_file.items()):
+        src = cfg.root / file
+        if not src.exists():
+            continue
+        lines = src.read_text(encoding="utf-8").split("\n")
+        applied = 0
+        for p in sorted(fixes, key=lambda p: -p["line"]):
+            a, b = p["line"] - 1, p["end_line"]
+            new, ok = _apply_fix(lines[a:b], p)
+            if ok:
+                lines[a:b] = new
+                applied += 1
+        text = "\n".join(lines)
+        try:
+            _json.loads(text)
+        except _json.JSONDecodeError as exc:
+            audit.log(cfg.audit_file, "publish_sample_rejected", item=file, reason=exc.msg)
+            continue
+        if applied:
+            name = Path(file).name
+            (sdir / name).write_text(text, encoding="utf-8")
+            res.append({"file": file, "published_as": f"samples/{name}", "fixes_applied": applied,
+                        "sha256": audit.sha256_text(text), "valid_json": True})
+            audit.log(cfg.audit_file, "publish_sample", item=name, fixes=applied)
+    return res
 
 
 def publish(a: Analysis, cfg: Config, proposals: dict | None = None) -> dict:
@@ -47,11 +103,14 @@ def publish(a: Analysis, cfg: Config, proposals: dict | None = None) -> dict:
     for old in (out / "pages").glob("*.md"):
         old.unlink()
     props = (proposals or {"proposals": []})["proposals"]
-    approved = [p for p in props if p["status"] == "APPROVED" and p["publishable"] and p["changed"]]
+    approved = [p for p in props if p["status"] == "APPROVED" and p["file"].endswith((".md", ".json")) and p["changed"]]
     today = date.today().isoformat()
     v_hashes = {str(f.name): audit.sha256_file(f) for f in cfg.defs_v1 + cfg.defs_v2}
     manifest: dict[str, Any] = {"truthlayer_version": __version__, "published_on": today, "pages": []}
-    skipped = [p["id"] for p in props if p["status"] == "APPROVED" and not p["publishable"]]
+    skipped = [p["id"] for p in props if p["status"] == "APPROVED" and not p["file"].endswith((".md", ".json"))]
+    if (out / "samples").exists():
+        for old in (out / "samples").glob("*.json"):
+            old.unlink()
     docs = sorted(Path(cfg.docs_dir).glob("*.md"))
     for f in docs:
         disp = str(f.relative_to(cfg.root)) if f.is_relative_to(cfg.root) else str(f)
@@ -61,7 +120,8 @@ def publish(a: Analysis, cfg: Config, proposals: dict | None = None) -> dict:
         fixes = [p for p in approved if p["file"] == disp]
         for title, lo, hi in _sections(lines):
             sec_fixes = [p for p in fixes if lo <= p["line"] and p["end_line"] <= hi]
-            sec = _apply_section(lines[lo - 1:hi], lo, sec_fixes)
+            sec, applied_fixes = _apply_section(lines[lo - 1:hi], lo, sec_fixes)
+            sec_fixes = applied_fixes
             fixed_ids = {p["finding_id"] for p in sec_fixes}
             open_f = [x for x in a.findings if x.label != "MISSING" and x.id not in fixed_ids
                       and any(l["file"] == disp and lo <= l["line"] <= hi for l in x.locations)]
@@ -84,19 +144,12 @@ def publish(a: Analysis, cfg: Config, proposals: dict | None = None) -> dict:
                                       "api_version": "2 (FHIR R4)", "verified_on": today,
                                       "sha256": audit.sha256_text(body)})
             audit.log(cfg.audit_file, "publish", item=pid, fixes=len(sec_fixes), open_findings=len(open_f))
+    manifest["samples"] = _publish_samples(cfg, approved, out)
     (out / "manifest.json").write_text(json.dumps(manifest, indent=1))
     _llms(out, manifest)
     _docx(out, manifest, cfg)
     manifest["skipped_unpublishable_approved"] = skipped
     return manifest
-
-
-def _apply_section(sec_lines, lo, fixes):
-    lines = list(sec_lines)
-    for p in sorted(fixes, key=lambda p: -p["line"]):
-        a, b = p["line"] - lo, p["end_line"] - lo + 1
-        lines[a:b] = p["proposed"].split("\n")
-    return lines
 
 
 def _strip_fm(text: str) -> str:
@@ -111,6 +164,10 @@ def _llms(out: Path, manifest: dict):
     for p in manifest["pages"]:
         head.append(f"- [{p['title']}](pages/{p['id']}.md): {p['file']} lines {p['lines'][0]}-{p['lines'][1]}; "
                     f"{p['fixes_applied']} fixes, {p['open_findings']} open findings")
+    if manifest.get("samples"):
+        head += ["", "## Corrected samples", ""]
+        head += [f"- [{x['published_as']}]({x['published_as']}): from {x['file']}; {x['fixes_applied']} approved fix(es), valid JSON"
+                 for x in manifest["samples"]]
     (out / "llms.txt").write_text("\n".join(head) + "\n", encoding="utf-8")
     full = ["# TruthLayer verified docs (full text)", ""]
     for p in manifest["pages"]:

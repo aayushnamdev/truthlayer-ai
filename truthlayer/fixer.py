@@ -1,6 +1,8 @@
 """2A/2B. Build a tiny prompt per finding, ask the AI (or the labelled MOCK) for a fix.
 
 The AI sees ONLY the doc passage and the matching v2 element definition.
+Prose passages: the AI returns the revised passage. JSON sample passages: the AI returns a small edit
+(old_text, new_text, reason), which is applied and checked in code.
 Budget rules (enforced in code): only the configured model; only CRITICAL/HIGH findings; at most
 `max_calls` calls in total (retries count); a hard cost limit checked BEFORE every attempt.
 The API key is read from the environment, never printed, logged or stored.
@@ -15,9 +17,10 @@ import time
 from dataclasses import replace
 from typing import Any, Callable
 
-from . import audit
+from . import audit, sample_edit
 from .budget import Budget, BudgetExceeded
 from .config import Config
+from .docmap import SAMPLE_KINDS
 from .drift import EXAMPLE, GHOST, SEVERITY_RANK, WRONG, Analysis, Finding
 from .settings import Settings, load_settings
 from .specdiff import CHANGED, REMOVED, RENAME_KINDS
@@ -68,7 +71,7 @@ def build_prompt(passage: str, v2_def: str, detail: str, v1_name: str, v2_name: 
 
 
 def _mock_fix(f: Finding, passage: str, loc: dict[str, Any]) -> tuple[str, str]:
-    """Deterministic stand-in for the AI. Only does safe, obvious edits."""
+    """Deterministic stand-in for the AI (prose). Only does safe, obvious edits."""
     new = f.v2_element.split(".")[-1].replace("[x]", "") if f.v2_element else ""
     tok = loc["token"]
     if f.change_kind in RENAME_KINDS and new and tok in passage:
@@ -109,14 +112,14 @@ class LiveClient:
             self._client = anthropic.Anthropic(max_retries=0, timeout=40.0)
         return self._client
 
-    def call(self, prompt: str, label: str) -> tuple[str, str, int, int]:
+    def call_raw(self, prompt: str, label: str, system: str = SYSTEM) -> tuple[str, int, int]:
         ai = self.s.ai
         last = ""
         for attempt in range(ai.retries + 1):
-            est = self.budget.estimate(len(prompt), len(SYSTEM))
+            est = self.budget.estimate(len(prompt), len(system))
             self.budget.check(est)                      # raises BudgetExceeded before any spend
             try:
-                resp = self.client.messages.create(model=ai.model, max_tokens=ai.max_output_tokens, system=SYSTEM,
+                resp = self.client.messages.create(model=ai.model, max_tokens=ai.max_output_tokens, system=system,
                                                    messages=[{"role": "user", "content": prompt}])
             except BudgetExceeded:
                 raise
@@ -131,9 +134,19 @@ class LiveClient:
             text = "".join(getattr(b, "text", "") for b in resp.content if getattr(b, "type", "") == "text")
             tin, tout = int(resp.usage.input_tokens), int(resp.usage.output_tokens)
             self.budget.charge(label, tin, tout, est, True)
-            revised, reason = _parse_reply(text)
-            return revised, reason, tin, tout
+            return text, tin, tout
         raise AIUnavailable(last)
+
+    def call(self, prompt: str, label: str) -> tuple[str, str, int, int]:
+        text, tin, tout = self.call_raw(prompt, label, SYSTEM)
+        revised, reason = _parse_reply(text)
+        return revised, reason, tin, tout
+
+    def call_edit(self, prompt: str, label: str) -> tuple[str, str, str, str, int, int]:
+        """(old_text, new_text, reason, error, tokens_in, tokens_out) for a JSON sample passage."""
+        text, tin, tout = self.call_raw(prompt, label, sample_edit.EDIT_SYSTEM)
+        old, new, reason, err = sample_edit.parse_edit_reply(text)
+        return old, new, reason, err, tin, tout
 
 
 def candidates(a: Analysis, settings: Settings) -> list[Finding]:
@@ -141,6 +154,64 @@ def candidates(a: Analysis, settings: Settings) -> list[Finding]:
     pool = [f for f in a.findings if f.label in (WRONG, EXAMPLE, GHOST) and f.severity in sev and f.locations]
     pool.sort(key=lambda f: (SEVERITY_RANK[f.severity], f.confidence != "HIGH", f.id))
     return pool
+
+
+def _check_sample_edit(a: Analysis, loc: dict[str, Any], passage: str, lo: int, hi: int, new_passage: str) -> str:
+    b = next((x for x in a.blocks if x.id == loc["block_id"]), None)
+    if b is not None and b.file.endswith(".json"):
+        return sample_edit.validate_file_edit(b.text, lo, hi, new_passage)
+    return sample_edit.validate_fragment_edit(passage, new_passage)
+
+
+def _solve(a: Analysis, f: Finding, loc: dict[str, Any], settings: Settings, lc: LiveClient | None,
+           label: str) -> dict[str, Any]:
+    """One fix for one finding location. Returns the fields of a proposal (no id/status)."""
+    passage, lo, hi = passage_for(a, loc, settings.ai.max_passage_chars)
+    prompt = build_prompt(passage, f.v2_def, f.detail, f.v1_element, f.v2_element)
+    out: dict[str, Any] = {"passage": passage, "lo": lo, "hi": hi, "prompt_hash": audit.sha256_text(prompt),
+                           "ti": 0, "to": 0, "edit": None, "format": "rewrite", "revised": passage, "reason": ""}
+    if not passage:
+        return out
+    if loc["kind"] in SAMPLE_KINDS:
+        out["format"] = "edit"
+        if lc is not None:
+            old, new, reason, err, out["ti"], out["to"] = lc.call_edit(prompt, label)
+        else:
+            new_name = f.v2_element.split(".")[-1].replace("[x]", "") if (f.v2_element and f.change_kind in RENAME_KINDS) else ""
+            e = sample_edit.mock_sample_edit(loc["token"], new_name, passage)
+            old, new, err = e["old_text"], e["new_text"], ""
+            reason = f"MOCK: rename key {loc['token']} -> {new_name}" if old else "MOCK: no safe automatic edit for this case"
+        if err:
+            out["reason"] = err
+            return out
+        revised, err = sample_edit.apply_edit(passage, old, new)
+        if not err and old:
+            err = _check_sample_edit(a, loc, passage, lo, hi, revised)
+        if err:
+            out["reason"] = f"edit rejected: {err}"
+            return out
+        out["revised"], out["reason"] = revised, reason
+        out["edit"] = {"old_text": old, "new_text": new} if old else None
+        return out
+    if lc is not None:
+        revised, reason, out["ti"], out["to"] = lc.call(prompt, label)
+        out["revised"] = revised or passage
+        out["reason"] = reason if revised else (reason or "unparseable reply")
+    else:
+        out["revised"], out["reason"] = _mock_fix(f, passage, loc)
+    return out
+
+
+def _proposal(pid: str, f: Finding, loc: dict[str, Any], m: str, settings: Settings, r: dict[str, Any]) -> dict[str, Any]:
+    changed = r["revised"].strip() != r["passage"].strip()
+    edit = r["edit"] or (sample_edit.edit_from_rewrite(r["passage"], r["revised"]) if changed else None)
+    return {"id": pid, "finding_id": f.id, "label": f.label, "severity": f.severity, "confidence": f.confidence,
+            "status": "PENDING", "mode": m, "model": settings.ai.model if m == "LIVE" else "MOCK (no model called)",
+            "file": loc["file"], "line": r["lo"], "end_line": r["hi"], "kind": loc["kind"],
+            "element": f.v1_element, "v2_element": f.v2_element, "original": r["passage"], "proposed": r["revised"],
+            "changed": changed, "edit": edit, "format": r["format"], "reason": r["reason"],
+            "prompt_hash": r["prompt_hash"], "input_tokens": r["ti"], "output_tokens": r["to"],
+            "publishable": loc["file"].endswith((".md", ".json")), "approver": ""}
 
 
 def propose_fixes(a: Analysis, cfg: Config, settings: Settings | None = None, live: bool = False,
@@ -153,43 +224,29 @@ def propose_fixes(a: Analysis, cfg: Config, settings: Settings | None = None, li
         log.warning("live AI requested but ANTHROPIC_API_KEY is not set; running in MOCK mode")
     budget = Budget(cfg.fixes_dir / "cost-ledger.json", settings.ai)
     start_calls = int(budget.data["calls"])
-    live_client = LiveClient(settings, budget, sleep, client) if m == "LIVE" else None
+    lc = LiveClient(settings, budget, sleep, client) if m == "LIVE" else None
     proposals: list[dict[str, Any]] = []
     stopped = ""
     for f in candidates(a, settings):
         loc = f.locations[0]                          # one small prompt per finding
-        passage, lo, hi = passage_for(a, loc, settings.ai.max_passage_chars)
-        if not passage:
+        if lc is not None and limit_calls is not None and int(budget.data["calls"]) - start_calls >= limit_calls:
+            stopped = f"stopped at the requested limit of {limit_calls} calls"
+            break
+        try:
+            r = _solve(a, f, loc, settings, lc, f.id)
+        except BudgetExceeded as exc:
+            stopped = f"stopped before the call that would exceed the budget: {exc}"
+            audit.log(cfg.audit_file, "budget_stop", item=f.id, reason=str(exc))
+            break
+        except AIUnavailable as exc:
+            passage, lo, hi = passage_for(a, loc, settings.ai.max_passage_chars)
+            r = {"passage": passage, "lo": lo, "hi": hi, "prompt_hash": "", "ti": 0, "to": 0, "edit": None,
+                 "format": "edit" if loc["kind"] in SAMPLE_KINDS else "rewrite", "revised": passage, "reason": str(exc)}
+        if not r["passage"]:
             continue
-        prompt = build_prompt(passage, f.v2_def, f.detail, f.v1_element, f.v2_element)
-        ph = audit.sha256_text(prompt)
-        ti = to = 0
-        if live_client is not None:
-            if limit_calls is not None and int(budget.data["calls"]) - start_calls >= limit_calls:
-                stopped = f"stopped at the requested limit of {limit_calls} calls"
-                break
-            try:
-                revised, reason, ti, to = live_client.call(prompt, f.id)
-            except BudgetExceeded as exc:
-                stopped = f"stopped before the call that would exceed the budget: {exc}"
-                audit.log(cfg.audit_file, "budget_stop", item=f.id, reason=str(exc))
-                break
-            except AIUnavailable as exc:
-                revised, reason = passage, str(exc)
-        else:
-            revised, reason = _mock_fix(f, passage, loc)
-        if live_client is not None and not revised:
-            revised = passage
-        p = {"id": f"P-{len(proposals) + 1:03d}", "finding_id": f.id, "label": f.label, "severity": f.severity,
-             "confidence": f.confidence, "status": "PENDING", "mode": m,
-             "model": settings.ai.model if m == "LIVE" else "MOCK (no model called)",
-             "file": loc["file"], "line": lo, "end_line": hi, "kind": loc["kind"],
-             "element": f.v1_element, "v2_element": f.v2_element,
-             "original": passage, "proposed": revised, "changed": revised.strip() != passage.strip(),
-             "reason": reason, "prompt_hash": ph, "input_tokens": ti, "output_tokens": to,
-             "publishable": loc["file"].endswith(".md"), "approver": ""}
+        p = _proposal(f"P-{len(proposals) + 1:03d}", f, loc, m, settings, r)
         proposals.append(p)
-        audit.log(cfg.audit_file, "proposal", item=p["id"], model=p["model"], prompt_hash=ph, finding=f.id, mode=m)
+        audit.log(cfg.audit_file, "proposal", item=p["id"], model=p["model"], prompt_hash=p["prompt_hash"], finding=f.id, mode=m)
     data = {"meta": {"mode": m, "model": settings.ai.model if m == "LIVE" else "MOCK",
                      "input_tokens": sum(p["input_tokens"] for p in proposals),
                      "output_tokens": sum(p["output_tokens"] for p in proposals),
@@ -234,84 +291,76 @@ def propose_one(a: Analysis, cfg: Config, settings: Settings, finding_id: str, l
     p_path = cfg.fixes_dir / "proposals.json"
     data: dict[str, Any] = json.loads(p_path.read_text()) if p_path.exists() else {"meta": {"mode": "MOCK"}, "proposals": []}
     loc = f.locations[0]
-    passage, lo, hi = passage_for(a, loc, settings.ai.max_passage_chars)
-    prompt = build_prompt(passage, f.v2_def, f.detail, f.v1_element, f.v2_element)
-    ph = audit.sha256_text(prompt)
     m = mode(live) if client is None else ("LIVE" if live else "MOCK")
-    ti = to = 0
-    if m == "LIVE":
-        budget = Budget(cfg.fixes_dir / "cost-ledger.json", settings.ai)
-        revised, reason, ti, to = LiveClient(settings, budget, sleep, client).call(prompt, f.id) or ("", "", 0, 0)
-        revised = revised or passage
-    else:
-        revised, reason = _mock_fix(f, passage, loc)
+    lc = LiveClient(settings, Budget(cfg.fixes_dir / "cost-ledger.json", settings.ai), sleep, client) if m == "LIVE" else None
+    r = _solve(a, f, loc, settings, lc, f.id)
     props = [x for x in data["proposals"] if x["finding_id"] != finding_id]
     pid = f"P-{max([int(x['id'][2:]) for x in data['proposals']] + [0]) + 1:03d}"
-    p = {"id": pid, "finding_id": f.id, "label": f.label, "severity": f.severity, "confidence": f.confidence,
-         "status": "PENDING", "mode": m, "model": settings.ai.model if m == "LIVE" else "MOCK (no model called)",
-         "file": loc["file"], "line": lo, "end_line": hi, "kind": loc["kind"], "element": f.v1_element,
-         "v2_element": f.v2_element, "original": passage, "proposed": revised,
-         "changed": revised.strip() != passage.strip(), "reason": reason, "prompt_hash": ph,
-         "input_tokens": ti, "output_tokens": to, "publishable": loc["file"].endswith(".md"), "approver": ""}
+    p = _proposal(pid, f, loc, m, settings, r)
     props.append(p)
     data["proposals"] = props
     cfg.fixes_dir.mkdir(parents=True, exist_ok=True)
     p_path.write_text(json.dumps(data, indent=1))
-    audit.log(cfg.audit_file, "proposal", item=pid, model=p["model"], prompt_hash=ph, finding=f.id, mode=m)
+    audit.log(cfg.audit_file, "proposal", item=pid, model=p["model"], prompt_hash=p["prompt_hash"], finding=f.id, mode=m)
     return p
 
 
 def retry_unparseable(a: Analysis, cfg: Config, settings: Settings, client: Any = None, extra_calls: int = 7,
                       extra_usd: float = 0.10, sleep: Callable[[float], None] = time.sleep) -> dict[str, Any]:
-    """Re-ask ONLY the proposals whose AI reply could not be read. Has its own caps on top of the ledger:
-    at most `extra_calls` calls and `extra_usd` more spend (charged basis). Approval status is kept."""
+    """Re-ask ONLY the proposals whose AI reply or edit could not be used. Own caps on top of the ledger:
+    at most `extra_calls` calls and `extra_usd` more spend (charged basis). Approval status is kept.
+    JSON sample passages are re-asked in the small-edit format."""
     p_path = cfg.fixes_dir / "proposals.json"
     if not p_path.exists():
         raise FileNotFoundError(f"no proposals file at {p_path}; run `truthlayer fix --live` first")
     data: dict[str, Any] = json.loads(p_path.read_text())
-    targets = [p for p in data["proposals"] if p["mode"] == "LIVE" and str(p["reason"]).startswith("unparseable")][:extra_calls]
+    targets = [p for p in data["proposals"] if p["mode"] == "LIVE"
+               and str(p["reason"]).startswith(("unparseable", "edit rejected"))][:extra_calls]
     ledger = Budget(cfg.fixes_dir / "cost-ledger.json", settings.ai)
     before_spent, before_calls = ledger.spent, int(ledger.data["calls"])
     ai2 = replace(settings.ai, max_calls=before_calls + extra_calls, cost_limit_usd=round(before_spent + extra_usd, 6))
-    lc = LiveClient(replace(settings, ai=ai2), Budget(cfg.fixes_dir / "cost-ledger.json", ai2), sleep, client)
-    fixed = still_bad = unchanged = 0
+    s2 = replace(settings, ai=ai2)
+    lc = LiveClient(s2, Budget(cfg.fixes_dir / "cost-ledger.json", ai2), sleep, client)
+    fixed = unchanged = still_bad = 0
     stopped = ""
+    done: list[str] = []
     for p in targets:
         f = next((x for x in a.findings if x.id == p["finding_id"]), None)
-        if f is None:
+        loc = next((x for x in f.locations if x["block_id"] and x["file"] == p["file"]), None) if f else None
+        if f is None or loc is None:
             continue
-        prompt = build_prompt(p["original"], f.v2_def, f.detail, f.v1_element, f.v2_element)
         try:
-            revised, reason, ti, to = lc.call(prompt, f"retry:{p['id']}")
+            r = _solve(a, f, loc, s2, lc, f"retry:{p['id']}")
         except BudgetExceeded as exc:
             stopped = str(exc)
             break
         except AIUnavailable as exc:
-            revised, reason, ti, to = "", str(exc), 0, 0
-        p["input_tokens"] += ti
-        p["output_tokens"] += to
-        p["prompt_hash"] = audit.sha256_text(prompt)
-        p["retried"] = True
-        if reason.startswith("unparseable") or not revised:
-            still_bad += 1
-            p["reason"] = reason or "unparseable reply (retry)"
-        else:
-            p["proposed"], p["reason"] = revised, reason
-            p["changed"] = revised.strip() != p["original"].strip()
-            fixed += 1 if p["changed"] else 0
-            unchanged += 0 if p["changed"] else 1
-        audit.log(cfg.audit_file, "proposal_retry", item=p["id"], model=settings.ai.model, prompt_hash=p["prompt_hash"])
+            r = {"passage": p["original"], "lo": p["line"], "hi": p["end_line"], "prompt_hash": p["prompt_hash"], "ti": 0,
+                 "to": 0, "edit": None, "format": p.get("format", "rewrite"), "revised": p["original"], "reason": str(exc)}
+        done.append(p["id"])
+        new = _proposal(p["id"], f, loc, "LIVE", settings, r)
+        new.update({"status": p["status"], "approver": p["approver"], "retried": True,
+                    "input_tokens": p["input_tokens"] + r["ti"], "output_tokens": p["output_tokens"] + r["to"]})
+        data["proposals"][data["proposals"].index(p)] = new
+        bad = str(new["reason"]).startswith(("unparseable", "edit rejected")) or "AI call failed" in str(new["reason"])
+        still_bad += bad
+        fixed += (not bad) and new["changed"]
+        unchanged += (not bad) and not new["changed"]
+        audit.log(cfg.audit_file, "proposal_retry", item=p["id"], model=settings.ai.model, prompt_hash=new["prompt_hash"])
     final = Budget(cfg.fixes_dir / "cost-ledger.json", ai2)
-    spent_now = final.spent - before_spent
-    real = round((sum(e["input_tokens"] or 0 for e in final.data["entries"][-len(targets):]) * settings.ai.price_in_per_mtok
-                  + sum(e["output_tokens"] or 0 for e in final.data["entries"][-len(targets):]) * settings.ai.price_out_per_mtok) / 1e6, 6)
+    entries = final.data["entries"][-len(done):] if done else []
+    tin = sum(e["input_tokens"] or 0 for e in entries)
+    tout = sum(e["output_tokens"] or 0 for e in entries)
     data["meta"]["budget"] = {"limit_usd": settings.ai.cost_limit_usd, "charged_usd": round(final.spent, 6),
                               "remaining_usd": round(settings.ai.cost_limit_usd - final.spent, 6),
                               "calls_total": final.data["calls"], "max_calls": settings.ai.max_calls}
     data["meta"]["input_tokens"] = sum(p["input_tokens"] for p in data["proposals"])
     data["meta"]["output_tokens"] = sum(p["output_tokens"] for p in data["proposals"])
     p_path.write_text(json.dumps(data, indent=1))
-    return {"retried": len(targets), "fixed": fixed, "unchanged_ok": unchanged, "still_unparseable": still_bad,
-            "stopped": stopped, "charged_usd": round(spent_now, 6), "cost_usd_at_assumed_prices": real,
-            "input_tokens": sum(e["input_tokens"] or 0 for e in final.data["entries"][-len(targets):]),
-            "output_tokens": sum(e["output_tokens"] or 0 for e in final.data["entries"][-len(targets):])}
+    ai_s = settings.ai
+    final_settings_ledger = Budget(cfg.fixes_dir / "cost-ledger.json", ai_s)   # restore the normal limits in the file
+    final_settings_ledger.save()
+    return {"retried": len(done), "fixed": fixed, "unchanged_ok": unchanged, "still_unusable": still_bad,
+            "stopped": stopped, "charged_usd": round(final.spent - before_spent, 6),
+            "cost_usd_at_assumed_prices": round((tin * ai_s.price_in_per_mtok + tout * ai_s.price_out_per_mtok) / 1e6, 6),
+            "input_tokens": tin, "output_tokens": tout}
