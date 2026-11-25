@@ -1,0 +1,342 @@
+{
+ "truthlayer_version": "0.1.0",
+ "published_on": "2026-11-25",
+ "pages": [
+  {
+   "id": "blue-button-v1-stu3-docs--introduction",
+   "title": "Introduction",
+   "file": "docs/v1/blue-button-v1-stu3-docs.md",
+   "lines": [
+    1,
+    21
+   ],
+   "fixes_applied": 0,
+   "open_findings": 0,
+   "api_version": "2 (FHIR R4)",
+   "verified_on": "2026-11-25",
+   "sha256": "dda2136989abbe93bf9f75aa4426741e1f8082ccd826854ea353032a33f9a507"
+  },
+  {
+   "id": "blue-button-v1-stu3-docs--overview",
+   "title": "Overview",
+   "file": "docs/v1/blue-button-v1-stu3-docs.md",
+   "lines": [
+    22,
+    33
+   ],
+   "fixes_applied": 0,
+   "open_findings": 0,
+   "api_version": "2 (FHIR R4)",
+   "verified_on": "2026-11-25",
+   "sha256": "6864a23360a71ed59e63c25c72309b40bfb73d9effc1c73c4ac08bf373749616"
+  },
+  {
+   "id": "blue-button-v1-stu3-docs--try-the-api",
+   "title": "Try the API",
+   "file": "docs/v1/blue-button-v1-stu3-docs.md",
+   "lines": [
+    34,
+    179
+   ],
+   "fixes_applied": 0,
+   "open_findings": 0,
+   "api_version": "2 (FHIR R4)",
+   "verified_on": "2026-11-25",
+   "sha256": "e756c4fd66f82b0e6876a46578384d1bbdf6676173d7f5a11552d43b1ef6912d"
+  },
+  {
+   "id": "blue-button-v1-stu3-docs--authorization",
+   "title": "Authorization",
+   "file": "docs/v1/blue-button-v1-stu3-docs.md",
+   "lines": [
+    180,
+    380
+   ],
+   "fixes_applied": 2,
+   "open_findings": 0,
+   "api_version": "2 (FHIR R4)",
+   "verified_on": "2026-11-25",
+   "sha256": "36d4615af3830e47f9534f64ac6518fc076c4d1cb90a7880c244896c3560d037"
+  },
+  {
+   "id": "blue-button-v1-stu3-docs--core-resources",
+   "title": "Core Resources",
+   "file": "docs/v1/blue-button-v1-stu3-docs.md",
+   "lines": [
+    381,
+    782
+   ],
+   "fixes_applied": 0,
+   "open_findings": 3,
+   "api_version": "2 (FHIR R4)",
+   "verified_on": "2026-11-25",
+   "sha256": "74be2c554f2ad8053918532ae6e02c04d455874258afb978a60ef355fd3f4fab"
+  },
+  {
+   "id": "blue-button-v1-stu3-docs--fhir-data-model",
+   "title": "FHIR Data Model",
+   "file": "docs/v1/blue-button-v1-stu3-docs.md",
+   "lines": [
+    783,
+    832
+   ],
+   "fixes_applied": 0,
+   "open_findings": 0,
+   "api_version": "2 (FHIR R4)",
+   "verified_on": "2026-11-25",
+   "sha256": "2b044aee12150693819119afda616bc115a66e49ec21fadf415682c68d4b1e19"
+  },
+  {
+   "id": "blue-button-v1-stu3-docs--sample-beneficiaries",
+   "title": "Sample Beneficiaries",
+   "file": "docs/v1/blue-button-v1-stu3-docs.md",
+   "lines": [
+    833,
+    913
+   ],
+   "fixes_applied": 0,
+   "open_findings": 2,
+   "api_version": "2 (FHIR R4)",
+   "verified_on": "2026-11-25",
+   "sha256": "b7bc90383a5c59e583d7bcb36ff97d815dd8079ff0504fd1a9d32fc062d1dde3"
+  },
+  {
+   "id": "blue-button-v1-stu3-docs--production-api-access",
+   "title": "Production API Access",
+   "file": "docs/v1/blue-button-v1-stu3-docs.md",
+   "lines": [
+    914,
+    919
+   ],
+   "fixes_applied": 0,
+   "open_findings": 0,
+   "api_version": "2 (FHIR R4)",
+   "verified_on": "2026-11-25",
+   "sha256": "1cbb4d0eece8ac18ed0bf59e3234c86c8c02dc1c740eb75044e37dde12e34ca1"
+  },
+  {
+   "id": "blue-button-v1-stu3-docs--developer-guidelines",
+   "title": "Developer Guidelines",
+   "file": "docs/v1/blue-button-v1-stu3-docs.md",
+   "lines": [
+    920,
+    949
+   ],
+   "fixes_applied": 0,
+   "open_findings": 0,
+   "api_version": "2 (FHIR R4)",
+   "verified_on": "2026-11-25",
+   "sha256": "2805a4ac94b2592dd78b180096202910f99492f1b7a9479498531001e73777db"
+  },
+  {
+   "id": "blue-button-v1-stu3-docs--blue-button-2-0-implementation-guide",
+   "title": "Blue Button 2.0 Implementation Guide",
+   "file": "docs/v1/blue-button-v1-stu3-docs.md",
+   "lines": [
+    950,
+    985
+   ],
+   "fixes_applied": 0,
+   "open_findings": 0,
+   "api_version": "2 (FHIR R4)",
+   "verified_on": "2026-11-25",
+   "sha256": "a9fd5873e3d94519a684ab5cdf78d90d3fafeabee6ed1d1b3ae597013ee66752"
+  },
+  {
+   "id": "explanation-of-benefits-fhir--introduction",
+   "title": "Introduction",
+   "file": "docs/v1/explanation-of-benefits-fhir.md",
+   "lines": [
+    1,
+    6
+   ],
+   "fixes_applied": 0,
+   "open_findings": 0,
+   "api_version": "2 (FHIR R4)",
+   "verified_on": "2026-11-25",
+   "sha256": "2860d433c20f4cd98044e3473bdf0cff5eeab8e1ad39ee497a0c0d7c4fbce939"
+  },
+  {
+   "id": "explanation-of-benefits-fhir--overview",
+   "title": "Overview",
+   "file": "docs/v1/explanation-of-benefits-fhir.md",
+   "lines": [
+    7,
+    12
+   ],
+   "fixes_applied": 0,
+   "open_findings": 0,
+   "api_version": "2 (FHIR R4)",
+   "verified_on": "2026-11-25",
+   "sha256": "9e6155534d0e391ca20db8f8eb442e329d92279e0f0fed8763bd2e7ef36f5b84"
+  },
+  {
+   "id": "explanation-of-benefits-fhir--bundle",
+   "title": "Bundle",
+   "file": "docs/v1/explanation-of-benefits-fhir.md",
+   "lines": [
+    13,
+    28
+   ],
+   "fixes_applied": 1,
+   "open_findings": 0,
+   "api_version": "2 (FHIR R4)",
+   "verified_on": "2026-11-25",
+   "sha256": "ff457e17454bb095402ae263140c882c159de0b13641a04af412130df498ae23"
+  },
+  {
+   "id": "explanation-of-benefits-fhir--paging",
+   "title": "Paging",
+   "file": "docs/v1/explanation-of-benefits-fhir.md",
+   "lines": [
+    29,
+    49
+   ],
+   "fixes_applied": 0,
+   "open_findings": 0,
+   "api_version": "2 (FHIR R4)",
+   "verified_on": "2026-11-25",
+   "sha256": "68f3218d921da5a6ae84fc9c39b0a1196e0d7f3b071eb2ba6f56d0aed180fce9"
+  },
+  {
+   "id": "explanation-of-benefits-fhir--entry",
+   "title": "Entry",
+   "file": "docs/v1/explanation-of-benefits-fhir.md",
+   "lines": [
+    50,
+    101
+   ],
+   "fixes_applied": 4,
+   "open_findings": 1,
+   "api_version": "2 (FHIR R4)",
+   "verified_on": "2026-11-25",
+   "sha256": "b3bc43fa6450852b01b4fac0fcc8cf8bfb29b24f5cea6848f2acce12888b2347"
+  },
+  {
+   "id": "explanation-of-benefits-fhir--item",
+   "title": "Item",
+   "file": "docs/v1/explanation-of-benefits-fhir.md",
+   "lines": [
+    102,
+    191
+   ],
+   "fixes_applied": 0,
+   "open_findings": 3,
+   "api_version": "2 (FHIR R4)",
+   "verified_on": "2026-11-25",
+   "sha256": "2b168ca0d26d5bb9a99199ce1a9f02e86418ab27ab8b400f19a36c49887cb26d"
+  },
+  {
+   "id": "terms-v1--introduction",
+   "title": "Introduction",
+   "file": "docs/v1/terms-v1.md",
+   "lines": [
+    1,
+    4
+   ],
+   "fixes_applied": 0,
+   "open_findings": 0,
+   "api_version": "2 (FHIR R4)",
+   "verified_on": "2026-11-25",
+   "sha256": "f222d47dec4b6159d108e4437dfe0dcf495b949b17ff77e483da57db33b1cdfa"
+  },
+  {
+   "id": "terms-v1--api-terms-of-service",
+   "title": "API Terms of Service",
+   "file": "docs/v1/terms-v1.md",
+   "lines": [
+    5,
+    8
+   ],
+   "fixes_applied": 0,
+   "open_findings": 0,
+   "api_version": "2 (FHIR R4)",
+   "verified_on": "2026-11-25",
+   "sha256": "f1db617546e8f6663cfb490e8d8ad15aecc5eb37430a7cf55700832bfae82993"
+  },
+  {
+   "id": "terms-v1--these-terms-of-service-has-been-deprecated",
+   "title": "These Terms of Service has been deprecated",
+   "file": "docs/v1/terms-v1.md",
+   "lines": [
+    9,
+    14
+   ],
+   "fixes_applied": 0,
+   "open_findings": 0,
+   "api_version": "2 (FHIR R4)",
+   "verified_on": "2026-11-25",
+   "sha256": "c6af591ed133495b70104868f0b6c70d31cc5990534d556a34d3ad49a06fe923"
+  },
+  {
+   "id": "terms-v1--overview",
+   "title": "Overview",
+   "file": "docs/v1/terms-v1.md",
+   "lines": [
+    15,
+    26
+   ],
+   "fixes_applied": 0,
+   "open_findings": 0,
+   "api_version": "2 (FHIR R4)",
+   "verified_on": "2026-11-25",
+   "sha256": "b2cf31f24221b26b76c883e692658f831c234e23497f3ffe3888c618a4ecdeb6"
+  },
+  {
+   "id": "terms-v1--data-rights-and-usage",
+   "title": "Data Rights and Usage",
+   "file": "docs/v1/terms-v1.md",
+   "lines": [
+    27,
+    44
+   ],
+   "fixes_applied": 0,
+   "open_findings": 0,
+   "api_version": "2 (FHIR R4)",
+   "verified_on": "2026-11-25",
+   "sha256": "809e455be25cdac4e427651c13cfc3a849a86d400e4a2dcce560c967d3aa62ca"
+  },
+  {
+   "id": "terms-v1--attribution",
+   "title": "Attribution",
+   "file": "docs/v1/terms-v1.md",
+   "lines": [
+    45,
+    50
+   ],
+   "fixes_applied": 0,
+   "open_findings": 0,
+   "api_version": "2 (FHIR R4)",
+   "verified_on": "2026-11-25",
+   "sha256": "0bd34a2a43586390b9d23d7556197e00e662a22105842fecd82e36f171e6a15a"
+  },
+  {
+   "id": "terms-v1--service-management",
+   "title": "Service Management",
+   "file": "docs/v1/terms-v1.md",
+   "lines": [
+    51,
+    60
+   ],
+   "fixes_applied": 0,
+   "open_findings": 0,
+   "api_version": "2 (FHIR R4)",
+   "verified_on": "2026-11-25",
+   "sha256": "5a3c8a44bbcb795e0c7cfe47105c09356e14a2f6ce37203d2e55bd99bb929c01"
+  },
+  {
+   "id": "terms-v1--liability",
+   "title": "Liability",
+   "file": "docs/v1/terms-v1.md",
+   "lines": [
+    61,
+    82
+   ],
+   "fixes_applied": 0,
+   "open_findings": 0,
+   "api_version": "2 (FHIR R4)",
+   "verified_on": "2026-11-25",
+   "sha256": "b1719099cc958c0129ed29dcc138c46fe744e2f81fdd6d1b499138f7914acf7e"
+  }
+ ]
+}
