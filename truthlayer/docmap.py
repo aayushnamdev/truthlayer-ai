@@ -40,6 +40,7 @@ class Mention:
     category: str = "element"  # element | search_param | resource
     ambiguous: bool = False
     text: str = ""
+    evidence: str = ""         # path | json_path | field_list | field_table | named_in_context | search_param | resource
 
     def to_dict(self):
         return asdict(self)
@@ -289,25 +290,49 @@ def block_context(block: Block, title: str) -> tuple[list[str], set[str]]:
     return ctx, _words(block.section)
 
 
+def resources_in(text: str) -> list[str]:
+    """Resources named in a piece of text (Patient, Coverage, ExplanationOfBenefit / "Explanation of Benefit" / EOB)."""
+    low = text.lower()
+    out: list[str] = []
+    for alias, res in RES_ALIASES.items():
+        if re.search(r"\b" + re.escape(alias) + r"s?\b", low) and res not in out:
+            out.append(res)
+    return out
+
+
 def find_mentions(blocks: list[Block], idx: Index, titles: dict[str, str]) -> list[Mention]:
+    """Link booklet passages to elements, but only when the passage context fits:
+    a full dotted path, a JSON path, a field list/table under the right resource or parent element,
+    or a lowerCamel name with its resource named in the same passage / heading / the two blocks before."""
     out: list[Mention] = []
     seen: set[tuple] = set()
 
-    def emit(b, line, token, cands, cat="element", amb=False, kind=None):
+    def emit(b, line, token, cands, cat="element", amb=False, kind=None, evidence=""):
         k = (b.id, line, token, tuple(cands))
         if k in seen or not cands:
             return
         seen.add(k)
         out.append(Mention(b.id, b.file, line, b.section, kind or b.kind, token, cands, cat, amb,
-                           b.text.split("\n")[max(0, line - b.line)][:200] if b.kind in SAMPLE_KINDS else b.text[:200]))
+                           b.text.split("\n")[max(0, line - b.line)][:200] if b.kind in SAMPLE_KINDS else b.text[:200],
+                           evidence))
+
+    by_file: dict[str, list[Block]] = {}
+    for blk in blocks:
+        by_file.setdefault(blk.file, []).append(blk)
+    pos = {blk.id: (blk.file, i) for f, bl in by_file.items() for i, blk in enumerate(bl)}
 
     for b in blocks:
         ctx, hw = block_context(b, titles.get(b.file, ""))
+        f, i = pos[b.id]
+        near = set(resources_in(b.text + " " + b.section))
+        for prev in by_file[f][max(0, i - 2):i]:
+            if prev.kind in PROSE_KINDS:
+                near |= set(resources_in(prev.text))
         # whole-resource-name mentions (e.g. a resource that no longer exists)
         for g in idx.gone_types:
             for m in re.finditer(r"\b" + re.escape(g) + r"\b", b.text):
                 line = b.line + b.text[: m.start()].count("\n") if b.kind in SAMPLE_KINDS else b.line
-                emit(b, line, g, [g], "resource")
+                emit(b, line, g, [g], "resource", evidence="resource")
         # search parameters
         for m in re.finditer(r"(?:[?&`'\"\s(])((?:_[A-Za-z]+(?::[A-Za-z.]+)?|[a-z]+-[a-z]+|startIndex|excludeSAMHSA|includeTaxNumbers|cursor)(?:[:.][A-Za-z.]+)?)(?==|`|\b)", b.text):
             name = m.group(1)
@@ -316,7 +341,7 @@ def find_mentions(blocks: list[Block], idx: Index, titles: dict[str, str]) -> li
                     res = [r for r, s in idx.search_params.items() if variant in s]
                     cands = [f"{r}?{variant}" for r in res if (not ctx or r in ctx)] or [f"{r}?{variant}" for r in res]
                     line = b.line + b.text[: m.start()].count("\n") if b.kind in SAMPLE_KINDS else b.line
-                    emit(b, line, variant, cands, "search_param", len(cands) > 1)
+                    emit(b, line, variant, cands, "search_param", len(cands) > 1, evidence="search_param")
                     break
         if b.kind in SAMPLE_KINDS:
             root_hint = b.resource_hint if b.resource_hint in RESOURCES else ""
@@ -327,38 +352,49 @@ def find_mentions(blocks: list[Block], idx: Index, titles: dict[str, str]) -> li
                     continue                      # e.g. a Bundle wrapper or a contained resource
                 cands = idx.match_parts(parts, root)
                 amb = len(cands) > 1
-                if not cands and not root and len(parts) == 1:
-                    cands, amb = idx.resolve_name(key, ctx, hw)
-                emit(b, b.line + off, key, cands, "element", amb)
+                ev = "json_path"
+                if not cands and not root and len(parts) == 1 and (near or ctx):
+                    cands, amb = idx.resolve_name(key, list(near) or ctx, hw)
+                    ev = "named_in_context"
+                emit(b, b.line + off, key, cands, "element", amb, evidence=ev)
             continue
-        # prose / list / table: backticked tokens, paths, camelCase words, whole-item identifiers
+        # prose / list / table
         text = b.text
         cells = [c.strip() for c in text.strip("|").split("|")] if b.kind == "table" else []
+
+        def accept(cands: list[str], need_resources: set[str]) -> list[str]:
+            return [c for c in cands if c.split(".")[0] in need_resources]
+
+        # 1. full or relative dotted paths: always fine
+        for tok in re.findall(r"\b(?:[A-Za-z]+)(?:\.[A-Za-z]+(?:\[x\])?)+\b", text):
+            cands = idx.resolve_path(tok)
+            emit(b, b.line, tok, cands, "element", len(cands) > 1, evidence="path")
         for tok in re.findall(r"`([^`]+)`", text):
             if "." in tok:
                 cands = idx.resolve_path(tok)
-                emit(b, b.line, tok, cands, "element", len(cands) > 1)
-            elif IDENT.fullmatch(tok) and (CAMEL.match(tok) or (
-                    tok.lower() not in COMMON_WORDS and len(idx.by_name.get(tok.lower(), [])) == 1)):
-                # camelCase names, or plain words that name exactly one element in the whole v1 spec
-                cands, amb = idx.resolve_name(tok, ctx, hw, choice=False)
-                emit(b, b.line, tok, cands, "element", amb)
-        for tok in re.findall(r"\b(?:[A-Za-z]+)(?:\.[A-Za-z]+(?:\[x\])?)+\b", text):
-            cands = idx.resolve_path(tok)
-            emit(b, b.line, tok, cands, "element", len(cands) > 1)
-        for w in re.findall(r"\b[a-z]+(?:[A-Z][a-z0-9]*)+\b", text):
-            if w in GENERIC_WORDS:
+                emit(b, b.line, tok, cands, "element", len(cands) > 1, evidence="path")
+        # 2. field lists / tables: the resource (or the parent element) must be named in the heading or page title
+        if b.kind in ("list_item", "table"):
+            whole = text.strip().strip("`*_ ")
+            names = [whole] if b.kind == "list_item" else [c.strip("`*_ ") for c in cells]
+            for nm in names:
+                if not (IDENT.fullmatch(nm or " ") and "." not in nm and nm[:1].islower()) or nm in GENERIC_WORDS:
+                    continue
+                cands, amb = idx.resolve_name(nm, ctx, hw)
+                cands = accept(cands, set(ctx)) if ctx else []
+                emit(b, b.line, nm, cands, "element", amb and len(cands) > 1,
+                     evidence="field_list" if b.kind == "list_item" else "field_table")
+        # 3. prose (and the words inside lists/tables): lowerCamel names or backticked unique words
+        #    count only when their resource is named nearby
+        toks: list[str] = []
+        for tok in re.findall(r"`([^`]+)`", text):
+            if "." in tok or not IDENT.fullmatch(tok) or not tok[:1].islower():
                 continue
-            cands, amb = idx.resolve_name(w, ctx, hw, choice=False)
-            emit(b, b.line, w, cands, "element", amb)
-        whole = text.strip().strip("`*_ ")
-        if (b.kind == "list_item" or (b.kind == "table" and len(cells) > 0)) and IDENT.fullmatch(whole or " ") \
-                and not whole[:1].isupper() and whole not in GENERIC_WORDS:          # "Patient", "Coverage" are resource names, not elements
-            cands, amb = idx.resolve_name(whole, ctx, hw)
-            emit(b, b.line, whole, cands, "element", amb)
-        for c in cells:
-            c2 = c.strip("`*_ ")
-            if IDENT.fullmatch(c2 or " ") and "." not in c2 and not c2[:1].isupper():
-                cands, amb = idx.resolve_name(c2, ctx, hw)
-                emit(b, b.line, c2, cands, "element", amb)
+            if CAMEL.match(tok) or (tok.lower() not in COMMON_WORDS and len(idx.by_name.get(tok.lower(), [])) == 1):
+                toks.append(tok)
+        toks += [w for w in re.findall(r"\b[a-z]+(?:[A-Z][a-z0-9]*)+\b", text) if w not in GENERIC_WORDS]
+        for w in dict.fromkeys(toks):
+            cands, amb = idx.resolve_name(w, list(near) or ctx, hw, choice=False)
+            cands = accept(cands, near) if near else []
+            emit(b, b.line, w, cands, "element", amb and len(cands) > 1, evidence="named_in_context")
     return out

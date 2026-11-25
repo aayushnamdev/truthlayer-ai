@@ -1,0 +1,46 @@
+{
+ "resourceType": "StructureDefinition",
+ "id": "synthetic-patient-profile",
+ "name": "SyntheticPatientProfile",
+ "description": "SYNTHETIC test fixture - not CMS data",
+ "snapshot": {
+  "element": [
+   {
+    "id": "Patient",
+    "path": "Patient",
+    "min": 0,
+    "max": "*"
+   },
+   {
+    "id": "Patient.name",
+    "path": "Patient.name",
+    "min": 0,
+    "max": "*",
+    "mustSupport": true
+   },
+   {
+    "id": "Patient.identifier",
+    "path": "Patient.identifier",
+    "min": 0,
+    "max": "*",
+    "mustSupport": true,
+    "slicing": {
+     "discriminator": [
+      {
+       "type": "pattern",
+       "path": "type"
+      }
+     ],
+     "rules": "open"
+    }
+   },
+   {
+    "id": "Patient.identifier:mrn",
+    "path": "Patient.identifier",
+    "sliceName": "mrn",
+    "min": 1,
+    "max": "*"
+   }
+  ]
+ }
+}

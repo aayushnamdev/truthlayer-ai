@@ -31,3 +31,10 @@ Returns patients. Send the token in the header.
 ```
 
 This sample record is synthetic.
+
+## Details
+
+The patient record uses `gender` for the administrative value set and `managingOrganization` to point at the clinic.
+Birth dates come from `dob`.
+Fetch the `Coverage` resource separately for plan data.
+Send the `X-Member-Mode` header to hide names. Access tokens expire after 1 hour.

@@ -1,0 +1,30 @@
+# TruthLayer AI settings. No secrets here: the API key comes only from the ANTHROPIC_API_KEY environment variable.
+paths:
+  docs_dir: docs/v1
+  reports_dir: reports
+  fixes_dir: fixes
+  publish_dir: publish
+  audit_file: audit/audit-log.jsonl
+  style_rules: rules/healthplan-style.yml
+  spec_dir: data/fhir-defs
+
+ai:
+  model: claude-haiku-5-5            # the only model allowed in this project
+  allowed_models: [claude-haiku-5-5]
+  cost_limit_usd: 1.00               # HARD limit for the session: the fixer stops before a call that could exceed it
+  max_calls: 25                      # at most this many AI calls in total (retries count)
+  max_output_tokens: 400
+  max_passage_chars: 900             # keep prompts small
+  fix_severities: [CRITICAL, HIGH]   # only these findings are sent to the AI
+  retries: 2                         # extra attempts after a failed call; each attempt counts toward the budget
+  backoff_seconds: 1.5
+  # Prices are ASSUMED, not looked up (US$ per million tokens). The budget check multiplies them by
+  # price_safety_multiplier so that a wrong guess still keeps spending under the limit.
+  price_in_per_mtok: 1.00
+  price_out_per_mtok: 5.00
+  price_safety_multiplier: 2.0
+  chars_per_token_estimate: 3.0      # conservative estimate used BEFORE a call
+
+thresholds:
+  fail_on_severity: CRITICAL         # GitHub Action fails if a finding at or above this severity exists (NONE to never fail)
+  max_fix_first: 15

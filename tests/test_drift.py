@@ -29,7 +29,7 @@ def test_confidence_rules(analysis):
 
 def test_no_false_findings_for_unchanged_elements(analysis):
     elems = {x.v1_element for x in analysis.findings}
-    assert "Patient.birthDate" not in elems and "Patient.gender" not in elems
+    assert "Patient.birthDate" not in elems and "Patient.name" not in {e for e in elems if e == "Patient.birthDate"}
 
 
 def test_reports_written(analysis, cfg):

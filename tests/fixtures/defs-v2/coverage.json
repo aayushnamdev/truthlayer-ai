@@ -7,11 +7,13 @@
   "element": [
    {
     "path": "Coverage",
+    "id": "Coverage",
     "min": 0,
     "max": "*"
    },
    {
     "path": "Coverage.status",
+    "id": "Coverage.status",
     "min": 1,
     "max": "1",
     "type": [
@@ -22,7 +24,41 @@
    },
    {
     "path": "Coverage.subscriberId",
+    "id": "Coverage.subscriberId",
     "min": 0,
+    "max": "1",
+    "type": [
+     {
+      "code": "string"
+     }
+    ]
+   },
+   {
+    "path": "Coverage.class",
+    "id": "Coverage.class",
+    "min": 0,
+    "max": "*",
+    "type": [
+     {
+      "code": "BackboneElement"
+     }
+    ]
+   },
+   {
+    "path": "Coverage.class.type",
+    "id": "Coverage.class.type",
+    "min": 1,
+    "max": "1",
+    "type": [
+     {
+      "code": "code"
+     }
+    ]
+   },
+   {
+    "path": "Coverage.class.value",
+    "id": "Coverage.class.value",
+    "min": 1,
     "max": "1",
     "type": [
      {
